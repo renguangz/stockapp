@@ -2,10 +2,10 @@ import React from 'react';
 import styled from 'styled-components';
 
 const Container = styled.div`
-    border: 2px solid purple;
-    width: 90%;
+    height: 100%;
+    border: 1px solid purple;
+    width: 95%;
     margin: auto;
-    display: flex;
     /* @media (min-width: 768px) {
         width: 90%;
     } */

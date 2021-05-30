@@ -14,7 +14,14 @@ const PageSidebar = styled.div`
 `;
 
 const StyledSection = styled.section`
-    margin-left: 10vw;
+    margin-left: 20vw;
+    `;
+
+const SectionContainer = styled.div`
+    border: 1px solid olivedrab;
+    height: 100vh;
+    width: 96.875%;
+    margin-left: 1.5vw;
 `;
 
 const DefaultLayout = ({ children }) => {
@@ -23,12 +30,15 @@ const DefaultLayout = ({ children }) => {
             <PageHeader>
                 <Header />
             </PageHeader>
+            <ClearFix height="20vh" />
             <PageSidebar>
-                <ClearFix height="20vh" />
                 <SideBar />
             </PageSidebar>
+            {/* <ClearFix height="20vh" /> */}
             <StyledSection>
-                {children}
+                <SectionContainer>
+                    {children}
+                </SectionContainer>
             </StyledSection>
             {/* <Footer /> */}
         </div>

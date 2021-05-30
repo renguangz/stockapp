@@ -10,11 +10,37 @@ const StyledHeader = styled.header`
     height: 20vh;
 `;
 
+const StyledHeaderSection = styled.div`
+    display: flex;
+`;
+
+const StyledHeaderItem = styled.div`
+    border: 1px solid palevioletred;
+    width: 33.33%;
+    height: 120px;
+`;
+
+const StyledHeaderButton = styled.button`
+    
+`;
+
 const Header = () => {
     return (
         <StyledHeader>
             <Container>
-                <span>Header</span>
+                <span style={{textAlign: 'center'}}>Header</span>
+                <StyledHeaderSection>
+                    <StyledHeaderItem>
+                        <Search />
+                    </StyledHeaderItem>
+                    <StyledHeaderItem>
+                        <span>stock (ex. 2317 鴻海)</span>
+                    </StyledHeaderItem>
+                    <StyledHeaderItem>
+                        <StyledHeaderButton>加入清單</StyledHeaderButton>
+                        <StyledHeaderButton>我的清單</StyledHeaderButton>
+                    </StyledHeaderItem>
+                </StyledHeaderSection>
             </Container>
         </StyledHeader>
     )

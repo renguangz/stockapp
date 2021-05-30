@@ -2,19 +2,19 @@ import React from 'react'
 
 export const SideBarData = [
     {
-        title: 'Home',
+        title: '基本',
         path: '/',
         icon: <div>home icons</div>,
         className: '',
     },
     {
-        title: '收藏清單',
+        title: 'K線',
         path: '/list',
         icon: <div>list icons</div>,
         className: '',
     },
     {
-        title: '個股資訊',
+        title: '籌碼',
         path: '/stockinfo',
         icon: <div>info icons</div>,
         className: '',

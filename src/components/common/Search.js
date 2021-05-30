@@ -16,6 +16,11 @@ const Search = () => {
                     value={search}
                     onChange={inputSearch}
                     placeholder="search stock name" />
+                <input 
+                    type="submit"
+                    value='🔍'
+                    
+                />
             </form>
         </div>
     )
