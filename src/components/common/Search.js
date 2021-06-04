@@ -15,7 +15,7 @@ const Search = () => {
                     type="text"
                     value={search}
                     onChange={inputSearch}
-                    placeholder="search stock name" />
+                    placeholder="股票代碼" />
                 <input 
                     type="submit"
                     value='🔍'

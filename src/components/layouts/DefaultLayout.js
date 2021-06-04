@@ -24,22 +24,26 @@ const SectionContainer = styled.div`
     margin-left: 1.5vw;
 `;
 
-const DefaultLayout = ({ children }) => {
+const DefaultLayout = ({ noSidebar, children }) => {
     return (
         <div>
             <PageHeader>
                 <Header />
             </PageHeader>
             <ClearFix height="20vh" />
-            <PageSidebar>
-                <SideBar />
-            </PageSidebar>
-            {/* <ClearFix height="20vh" /> */}
-            <StyledSection>
-                <SectionContainer>
-                    {children}
-                </SectionContainer>
-            </StyledSection>
+            {noSidebar ? (<div>{children}</div>
+            ) : (
+                <div>
+                    <PageSidebar>
+                        <SideBar />
+                    </PageSidebar>
+                    <StyledSection>
+                        <SectionContainer>
+                            {children}
+                        </SectionContainer>
+                    </StyledSection>
+                </div>
+            )}
             {/* <Footer /> */}
         </div>
     )
