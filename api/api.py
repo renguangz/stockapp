@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 
@@ -14,10 +15,10 @@ class StockInfo(object):
     total = db.Column('資產總額', db.Float, nullable=True)
 
 
-names = ['_1101', '_1101_1', '_2317', '_2330', '_3481']
+names = ['_1101', '_2317', '_2330', '_3481']
 stocks = []
 for name in names:
-    n = type(name.title(), (StockInfo, db.Model), {'__table_name__': name})
+    n = type(name.title(), (StockInfo, db.Model), {'__tablename__': name})
     stocks.append(n)
 
 @app.route('/')
@@ -26,6 +27,9 @@ def index():
         results = db.session.query(stock).all()
         for r in results:
             print(r.date)
+    for stock in stocks:
+      print(stock)
+    return ''
 
 
 
