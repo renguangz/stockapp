@@ -23,7 +23,6 @@ const StyledHeaderSection = styled.div`
 
 const StyledHeaderItem = styled.div`
     border: 1px solid black;
-    width: 8vw;
     height: 100%;
     display: flex;
     align-items: center;
@@ -38,27 +37,29 @@ const StyledHeaderItem = styled.div`
 
 const Header = () => {
     return (
-        <StyledHeader>
-            <StyledHeaderContainer>
-                <StyledHeaderSection>
-                    <Link to="/">
-                        <StyledHeaderItem>Home</StyledHeaderItem>
-                    </Link>
-                    <Link to="/mylist">
-                        <StyledHeaderItem>MyList</StyledHeaderItem>
-                    </Link>
-                    <Link to="/stockinfo">
-                        <StyledHeaderItem>StockInfo</StyledHeaderItem>
-                    </Link>
-                    <Link to="/antd">
-                        <StyledHeaderItem>antd</StyledHeaderItem>
-                    </Link>
-                </StyledHeaderSection>
-                <StyledHeaderSection>
-                    <Search />
-                </StyledHeaderSection>
-            </StyledHeaderContainer>
-        </StyledHeader>
+        <div>
+            <StyledHeader>
+                <StyledHeaderContainer>
+                    <StyledHeaderSection>
+                        <Link to="/">
+                            <StyledHeaderItem>Home</StyledHeaderItem>
+                        </Link>
+                        <Link to="/mylist">
+                            <StyledHeaderItem>MyList</StyledHeaderItem>
+                        </Link>
+                        <Link to="/stockinfo">
+                            <StyledHeaderItem>StockInfo</StyledHeaderItem>
+                        </Link>
+                        <Link to="/antd">
+                            <StyledHeaderItem>antd</StyledHeaderItem>
+                        </Link>
+                    </StyledHeaderSection>
+                    <StyledHeaderSection>
+                        <Search />
+                    </StyledHeaderSection>
+                </StyledHeaderContainer>
+            </StyledHeader>
+        </div>
     )
 };
 

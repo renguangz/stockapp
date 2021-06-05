@@ -1,21 +1,34 @@
 import React from 'react';
-import styled from 'styled-components';
-import { Layout, Menu, Breadcrumb } from 'antd';
+import styled, { css } from 'styled-components';
+import { Layout, Menu } from 'antd';
 import { UserOutlined, LaptopOutlined, NotificationOutlined } from '@ant-design/icons';
 import Header from './Header';
+import ClearFix from '../common/ClearFix';
 
 const { Content, Sider } = Layout;
 
-const StyledLayout = styled(Layout)`
-    height: 100vh;
+const fixedStyle = css`
+    position: fixed;
+    z-index: 1;
+    background-color: orange;
 `;
 
-const DefaultLayoutAntd = ({ children }) => {
+const PageHeader = styled(Header)`
+    ${props => props.fixed && fixedStyle}
+`;
+
+const PageSider = styled(Sider)`
+    ${props => props.fixed && fixedStyle}
+
+`;
+
+const DefaultLayoutAntd = ({ noSideBar, fixed, fixedSidebar, fixedHeader, children }) => {
     return (
-        <StyledLayout>
-            <Header />
+        <Layout>
+            <PageHeader fixed />
+            {/* <ClearFix height="8vh" /> */}
             <Layout>
-                <Sider width={200} className="site-layout-background">
+                <PageSider className="site-layout-background" >
                     <Menu
                         mode="inline"
                         defaultSelectedKeys={['1']}
@@ -27,13 +40,8 @@ const DefaultLayoutAntd = ({ children }) => {
                         <Menu.Item icon={<UserOutlined />} key="3">籌碼</Menu.Item>
                         <Menu.Item icon={<UserOutlined />} key="4">新聞</Menu.Item>
                     </Menu>
-                </Sider>
+                </PageSider>
                 <Layout style={{ padding: '0 24px 24px' }}>
-                    {/* <Breadcrumb style={{ margin: '16px 0' }}>
-                        <Breadcrumb.Item>Home</Breadcrumb.Item>
-                        <Breadcrumb.Item>List</Breadcrumb.Item>
-                        <Breadcrumb.Item>App</Breadcrumb.Item>
-                    </Breadcrumb> */}
                     <Content
                         className="site-layout-background"
                         style={{
@@ -46,7 +54,7 @@ const DefaultLayoutAntd = ({ children }) => {
                     </Content>
                 </Layout>
             </Layout>
-        </StyledLayout>
+        </Layout>
     )
 };
 
