@@ -30,7 +30,7 @@ const DefaultLayout = ({ noSidebar, children }) => {
             <PageHeader>
                 <Header />
             </PageHeader>
-            <ClearFix height="20vh" />
+            <ClearFix height="8vh" />
             {noSidebar ? (<div>{children}</div>
             ) : (
                 <div>

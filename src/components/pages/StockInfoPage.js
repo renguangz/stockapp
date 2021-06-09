@@ -11,7 +11,7 @@ const StyledInfoContainer = styled.div`
 
 const StockInfoPage = () => {
     return (
-        <DefaultLayoutAntd fixedSidebar >
+        <DefaultLayout>
             <StyledInfoContainer>
                 基本面
             </StyledInfoContainer>
@@ -19,7 +19,7 @@ const StockInfoPage = () => {
             <StyledInfoContainer>籌碼面</StyledInfoContainer>
             <StyledInfoContainer>消息面</StyledInfoContainer>
             this is stock info page
-        </DefaultLayoutAntd>
+        </DefaultLayout>
     )
 };
 

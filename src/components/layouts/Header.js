@@ -30,7 +30,8 @@ const StyledHeaderItem = styled.div`
     margin-right: 16px;
     font-size: 24px;
     &:hover {
-        background-color: yellow;
+        background-color: black;
+        color: white;
         transition: 0.5s;
     }
 `;
