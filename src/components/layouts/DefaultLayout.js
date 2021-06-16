@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import Header from './Header';
 import Footer from './Footer';
 import SideBar from '../common/sidebar/SideBar';
@@ -15,35 +15,48 @@ const PageSidebar = styled.div`
 
 const StyledSection = styled.section`
     margin-left: 20vw;
-    `;
+`;
 
 const SectionContainer = styled.div`
-    border: 1px solid olivedrab;
-    height: 100vh;
+    /* border: 1px solid olivedrab; */
     width: 96.875%;
     margin-left: 1.5vw;
 `;
 
-const DefaultLayout = ({ noSidebar, children }) => {
+const StyledBody = styled.div`
+    background: black;
+`;
+
+const DefaultLayout = ({ headerNotFixed, noSidebar, children }) => {
     return (
         <div>
-            <PageHeader>
-                <Header />
-            </PageHeader>
-            <ClearFix height="8vh" />
-            {noSidebar ? (<div>{children}</div>
-            ) : (
-                <div>
-                    <PageSidebar>
-                        <SideBar />
-                    </PageSidebar>
-                    <StyledSection>
-                        <SectionContainer>
-                            {children}
-                        </SectionContainer>
-                    </StyledSection>
-                </div>
-            )}
+            {
+                headerNotFixed ? (
+                    <Header />
+                ) : (
+                    <div>
+                        <PageHeader>
+                            <Header />
+                        </PageHeader>
+                        <ClearFix height="8vh" />
+                    </div>
+                )
+            }
+            {
+                noSidebar ? (<StyledBody>{children}</StyledBody>
+                ) : (
+                    <StyledBody>
+                        <PageSidebar>
+                            <SideBar />
+                        </PageSidebar>
+                        <StyledSection>
+                            <SectionContainer>
+                                {children}
+                            </SectionContainer>
+                        </StyledSection>
+                    </StyledBody>
+                )
+            }
             {/* <Footer /> */}
         </div>
     )

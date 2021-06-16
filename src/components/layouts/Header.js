@@ -6,8 +6,8 @@ import Container from '../common/Container';
 import Search from '../common/Search';
 
 const StyledHeader = styled.header`
-    border: 1px solid black;
-    /* background-color: #272821; */
+    /* border: 1px solid black; */
+    background-color: #272821;
     width: 100vw;
     height: 8vh;
 `;
@@ -22,7 +22,8 @@ const StyledHeaderSection = styled.div`
 `;
 
 const StyledHeaderItem = styled.div`
-    border: 1px solid black;
+    padding: 8px;
+    /* border: 1px solid black; */
     height: 100%;
     display: flex;
     align-items: center;
@@ -30,7 +31,7 @@ const StyledHeaderItem = styled.div`
     margin-right: 16px;
     font-size: 24px;
     &:hover {
-        background-color: black;
+        background-color: #1890ff;
         color: white;
         transition: 0.5s;
     }
@@ -38,29 +39,27 @@ const StyledHeaderItem = styled.div`
 
 const Header = () => {
     return (
-        <div>
-            <StyledHeader>
-                <StyledHeaderContainer>
-                    <StyledHeaderSection>
-                        <Link to="/">
-                            <StyledHeaderItem>Home</StyledHeaderItem>
-                        </Link>
-                        <Link to="/mylist">
-                            <StyledHeaderItem>MyList</StyledHeaderItem>
-                        </Link>
-                        <Link to="/stockinfo">
-                            <StyledHeaderItem>StockInfo</StyledHeaderItem>
-                        </Link>
-                        <Link to="/antd">
-                            <StyledHeaderItem>antd</StyledHeaderItem>
-                        </Link>
-                    </StyledHeaderSection>
-                    <StyledHeaderSection>
-                        <Search />
-                    </StyledHeaderSection>
-                </StyledHeaderContainer>
-            </StyledHeader>
-        </div>
+        <StyledHeader>
+            <StyledHeaderContainer>
+                <StyledHeaderSection>
+                    <Link to="/">
+                        <StyledHeaderItem>Home</StyledHeaderItem>
+                    </Link>
+                    <Link to="/mylist">
+                        <StyledHeaderItem>MyList</StyledHeaderItem>
+                    </Link>
+                    <Link to="/stockinfo">
+                        <StyledHeaderItem>StockInfo</StyledHeaderItem>
+                    </Link>
+                    <Link to="/book">
+                        <StyledHeaderItem>Home book</StyledHeaderItem>
+                    </Link>
+                </StyledHeaderSection>
+                <StyledHeaderSection>
+                    <Search />
+                </StyledHeaderSection>
+            </StyledHeaderContainer>
+        </StyledHeader>
     )
 };
 

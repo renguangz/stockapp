@@ -10,6 +10,7 @@ import HomePage from './components/pages/HomePage';
 import DefaultLayoutAntd from './components/layouts/DefaultLayoutAntd';
 import { Provider } from 'react-redux';
 import store from './redux/store';
+import HomeBook from './components/pages/HomeBook';
 
 function App() {
   return (
@@ -17,8 +18,8 @@ function App() {
       <Router>
         <div className="App">
           <Switch>
-            <Route exact path="/antd">
-              <DefaultLayoutAntd />
+            <Route exact path="/book">
+              <HomeBook />
             </Route>
             <Route exact path='/'>
               <HomePage />

@@ -1,43 +1,34 @@
-import {
-    FETCH_STOCKINFO_REQUEST,
-    FETCH_STOCKINFO_SUCCESS,
-    FETCH_STOCKINFO_FAILURE,
-    HANDLE_SEARCH,
-} from './stockTypes';
-
 const initialState = {
     loading: true,
     inputValue: '',
-    stockinfo: [], 
+    stockinfo: [],
     error: ''
 };
 
 const stockReducer = (state = initialState, action) => {
     console.log(state, action)
     switch (action.type) {
-        case FETCH_STOCKINFO_REQUEST:
-            console.log(state, action)
+        case 'FETCH_STOCKINFO_REQUEST':
             return {
                 ...state,
                 loading: true
             }
-        case HANDLE_SEARCH:
-            console.log(state)
+        case 'HANDLE_SEARCH':
             return {
                 ...state,
                 loading: false,
                 inputValue: action.payload
             }
-        case FETCH_STOCKINFO_SUCCESS:
-            console.log(state)
+        case 'FETCH_STOCKINFO_SUCCESS':
             return {
+                ...state,
                 loading: false,
                 stockinfo: action.payload,
                 error: ''
             }
-        case FETCH_STOCKINFO_FAILURE:
-            console.log(state)
+        case 'FETCH_STOCKINFO_FAILURE':
             return {
+                ...state,
                 loading: false,
                 stockinfo: [],
                 error: action.payload

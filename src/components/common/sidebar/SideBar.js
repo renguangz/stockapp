@@ -3,14 +3,14 @@ import styled from 'styled-components';
 import {SideBarData} from './SideBarData';
 
 const Sidebar = styled.div`
-    /* background-color: #272821; */
-    border: 1px solid grey;
+    background-color: #272821;
+    /* border: 1px solid grey; */
     height: 100vh;
     width: 20vw;
 `;
 
 const SidebarContainer = styled.div`
-    border: 1px solid goldenrod;
+    /* border: 1px solid goldenrod; */
     height: 100vh;
     width: 75%;
     margin-left: 12.5%;
