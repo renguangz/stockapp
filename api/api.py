@@ -48,10 +48,12 @@ class PocketStock(db.Model):
     __bind_key__ = 'pocket_stock'
     __tablename__ = 'stock'
     stockid = db.Column('stock_id', db.Integer, primary_key=True)
+    # stockname = db.Column('stockname', db.String, nullable=False)
 
 def stockid_serializer(stock):
     return {
-        'stockid': stock.stockid
+        'stockid': stock.stockid,
+        # 'stockname': stock.stockname
     }
 
 @app.route('/add_pocket_stock', methods=['POST', 'GET'])

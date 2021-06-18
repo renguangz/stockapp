@@ -4,7 +4,7 @@ import listReducer from './stockList/listReducer';
 
 const rootReducer = combineReducers({
     stockInfo: stockReducer,
-    stickList: listReducer,
+    stockList: listReducer,
 });
 
 export default rootReducer;
