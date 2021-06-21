@@ -1,7 +1,6 @@
 import React from 'react';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 import Header from './Header';
-import Footer from './Footer';
 import SideBar from '../common/sidebar/SideBar';
 import ClearFix from '../common/ClearFix';
 

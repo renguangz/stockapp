@@ -10,3 +10,4 @@
     - components: mappedStateToProps 從<Search />拿到 input value, 做 mappedDispatchtoProps 做 POST, 到 StockInfoPage做渲染
 
 * stock list page addStock function: add all search value, but only want to add the final value
+* 以教室為主題, 新聞用報紙動畫

@@ -7,15 +7,11 @@ import stock_taiwan from '../images/mocked/taiwan-stock.jpeg';
 // mocked data
 import cardData from '../common/mocked_data/HomePageCard';
 
-const FirstPart = styled.div`
+const StyledBody = styled.div`
     height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-`;
-
-const SecondPart = styled.div`
-    height: 100vh;
 `;
 
 const WordContainer = styled.div`
@@ -113,13 +109,91 @@ const StyledCard = styled.div`
     height: 300px;
     margin: 0 16px;
     color: white;
+    transition: all .5s ease-out;
+    overflow: hidden;
+    &:hover {
+        transform: scale(1.2);
+    }
+`;
+
+const Newspaper = styled.div`
+    border: 2px solid #f9f7f1;
+    background-color: #f9f7f1;
+    width: 48%;
+    height: 88%;
+    color: #E6E6E6;
+`;
+
+const NewspaperContainer = styled.div`
+    width: 95%;
+    height: 100%;
+    margin: auto;
+    /* border: 2px solid blue; */
+`;
+
+const NewspaperTitle = styled.h2`
+    font-family: 'Oswald', sans-serif;
+    font-family: 'Old English Text', sans-serif;
+    text-transform: uppercase;
+    font-size: 4em;
+    line-height: 1em;
+    text-align: center;
+    font-weight: 700;
+    padding: 0px;
+    margin: 0px;
+    margin-bottom: 12px;
+    display: block;
+`;
+
+const NewspaperDateCol = styled.div`
+    column-span: all;
+    border-top: 4px solid #333333;
+    border-bottom: 4px solid #333333;
+    margin-bottom: 8px;
+`;
+
+const NewspaperDate = styled.h3`
+    margin: auto;
+    text-transform: uppercase;
+`;
+
+const NewspaperParaContainer = styled.div`
+    width: 100%;
+    height: 75%;
+    display: flex;
+`;
+
+const NewspaperParaCol = styled.div`
+    width: 33%;
+    border-right: 3px solid #333333;
+    height: 100%;
+    padding: 4px;
+`;
+
+const NewspaperParaTitle = styled.h3`
+    font-family: 'PT Sans Narrow', sans-serif;
+    font-weight: bold;
+    text-transform: capitalize;
+    font-size: 1.5em;
+    line-height: 1em;
+    margin-top: 10px;
+    margin-bottom: 10px;
+`;
+
+const NewspaperPara = styled.p`
+    color: black;
+`;
+
+const NewspaperButton = styled.button`
+    color: black;
+    margin: 4px auto;
 `;
 
 const HomePage = () => {
     return (
-        <DefaultLayout noSidebar headerNotFixed>
+        <DefaultLayout noSidebar>
             <Container>
-                <FirstPart>
+                <StyledBody>
                     <ButtonContainer>
                         <StyledButton>
                             <ButtonWord>日</ButtonWord>
@@ -153,21 +227,51 @@ const HomePage = () => {
                         <MockCard background={'yellow'} marginTop={5}>那斯達克</MockCard>
                         <MockCard background={'orange'} marginTop={10}>日本指數</MockCard>
                     </CardContainer>
-                </FirstPart>
-                <SecondPart>
+                </StyledBody>
+                <StyledBody>
                     <SecondCardContainer>
-                        <StyledCard>水泥</StyledCard>
-                        <StyledCard>半導體</StyledCard>
-                        <StyledCard>光電</StyledCard>
-                        <StyledCard>電子零組件</StyledCard>
-                        <StyledCard>航運</StyledCard>
-                        <StyledCard>金融</StyledCard>
+                        <StyledCard>水泥類股</StyledCard>
+                        <StyledCard>半導體類股</StyledCard>
+                        <StyledCard>光電類股</StyledCard>
+                        <StyledCard>電子零組件類股</StyledCard>
+                        <StyledCard>航運類股</StyledCard>
+                        <StyledCard>金融類股</StyledCard>
                         <StyledCard></StyledCard>
                         <StyledCard></StyledCard>
                         <StyledCard></StyledCard>
                         <StyledCard></StyledCard>
                     </SecondCardContainer>
-                </SecondPart>
+                </StyledBody>
+                <StyledBody>
+                    <NewspaperButton>prev page</NewspaperButton>
+                    <Newspaper>
+                        <NewspaperContainer>
+                            <NewspaperTitle>stock daily newspaper</NewspaperTitle>
+                            <NewspaperDateCol>
+                                <NewspaperDate>june 20th, 2021</NewspaperDate>
+                            </NewspaperDateCol>
+                            <NewspaperParaContainer>
+                                <NewspaperParaCol>
+                                    <NewspaperParaTitle>this is news paper para title and a lot of words fsfkjl;ajr;qr</NewspaperParaTitle>
+                                    <NewspaperPara>
+                                        Culpa ad cupidatat dolore labore laborum velit pariatur irure et veniam aute dolor eu.
+                                        Culpa ad cupidatat dolore labore laborum velit pariatur irure et veniam aute dolor eu.
+                                        Culpa ad cupidatat dolore labore laborum velit pariatur irure et veniam aute dolor eu.
+                                    </NewspaperPara>
+                                    <NewspaperParaTitle>"another title"</NewspaperParaTitle>
+                                    <NewspaperPara>
+                                        Culpa ad cupidatat dolore labore laborum velit pariatur irure et veniam aute dolor eu.
+                                        Culpa ad cupidatat dolore labore laborum velit pariatur irure et veniam aute dolor eu.
+                                    </NewspaperPara>
+                                </NewspaperParaCol>
+                                <NewspaperParaCol>
+
+                                </NewspaperParaCol>
+                            </NewspaperParaContainer>
+                        </NewspaperContainer>
+                    </Newspaper>
+                    <NewspaperButton>next page</NewspaperButton>
+                </StyledBody>
             </Container>
         </DefaultLayout>
     )
