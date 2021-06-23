@@ -6,8 +6,9 @@ import stock_taiwan from '../images/mocked/taiwan-stock.jpeg';
 
 // mocked data
 import cardData from '../common/mocked_data/HomePageCard';
+import HomeNewspaper from '../common/HomeNewspaper';
 
-const StyledBody = styled.div`
+const StyledPart = styled.div`
     height: 100vh;
     display: flex;
     justify-content: center;
@@ -109,8 +110,16 @@ const StyledCard = styled.div`
     height: 300px;
     margin: 0 16px;
     color: white;
-    transition: all .5s ease-out;
     overflow: hidden;
+`;
+
+const CardImg = styled.div`
+    background-image: ${props => `url(${props.url})`};
+    background-position: center;
+    background-size: cover;
+    width: 100%;
+    height: 100%;
+    transition: all .5s ease-out;
     &:hover {
         transform: scale(1.2);
     }
@@ -119,9 +128,11 @@ const StyledCard = styled.div`
 const Newspaper = styled.div`
     border: 2px solid #f9f7f1;
     background-color: #f9f7f1;
-    width: 48%;
-    height: 88%;
+    width: 60%;
+    height: 80%;
     color: #E6E6E6;
+    transform: rotate(4deg);
+    z-index: 6;
 `;
 
 const NewspaperContainer = styled.div`
@@ -184,6 +195,30 @@ const NewspaperPara = styled.p`
     color: black;
 `;
 
+const NewspaperImgContainer = styled.div`
+    border: 2px solid greenyellow;
+    height: 24%;
+`;
+
+const NewspaperImg = styled.img`
+    height: 100%;
+    width: 100%;
+    background-image: ${props => `url(${props.img})`};
+`;
+
+const NewspaperPage = styled.div`
+    background-color: #f9f7f1;
+    background-color: green;
+    width: calc(100% - 20px);
+    height: ${props => `calc(100% - ${props.minusHeight}px)`};
+    position: absolute;
+    right: ${props => props.right}px;
+    top: 8px;
+    z-index: -1;
+    box-shadow: inset 0px -1px 2px rgba(50, 50, 50, 0.2),
+        inset -1px 0px 1px rgba(150, 150, 150, 0.1);
+`;
+
 const NewspaperButton = styled.button`
     color: black;
     margin: 4px auto;
@@ -193,7 +228,7 @@ const HomePage = () => {
     return (
         <DefaultLayout noSidebar>
             <Container>
-                <StyledBody>
+                <StyledPart>
                     <ButtonContainer>
                         <StyledButton>
                             <ButtonWord>日</ButtonWord>
@@ -227,12 +262,21 @@ const HomePage = () => {
                         <MockCard background={'yellow'} marginTop={5}>那斯達克</MockCard>
                         <MockCard background={'orange'} marginTop={10}>日本指數</MockCard>
                     </CardContainer>
-                </StyledBody>
-                <StyledBody>
+                </StyledPart>
+                <StyledPart>
                     <SecondCardContainer>
-                        <StyledCard>水泥類股</StyledCard>
-                        <StyledCard>半導體類股</StyledCard>
-                        <StyledCard>光電類股</StyledCard>
+                        <StyledCard>
+                            水泥類股
+                            <CardImg url={stock_taiwan} />
+                        </StyledCard>
+                        <StyledCard>
+                            半導體類股
+                            <CardImg url={stock_taiwan} />
+                        </StyledCard>
+                        <StyledCard>
+                            光電類股
+                            <CardImg url={stock_taiwan} />
+                        </StyledCard>
                         <StyledCard>電子零組件類股</StyledCard>
                         <StyledCard>航運類股</StyledCard>
                         <StyledCard>金融類股</StyledCard>
@@ -241,11 +285,12 @@ const HomePage = () => {
                         <StyledCard></StyledCard>
                         <StyledCard></StyledCard>
                     </SecondCardContainer>
-                </StyledBody>
-                <StyledBody>
+                </StyledPart>
+                <StyledPart>
                     <NewspaperButton>prev page</NewspaperButton>
                     <Newspaper>
                         <NewspaperContainer>
+                        <NewspaperPage minusHeight={8} right={-12} />
                             <NewspaperTitle>stock daily newspaper</NewspaperTitle>
                             <NewspaperDateCol>
                                 <NewspaperDate>june 20th, 2021</NewspaperDate>
@@ -265,13 +310,20 @@ const HomePage = () => {
                                     </NewspaperPara>
                                 </NewspaperParaCol>
                                 <NewspaperParaCol>
-
+                                    <NewspaperImgContainer>
+                                        <NewspaperImg img={stock_taiwan} />
+                                    </NewspaperImgContainer>
+                                    <NewspaperParaTitle>Qui aliquip deserunt duis dolor ullamco amet tempor amet elit officia aute.</NewspaperParaTitle>
+                                    <NewspaperPara>Occaecat laboris nulla sint labore et aliquip.</NewspaperPara>
                                 </NewspaperParaCol>
                             </NewspaperParaContainer>
                         </NewspaperContainer>
                     </Newspaper>
                     <NewspaperButton>next page</NewspaperButton>
-                </StyledBody>
+                </StyledPart>
+                <StyledPart>
+                    <HomeNewspaper />
+                </StyledPart>
             </Container>
         </DefaultLayout>
     )

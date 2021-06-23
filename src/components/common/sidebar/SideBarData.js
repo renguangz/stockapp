@@ -2,6 +2,10 @@ import React from 'react'
 
 export const SideBarData = [
     {
+        title: '走勢',
+        path: '/walk',
+    },
+    {
         title: '基本',
         path: '/',
         icon: <div>home icons</div>,

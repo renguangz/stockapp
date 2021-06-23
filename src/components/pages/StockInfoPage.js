@@ -5,6 +5,7 @@ import { fetchStock } from '../../redux';
 import { connect } from 'react-redux';
 import stock1 from '../images/mocked/base.png';
 import stock2 from '../images/mocked/fundstock.png';
+import movingstock from '../images/mocked/movingstock.png';
 
 const StyledInfoContainer = styled.div`
     width: 100%;
@@ -13,6 +14,20 @@ const StyledInfoContainer = styled.div`
     color: white;
     display: flex;
     padding-top: 20px;
+`;
+
+const MovingContainer = styled.div`
+    /* border: 2px solid yellow; */
+    width: 100%;
+    height: 100%;
+`;
+
+const MovingImg = styled.div`
+    background-image: url(${movingstock});
+    background-position: center;
+    background-size: cover;
+    width: 100%;
+    height: 100%;
 `;
 
 const FundImgContainer = styled.div`
@@ -37,7 +52,7 @@ const FundTableContainer = styled.div`
 `;
 
 const ChipContainer = styled.div`
-    border: 2px solid yellow;
+    /* border: 2px solid yellow; */
     width: 100%;
     height: 100%;
 `;
@@ -50,6 +65,24 @@ const Img = styled.div`
     height: 90%;
 `;
 
+const NewsContainer = styled.div`
+    border: 2px solid yellow;
+    width: 100%;
+    height: 100%;
+    display: flex;
+`;
+
+const NewsSection = styled.div`
+    border: 2px solid green;
+    width: 40%;
+    height: 76%;
+    margin: auto 4%;
+`;
+
+const News = styled.span`
+    color: white;
+`;
+
 const StockInfoPage = ({ stockinfo }) => {
     useEffect(() => {
         console.log(stockinfo)
@@ -58,6 +91,11 @@ const StockInfoPage = ({ stockinfo }) => {
 
     return (
         <DefaultLayout>
+            <StyledInfoContainer>
+                <MovingContainer>
+                    <MovingImg />
+                </MovingContainer>
+            </StyledInfoContainer>
             <StyledInfoContainer>
                 <FundImgContainer>
                     <FundImgBorder>
@@ -81,7 +119,15 @@ const StockInfoPage = ({ stockinfo }) => {
                     籌碼面
                 </ChipContainer>
             </StyledInfoContainer>
-            <StyledInfoContainer>消息面</StyledInfoContainer>
+            <StyledInfoContainer>
+                <NewsContainer>
+                    消息面
+                    <NewsSection>
+                        <News>Excepteur voluptate elit reprehenderit minim velit laborum ullamco Lorem est. Elit proident occaecat cupidatat reprehenderit id excepteur labore anim eu ex sit enim eiusmod elit. Nulla elit irure reprehenderit cupidatat nisi nulla exercitation aliquip. Pariatur sunt tempor tempor exercitation duis et veniam minim fugiat. Non reprehenderit dolor consectetur mollit voluptate. Voluptate ea quis magna ex exercitation nulla.</News>
+                    </NewsSection>
+                    <NewsSection></NewsSection>
+                </NewsContainer>
+            </StyledInfoContainer>
             this is stock info page
         </DefaultLayout>
     )
