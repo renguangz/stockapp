@@ -43,17 +43,17 @@ const Header = () => {
             <StyledHeaderContainer>
                 <StyledHeaderSection>
                     <Link to="/">
-                        <StyledHeaderItem>Home</StyledHeaderItem>
+                        <StyledHeaderItem>首頁</StyledHeaderItem>
                     </Link>
                     <Link to="/mylist">
-                        <StyledHeaderItem>MyList</StyledHeaderItem>
+                        <StyledHeaderItem>股票清單</StyledHeaderItem>
                     </Link>
                     <Link to="/stockinfo">
-                        <StyledHeaderItem>StockInfo</StyledHeaderItem>
+                        <StyledHeaderItem>個股資訊</StyledHeaderItem>
                     </Link>
-                    <Link to="/book">
-                        <StyledHeaderItem>Home book</StyledHeaderItem>
-                    </Link>
+                    {/* <Link to="/homecarousel">
+                        <StyledHeaderItem>Others</StyledHeaderItem>
+                    </Link> */}
                 </StyledHeaderSection>
                 <StyledHeaderSection>
                     <Search />

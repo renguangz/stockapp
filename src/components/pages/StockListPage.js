@@ -3,7 +3,7 @@ import { Table } from 'antd';
 import DefaultLayout from '../layouts/DefaultLayout';
 import { StockListColumns, data } from './StockListData';
 import Container from '../common/Container';
-import { MenuOutlined, MinusSquareOutlined } from '@ant-design/icons';
+import { MenuOutlined, MinusSquareOutlined, EditFilled, CloseSquareFilled } from '@ant-design/icons';
 import { sortableHandle } from 'react-sortable-hoc';
 import { connect } from 'react-redux';
 import { listStock, addListStock } from '../../redux';
@@ -22,10 +22,11 @@ const StyledContainer = styled(Container)`
 const ListCardContainer = styled.div`
     border: 2px solid orangered;
     /* width: 90%; */
-    height: 120px;
+    height: 180px;
     /* margin: auto; */
     display: flex;
     justify-content: space-between;
+    transform: translateY(36px);
     /* padding: 12px; */
 `;
 
@@ -34,12 +35,13 @@ const ListCard = styled.div`
     display: flex;
     width: 20%;
     border-radius: 8px;
+    color: white;
 `;
 
 const TableOrder = styled.div`
     /* border: 2px solid red; */
     height: 10%;
-    margin-top: 10%;
+    margin-top: 36px;
     display: flex;
     justify-content: space-between;
     border-bottom: 2px solid grey;
@@ -134,14 +136,14 @@ const StyledTd = styled.td`
 
 const MockedClose = styled.div`
     /* border: 2px solid white; */
-    width: 80%;
+    width: 72%;
     /* height: 70%; */
-    height: 50px;
+    height: 60px;
     margin: auto;
     display: flex;
     /* background-image: linear-gradient(to top, #a18cd1 0%, #fbc2eb 100%); */
     /* background-color: #554F24; */
-    background-image: linear-gradient(45deg, #8baaaa 0%, #ae8b9c 100%);
+    /* background-image: linear-gradient(45deg, #8baaaa 0%, #ae8b9c 100%); */
     border-radius: 8px;
 `;
 
@@ -161,8 +163,8 @@ const Price = styled.h3`
 
 const MockedImg = styled.div`
     /* border: 2px solid orange; */
-    width: 64%;
-    height: 98%;
+    width: 100%;
+    height: 100%;
     margin: auto 0;
     margin-left: 2%;
     background-image: ${props => `url(${props.url})`};
@@ -173,16 +175,22 @@ const MockedImg = styled.div`
 const MockedAdvanced = styled.div`
     width: 100%;
     border-radius: 4px;
-    background-color: #38C28E;
+    /* background-color: #38C28E; */
+    background-color: ${props => props.bgc};
     display: flex;
     flex-wrap: nowrap;
-    justify-content: center;
-    align-items: center;
 `;
 
 const Advanced = styled.h3`
     margin: auto;
     color: white;
+`;
+
+const Action = styled.div`
+    margin: auto;
+    display: flex;
+    justify-content: space-between;
+    width: 64%;
 `;
 
 const StockListPage = ({ stockListId, addStock }) => {
@@ -221,8 +229,8 @@ const StockListPage = ({ stockListId, addStock }) => {
                     <input type='submit' onSubmit={handleSubmit} />
                 </form> */}
                 <ListCardContainer>
-                    <ListCard></ListCard>
-                    <ListCard></ListCard>
+                    <ListCard>台股指數</ListCard>
+                    <ListCard>總報酬</ListCard>
                     <ListCard></ListCard>
                     <ListCard></ListCard>
                 </ListCardContainer>
@@ -241,15 +249,15 @@ const StockListPage = ({ stockListId, addStock }) => {
                 <StyledTable>
                     <StyledThead>
                         <StyledHeadTr>
-                            <StyledTh>操作</StyledTh>
+                            <StyledTh width={20}><EditFilled /></StyledTh>
                             <StyledTh>代碼</StyledTh>
-                            <StyledTh width={100}>收盤、走勢圖</StyledTh>
+                            <StyledTh>成交價</StyledTh>
+                            <StyledTh width={76}>走勢圖</StyledTh>
                             <StyledTh width={48}>漲跌、漲幅</StyledTh>
                             <StyledTh>成交量</StyledTh>
-                            <StyledTh>stock name</StyledTh>
-                            <StyledTh>stock name</StyledTh>
-                            <StyledTh>stock name</StyledTh>
-                            <StyledTh>stock name</StyledTh>
+                            <StyledTh>持有</StyledTh>
+                            <StyledTh>三大法人</StyledTh>
+                            <StyledTh>報酬</StyledTh>
                         </StyledHeadTr>
                     </StyledThead>
                     <StyledTbody>
@@ -257,41 +265,43 @@ const StockListPage = ({ stockListId, addStock }) => {
                             StockListMockedData.map((data, index) => {
                                 return (
                                     <StyledBodyTr>
-                                        <StyledTd>actions</StyledTd>
+                                        <StyledTd>
+                                            <Action>
+                                                <CloseSquareFilled />
+                                            {/* </Action>
+                                            <Action> */}
+                                                <MenuOutlined />
+                                            </Action>
+                                        </StyledTd>
                                         <StyledTd>{data.stockid}</StyledTd>
+                                        <StyledTd>{data.close}</StyledTd>
                                         <StyledTd>
                                             <MockedClose>
-                                                <MockedPrice>
+                                                {/* <MockedPrice>
                                                     <Price>{data.close}</Price>
-                                                </MockedPrice>
+                                                </MockedPrice> */}
                                                 <MockedImg url={data.url} />
                                             </MockedClose>
                                         </StyledTd>
                                         <StyledTd>
-                                            <MockedAdvanced>
-                                                <Advanced>{data.advance}</Advanced>
-                                            </MockedAdvanced>
+                                            {
+                                                data.increase ? (
+                                                    <MockedAdvanced bgc={'#E41E63'}>
+                                                        <Advanced>{data.advance}</Advanced>
+                                                    </MockedAdvanced>
+                                                ) : (
+                                                    <MockedAdvanced bgc={'#38C28E'}>
+                                                        <Advanced>{data.advance}</Advanced>
+                                                    </MockedAdvanced>
+                                                )
+                                            }
                                         </StyledTd>
                                         <StyledTd>{data.vol}</StyledTd>
+                                        <StyledTd>{data.hold} 張</StyledTd>
                                     </StyledBodyTr>
                                 )
                             })
                         }
-                        <StyledBodyTr>
-                            <StyledTd>this is first stock</StyledTd>
-                            <StyledTd>this is second stock</StyledTd>
-                            <StyledTd>this is second stock</StyledTd>
-                            <StyledTd>
-                                <MockedAdvanced>
-                                    <Advanced>🔻 0.5 (0.01%)</Advanced>
-                                </MockedAdvanced>
-                            </StyledTd>
-                            <StyledTd>this is second stock</StyledTd>
-                            <StyledTd>this is second stock</StyledTd>
-                            <StyledTd>this is second stock</StyledTd>
-                            <StyledTd>this is second stock</StyledTd>
-                            <StyledTd>this is second stock</StyledTd>
-                        </StyledBodyTr>
                     </StyledTbody>
                 </StyledTable>
             </StyledContainer>

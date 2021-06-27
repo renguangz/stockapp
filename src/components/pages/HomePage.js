@@ -3,10 +3,12 @@ import Container from '../common/Container';
 import DefaultLayout from '../layouts/DefaultLayout';
 import styled from 'styled-components';
 import stock_taiwan from '../images/mocked/taiwan-stock.jpeg';
+import FullImageDiv from '../common/FullImageDiv';
 
 // mocked data
 import cardData from '../common/mocked_data/HomePageCard';
 import HomeNewspaper from '../common/HomeNewspaper';
+import stock1 from '../images/mocked/stock2.jpeg';
 
 const StyledPart = styled.div`
     height: 100vh;
@@ -78,13 +80,13 @@ const ButtonWord = styled.h3`
 
 const CardContainer = styled.div`
     /* border: 2px solid white; */
-    height: 20%;
+    height: 24%;
     display: flex;
     justify-content: center;
     padding: 0 15%;
     position: absolute;
     bottom: 0;
-    width: 90%;
+    width: 90vw;
 `;
 
 const MockCard = styled.div`
@@ -93,6 +95,9 @@ const MockCard = styled.div`
     margin-top: ${props => props.marginTop}vh;
     display: flex;
     flex: 1;
+    width: 500px;
+    transform: ${props => `translateX(${props.tranX}px)`};
+    z-index: ${props => props.zindex};
 `;
 
 const SecondCardContainer = styled.div`
@@ -256,11 +261,14 @@ const HomePage = () => {
                                 )
                             })
                         } */}
-                        <MockCard background={'orange'} marginTop={10}>韓國指數</MockCard>
-                        <MockCard background={'yellow'} marginTop={5}>道瓊</MockCard>
-                        <MockCard background={'white'} marginTop={0} >台股指數</MockCard>
-                        <MockCard background={'yellow'} marginTop={5}>那斯達克</MockCard>
-                        <MockCard background={'orange'} marginTop={10}>日本指數</MockCard>
+                        <MockCard background={'orange'} marginTop={10} tranX={40} >
+                            韓國指數
+                            {/* <FullImageDiv url={stock1}></FullImageDiv>     */}
+                        </MockCard>
+                        <MockCard background={'yellow'} marginTop={5} tranX={20} >道瓊</MockCard>
+                        <MockCard background={'white'} marginTop={0} tranX={0} zindex={3}  >台股指數</MockCard>
+                        <MockCard background={'yellow'} marginTop={5} tranX={-20} zindex={2} >那斯達克</MockCard>
+                        <MockCard background={'orange'} marginTop={10} tranX={-40} zindex={1} >日本指數</MockCard>
                     </CardContainer>
                 </StyledPart>
                 <StyledPart>
@@ -290,7 +298,7 @@ const HomePage = () => {
                     <NewspaperButton>prev page</NewspaperButton>
                     <Newspaper>
                         <NewspaperContainer>
-                        <NewspaperPage minusHeight={8} right={-12} />
+                        {/* <NewspaperPage minusHeight={8} right={-12} /> */}
                             <NewspaperTitle>stock daily newspaper</NewspaperTitle>
                             <NewspaperDateCol>
                                 <NewspaperDate>june 20th, 2021</NewspaperDate>

@@ -11,6 +11,7 @@ import DefaultLayoutAntd from './components/layouts/DefaultLayoutAntd';
 import { Provider } from 'react-redux';
 import store from './redux/store';
 import HomeBook from './components/pages/HomeBook';
+import HomeCarousel from './components/layouts/HomeCarousel';
 
 function App() {
   return (
@@ -18,6 +19,9 @@ function App() {
       <Router>
         <div className="App">
           <Switch>
+            <Route exact path="/homecarousel">
+              <HomeCarousel />
+            </Route>
             <Route exact path="/book">
               <HomeBook />
             </Route>
