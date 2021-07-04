@@ -7,7 +7,6 @@ import {
 import StockInfoPage from './components/pages/StockInfoPage';
 import StockListPage from './components/pages/StockListPage';
 import HomePage from './components/pages/HomePage';
-import DefaultLayoutAntd from './components/layouts/DefaultLayoutAntd';
 import { Provider } from 'react-redux';
 import store from './redux/store';
 import HomeBook from './components/pages/HomeBook';

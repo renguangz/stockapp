@@ -14,7 +14,7 @@ import styled from 'styled-components';
 import { StockListMockedData } from '../common/mocked_data/StockListMockedData';
 
 const StyledContainer = styled(Container)`
-    height: 100vh;
+    height: 92vh;
     width: 90%;
     margin: auto;
 `;
@@ -46,6 +46,7 @@ const TableOrder = styled.div`
     justify-content: space-between;
     border-bottom: 2px solid grey;
     margin-bottom: -15px;
+    /* transform: translateY(36px); */
 `;
 
 const TableSwitch = styled.div`

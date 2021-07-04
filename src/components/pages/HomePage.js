@@ -31,18 +31,33 @@ const StyledWord = styled.h2`
     line-height: -0.4285;
 `;
 
-const ImgContainer = styled.div`
-    /* width: 700px; */
-    /* border: 1px solid pink; */
-    height: 56%;
-    position: absolute;
-    top: 130px;
-    margin-top: 8px;
+const ImageOuter = styled.div`
+    /* border: 3px solid white; */
+    width: 52%;
+    transform: translateY(-8%);
 `;
 
-const StyledImage = styled.img`
+const ImgContainer = styled.div`
+    /* border: 1px solid pink; */
+    width: 100%;
+    &:before {
+        content: '';
+        display: block;
+        /* border: 1px solid pink; */
+        width: 100%;
+        padding-top: 75%;
+    }
+`;
+
+const StyledImage = styled.div`
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
+    background-image: url(${stock_taiwan});
+    background-position: center;
+    background-size: cover;
 `;
 
 const ButtonContainer = styled.div`
@@ -232,7 +247,7 @@ const NewspaperButton = styled.button`
 const HomePage = () => {
     return (
         <DefaultLayout noSidebar>
-            <Container>
+            <Container id='container'>
                 <StyledPart>
                     <ButtonContainer>
                         <StyledButton>
@@ -248,22 +263,14 @@ const HomePage = () => {
                     <WordContainer>
                         <StyledWord>台股指數</StyledWord>
                     </WordContainer>
-                    <ImgContainer>
-                        <StyledImage src={stock_taiwan} alt='taiwan stock' />
-                    </ImgContainer>
+                    <ImageOuter>
+                        <ImgContainer>
+                            <StyledImage/>
+                        </ImgContainer>
+                    </ImageOuter>
                     <CardContainer>
-                        {/* {
-                            cardData.map(data => {
-                                return (
-                                    <StyledCard marginTop={data.imgPaddingTop}>
-                                        <CardImg url={data.image}></CardImg>
-                                    </StyledCard>
-                                )
-                            })
-                        } */}
                         <MockCard background={'orange'} marginTop={10} tranX={40} >
                             韓國指數
-                            {/* <FullImageDiv url={stock1}></FullImageDiv>     */}
                         </MockCard>
                         <MockCard background={'yellow'} marginTop={5} tranX={20} >道瓊</MockCard>
                         <MockCard background={'white'} marginTop={0} tranX={0} zindex={3}  >台股指數</MockCard>
@@ -298,7 +305,6 @@ const HomePage = () => {
                     <NewspaperButton>prev page</NewspaperButton>
                     <Newspaper>
                         <NewspaperContainer>
-                        {/* <NewspaperPage minusHeight={8} right={-12} /> */}
                             <NewspaperTitle>stock daily newspaper</NewspaperTitle>
                             <NewspaperDateCol>
                                 <NewspaperDate>june 20th, 2021</NewspaperDate>

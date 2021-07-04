@@ -6,6 +6,7 @@ import ClearFix from '../common/ClearFix';
 
 const PageHeader = styled.div`
     position: fixed;
+    z-index: 100;
 `;
 
 const PageSidebar = styled.div`
@@ -22,8 +23,17 @@ const SectionContainer = styled.div`
     margin-left: 1.5vw;
 `;
 
+const StyledSectionContainer = styled.div`
+    background-color: black;
+`;
+
 const StyledBody = styled.div`
     background: black;
+    /* z-index: 1; */
+`;
+
+const StyledFixedHeader = styled.div`
+    z-index: 10;
 `;
 
 const DefaultLayout = ({ headerNotFixed, noSidebar, children }) => {
@@ -33,16 +43,22 @@ const DefaultLayout = ({ headerNotFixed, noSidebar, children }) => {
                 headerNotFixed ? (
                     <Header />
                 ) : (
-                    <div>
+                    <StyledFixedHeader>
                         <PageHeader>
                             <Header />
                         </PageHeader>
                         <ClearFix height="8vh" />
-                    </div>
+                    </StyledFixedHeader>
                 )
             }
             {
-                noSidebar ? (<StyledBody>{children}</StyledBody>
+                noSidebar ? (
+                    <StyledBody>{children}</StyledBody>
+                    // <StyledBody>
+                    //     <StyledSectionContainer>
+                    //         {children}
+                    //     </StyledSectionContainer>
+                    // </StyledBody>
                 ) : (
                     <StyledBody>
                         <PageSidebar>

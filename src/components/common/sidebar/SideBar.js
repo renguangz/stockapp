@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { SideBarData } from './SideBarData';
+import './sideBar.css';
 
 const Sidebar = styled.div`
     background-color: #272821;
@@ -43,25 +44,66 @@ const SideBarButton = styled.div`
     align-items: center;
     justify-content: start;
     font-size: 24px;
+    cursor: pointer;
     &:hover {
-        color: black;
-        /* background-image: linear-gradient(to right, #243949 0%, #517fa4 100%); */
-        background-image: linear-gradient(-225deg, #5D9FFF 0%, #B8DCFF 48%, #6BBBFF 100%);
+        color: #1890ff;
+        background-color: #383838;
+        // 點擊後加入background and border right
+        /* border-right: 2px solid #1890ff; */
     }
 `;
 
 function SideBar() {
+
+    const scrollToAnchor = (anchorName) => {
+        if (!!anchorName) {
+            let anchorElement = document.getElementById(anchorName)
+            if (anchorElement) {
+                window.scrollTo(0, anchorElement.offsetTop - window.innerHeight / 14)
+            }
+        }
+    }
+
+    const handleScroll = e => {
+        let current = '';
+        const stockInfoId = ['move', 'basic', 'tech', 'chip', 'news']
+        stockInfoId.forEach(id => {
+            const section = e.target.getElementById(id)
+            console.log(section)
+            const sectionTop = section.offsetTop
+            const sectionHeight = section.clientHeight
+            if (window.pageYOffset >= (sectionTop - sectionHeight / 2.5)) {
+                current = section.getAttribute('id')
+            }
+            Ref.current.map(i => {
+                // console.log(i.classList, i)
+                i.classList.remove('active')
+                if (i.classList.contains(current)) {
+                    i.classList.add('active')
+                }
+            })
+        })
+    }
+
+    const Ref = useRef([])
+    useEffect(() => {
+        document.addEventListener('DOMContentLoaded', () => {
+            window.addEventListener('scroll', handleScroll)
+        })
+        // window.addEventListener('scroll', handleScroll)
+    })
+
     return (
         <Sidebar>
             <SidebarContainer>
-            <StyledStockName>
+                <StyledStockName>
                     <StockName>股票代碼＋名稱</StockName>
                     <StockName>⬆️漲幅(幅度%)</StockName>
-            </StyledStockName>
+                </StyledStockName>
                 {
                     SideBarData.map((data, index) => {
                         return (
-                            <SideBarButton key={index}>{data.title}</SideBarButton>
+                            <SideBarButton key={index} className={data.id} ref={ele => Ref.current[index] = ele} onClick={() => scrollToAnchor(data.id)}>{data.title}</SideBarButton>
                         )
                     })
                 }
