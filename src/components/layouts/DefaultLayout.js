@@ -18,22 +18,16 @@ const StyledSection = styled.section`
 `;
 
 const SectionContainer = styled.div`
-    /* border: 1px solid olivedrab; */
     width: 96.875%;
     margin-left: 1.5vw;
 `;
 
-const StyledSectionContainer = styled.div`
-    background-color: black;
-`;
-
 const StyledBody = styled.div`
     background: black;
-    /* z-index: 1; */
 `;
 
 const StyledFixedHeader = styled.div`
-    z-index: 10;
+    /* z-index: 10; */
 `;
 
 const DefaultLayout = ({ headerNotFixed, noSidebar, children }) => {
@@ -54,11 +48,6 @@ const DefaultLayout = ({ headerNotFixed, noSidebar, children }) => {
             {
                 noSidebar ? (
                     <StyledBody>{children}</StyledBody>
-                    // <StyledBody>
-                    //     <StyledSectionContainer>
-                    //         {children}
-                    //     </StyledSectionContainer>
-                    // </StyledBody>
                 ) : (
                     <StyledBody>
                         <PageSidebar>

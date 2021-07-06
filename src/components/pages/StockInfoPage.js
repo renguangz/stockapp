@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import DefaultLayout from '../layouts/DefaultLayout';
+import SidebarLayout from '../layouts/SidebarLayout';
 import styled from 'styled-components';
 import { fetchStock } from '../../redux';
 import { connect } from 'react-redux';
@@ -459,7 +460,7 @@ const StockInfoPage = ({ stockinfo }) => {
     }, [])
 
     return (
-        <DefaultLayout>
+        <SidebarLayout>
             <StyledInfoContainer id='move'>
                 <MovingContainer>
                     <MovingLeft>
@@ -833,7 +834,7 @@ const StockInfoPage = ({ stockinfo }) => {
                 </NewsContainer>
             </StyledInfoContainer>
             this is stock info page
-        </DefaultLayout>
+        </SidebarLayout>
     )
 };
 

@@ -76,7 +76,6 @@ function SideBar() {
                 current = section.getAttribute('id')
             }
             Ref.current.map(i => {
-                // console.log(i.classList, i)
                 i.classList.remove('active')
                 if (i.classList.contains(current)) {
                     i.classList.add('active')

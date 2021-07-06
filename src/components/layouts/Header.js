@@ -51,9 +51,9 @@ const Header = () => {
                     <Link to="/stockinfo">
                         <StyledHeaderItem>個股資訊</StyledHeaderItem>
                     </Link>
-                    {/* <Link to="/homecarousel">
+                    <Link to="/homecarousel">
                         <StyledHeaderItem>Others</StyledHeaderItem>
-                    </Link> */}
+                    </Link>
                 </StyledHeaderSection>
                 <StyledHeaderSection>
                     <Search />
