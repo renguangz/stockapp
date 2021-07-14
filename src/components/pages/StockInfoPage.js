@@ -18,11 +18,14 @@ import chip from '../images/mocked/chip.jpeg';
 import techmid from '../images/mocked/techmid.png';
 import techmid1 from '../images/mocked/techmid1.png';
 import techmid2 from '../images/mocked/techmid2.png';
+import movingstock1 from '../images/mocked/movingstock1.png';
+import movingstock2 from '../images/mocked/movingstock2.png';
 
 const StyledInfoContainer = styled.section`
     /* border: 1px solid blue; */
     width: 100%;
     height: 90vh;
+    
     color: white;
     display: flex;
     padding-top: 20px;
@@ -52,7 +55,7 @@ const MovingLeft = styled.div`
 `;
 
 const LeftTop = styled.div`
-    border: 1px solid pink;
+    /* border: 1px solid pink; */
     width: 98%;
     height: 68%;
     margin: 4px auto;
@@ -143,7 +146,7 @@ const RightTopTotal = styled.div`
 `;
 
 const RightBot = styled.div`
-    border: 1px solid gold;
+    /* border: 1px solid gold; */
     width: 100%;
     height: 56%;
 `;
@@ -289,7 +292,7 @@ const ChipTitle = styled.h2`
 `;
 
 const ChipLeftTop = styled.div`
-    border: 1px solid white;
+    /* border: 1px solid white; */
     width: 64%;
     height: 48%;
     margin: 0 auto;
@@ -465,7 +468,7 @@ const StockInfoPage = ({ stockinfo }) => {
                 <MovingContainer>
                     <MovingLeft>
                         <LeftTop>
-                            走勢圖
+                            <ChipImg url={movingstock1} height={'100'} width={'100'} />
                         </LeftTop>
                         <LeftBot>
                             <BotRow>
@@ -550,7 +553,9 @@ const StockInfoPage = ({ stockinfo }) => {
                                 <ColNum>31.16</ColNum>
                             </RightTopTotal>
                         </RightTop>
-                        <RightBot>價量表</RightBot>
+                        <RightBot>
+                            <ChipImg url={movingstock2} height={'100'} width={'100'} />
+                        </RightBot>
                     </MovingRight>
                 </MovingContainer>
             </StyledInfoContainer>

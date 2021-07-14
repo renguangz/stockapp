@@ -1,0 +1,143 @@
+body {
+    background: #111;
+    width: 100vw;
+    height: 100vh;
+}
+
+.canvas {
+    height: 100vh;
+    width: 100vw;
+}
+
+.scrollArea {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;   
+}
+
+.container {
+    /* border: 1px solid yellow; */
+    position: absolute;
+    top: 0;
+    left: 2%;
+    text-align: left;
+    width: 30%;
+    height: 100%;
+}
+
+.titleContainer {
+    /* border: 1px solid pink; */
+    margin-top: 28%;
+}
+
+.title {
+    /* margin: auto; */
+    color: white;
+    font-size: 64px;
+    font-weight: 700;
+}
+
+.infoContainer {
+    /* border: 1px solid green; */
+    height: 10%;
+}
+
+.stockinfo {
+    color: red;
+    font-size: 54px;
+    text-align: left;
+}
+
+/* .numContainer {
+    border: 1px solid yellow;
+} */
+
+.stockrise {
+    color: red;
+    font-size: 36px;
+}
+
+.btnContainer {
+    display: flex;
+    width: 100%;
+    /* border: 1px solid white; */
+    height: 8%;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 16%;
+}
+
+.btn {
+    border: 1px solid pink;
+    border-radius: 4px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    /* justify-content: center; */
+    /* text-align: center; */
+}
+
+.btnWord {
+    color: white;
+    font-size: 24px;
+    margin: auto 28px;
+}
+
+.otherCardsContainer {
+    /* border: 1px solid yellow; */
+    height: 100%;
+    width: 18%;
+    position: absolute;
+    top: 0;
+    right: 2%;
+    padding: 60px 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.cardOutter {
+    border: 1px solid grey;
+    /* width: 64%; 固定比例 */
+    /* margin-left: 36%; */
+    width: 100%;
+    /* margin-left: 20%; */
+    height: 18%;
+    border-radius: 8px;
+    padding: 12px;
+    display: flex;
+}
+
+.cardOutter:hover {
+    /* border: 2px solid white; */
+    box-shadow: 0 0 15px #fffd;
+}
+
+.cardTitleContainer {
+    /* border: 1px solid pink; */
+    width: 50%;
+    height: 100%;
+}
+
+.cardTitle {
+    color: grey;
+    text-align: left;
+}
+
+.cardNum {
+    color: red;
+    font-size: 13px;
+    text-align: left;
+}
+
+.cardImg {
+    /* border: 1px solid yellow; */
+    width: 50%;
+    height: 100%;
+    background-image: url('../../images/mocked/stockwalk.png');
+    background-size: cover;
+    background-position: center;
+}

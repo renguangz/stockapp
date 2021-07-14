@@ -20,7 +20,7 @@ const StyledContainer = styled(Container)`
 `;
 
 const ListCardContainer = styled.div`
-    border: 2px solid orangered;
+    /* border: 2px solid orangered; */
     /* width: 90%; */
     height: 180px;
     /* margin: auto; */
