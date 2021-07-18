@@ -9009,6 +9009,11 @@
   dependencies:
     "package-json" "^6.3.0"
 
+"lerp@^1.0.3":
+  "integrity" "sha1-oYyJaPkXiW3hXM/MKNVaa3Med24="
+  "resolved" "https://registry.npmjs.org/lerp/-/lerp-1.0.3.tgz"
+  "version" "1.0.3"
+
 "leven@^3.1.0":
   "integrity" "sha512-qsda+H8jTaUaN/x5vzW2rzc+8Rw4TAQ/4KjB46IwK5VH+IlVeeeje/EoZRpiXvIqjFgK84QffqPztGI3VBLG1A=="
   "resolved" "https://registry.npmjs.org/leven/-/leven-3.1.0.tgz"

@@ -2,6 +2,8 @@ import React, { useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { SideBarData } from './SideBarData';
 import './sideBar.css';
+import { connect } from 'react-redux';
+import { fetchIdName } from '../../../redux';
 
 const Sidebar = styled.div`
     background-color: #272821;
@@ -53,7 +55,13 @@ const SideBarButton = styled.div`
     }
 `;
 
-function SideBar() {
+function SideBar({ search, fetchIdName, searchSubmit }) {
+    useEffect(() => {
+        fetchIdName()
+    }, [])
+
+    // 拿到只含股票名稱的陣列 ex. ['1101', '1102', '1103', ...]
+    const searchList = search.id_and_name.map(item => Object.values(item)[0])
 
     const scrollToAnchor = (anchorName) => {
         if (!!anchorName) {
@@ -85,18 +93,26 @@ function SideBar() {
     }
 
     const Ref = useRef([])
-    useEffect(() => {
-        document.addEventListener('DOMContentLoaded', () => {
-            window.addEventListener('scroll', handleScroll)
-        })
-        // window.addEventListener('scroll', handleScroll)
-    })
+    // useEffect(() => {
+    //     document.addEventListener('DOMContentLoaded', () => {
+    //         window.addEventListener('scroll', handleScroll)
+    //     })
+    //     // window.addEventListener('scroll', handleScroll)
+    // })
 
     return (
         <Sidebar>
             <SidebarContainer>
                 <StyledStockName>
-                    <StockName>股票代碼＋名稱</StockName>
+                    {/* <StockName>股票代碼＋名稱</StockName> */}
+                    <StockName>{searchList[1]}</StockName>
+                    {
+                        searchSubmit === '' ? (
+                            <StockName>{searchList[1]}</StockName>
+                        ) : (
+                            <StockName>{searchSubmit}</StockName>
+                        )
+                    }
                     <StockName>⬆️漲幅(幅度%)</StockName>
                 </StyledStockName>
                 {
@@ -111,4 +127,21 @@ function SideBar() {
     )
 }
 
-export default SideBar;
+const mapStateToProps = state => {
+    // console.log(state.search.loading)
+    // console.log(state.search.id_and_name)
+    // console.log(state.search.id_and_name[1].id_name)
+    // const id_and_name = state.search.id_and_name
+    // console.log(id_and_name)
+    return {
+        search: state.search,
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        fetchIdName: () => dispatch(fetchIdName())
+    }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(SideBar);

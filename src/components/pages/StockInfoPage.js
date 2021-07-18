@@ -3,6 +3,7 @@ import DefaultLayout from '../layouts/DefaultLayout';
 import SidebarLayout from '../layouts/SidebarLayout';
 import styled from 'styled-components';
 import { fetchStock } from '../../redux';
+import { fetchIdName } from '../../redux';
 import { connect } from 'react-redux';
 import stock1 from '../images/mocked/base.png';
 import stock2 from '../images/mocked/fundstock.png';
@@ -458,8 +459,8 @@ const News = styled.p`
 
 const StockInfoPage = ({ stockinfo }) => {
     useEffect(() => {
-        console.log(stockinfo)
         fetchStock()
+        // console.log(stockinfo)
     }, [])
 
     return (
@@ -844,15 +845,17 @@ const StockInfoPage = ({ stockinfo }) => {
 };
 
 const mapStateToProps = state => {
-    console.log(state.stockInfo.stockinfo)
+    // console.log(state.stockInfo.stockinfo)
     return {
-        stockinfo: state.stockInfo.stockinfo
+        stockinfo: state.stockInfo.stockinfo,
+        // id_and_name: state.search.id_and_name,
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        fetchStock: dispatch(fetchStock())
+        fetchStock: dispatch(fetchStock()),
+        // fetchIdName: dispatch(fetchIdName())
     }
 }
 

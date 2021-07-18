@@ -1,25 +1,14 @@
 import React from 'react';
-import { Canvas } from 'react-three-fiber';
+import { Section } from './section';
 
-const Card = () => {
+const Section2 = ({ position }) => {
     return (
-        <>
-            <mesh>
-                <boxBufferGeometry args={[4, 3, 0]} />
-                <meshStandardMaterial color='black' />
-            </mesh>
-        </>
-    )
-}
+        <Section factor={1.5} offset={1}>
+            <group position={position}>
 
-const SecondSection = () => {
-    return (
-        <>
-            <Canvas>
-                <Card />
-            </Canvas>
-        </>
+            </group>
+        </Section>
     )
 };
 
-export default SecondSection;
+export default Section2;

@@ -6,7 +6,7 @@ const initialState = {
 };
 
 const stockReducer = (state = initialState, action) => {
-    console.log(state, action)
+    // console.log(state, action)
     switch (action.type) {
         case 'FETCH_STOCKINFO_REQUEST':
             return {

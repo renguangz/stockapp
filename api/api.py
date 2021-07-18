@@ -6,7 +6,8 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data/balance_sheet.db'
 app.config['SQLALCHEMY_BINDS'] = {
     'pocket_stock': 'sqlite:///data/pocket_stock.db',
-    'stockinfo': 'sqlite:///data/balamce_sheet.db'
+    'stockinfo': 'sqlite:///data/balance_sheet.db',
+    'stock_name_id': 'sqlite:///data/stockinfo.db'
 }
 
 db = SQLAlchemy(app)
@@ -77,6 +78,23 @@ def removeStock():
     return {
         '204': 'remove stock successfully'
     }
+
+
+class StockIdName(db.Model):
+    __bind_key__ = 'stock_name_id'
+    __tablename__ = 'stock_name'
+    id_and_name = db.Column('有價證券代號及名稱', db.String, primary_key=True)
+
+
+def id_and_name_serializer(stock):
+    return {
+        'id_name': stock.id_and_name
+    }
+
+@app.route('/search', methods=['GET'])
+def search_stock():
+    read_data = jsonify([*map(id_and_name_serializer, StockIdName.query.all())])    
+    return read_data
 
 
 if __name__ == '__main__':

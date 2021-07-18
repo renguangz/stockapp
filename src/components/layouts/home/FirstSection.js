@@ -2,13 +2,19 @@ import React from 'react';
 import './App.css';
 import { Html, Reflector } from '@react-three/drei';
 import { CaretUpFilled } from '@ant-design/icons';
+import { Section } from './section';
+import * as THREE from 'three';
+import { useLoader } from '@react-three/fiber';
+import taiwan_stock from '../../images/mocked/taiwan-stock.jpeg';
 
 // (5)
 const Card = () => {
+    const mapCard = useLoader(THREE.TextureLoader, taiwan_stock)
     return (
         <>
             <boxBufferGeometry attach='geometry' args={[6, 4.5, 0]} />
-            <meshStandardMaterial attach='material' color='white' />
+            {/* <meshStandardMaterial attach='material' color='white' /> */}
+            <meshStandardMaterial attach='material' map={mapCard} />
         </>
     )
 }
@@ -26,7 +32,7 @@ const Section1 = ({ position, domContent }) => {
                 <Reflector
                     blur={[512, 512]}
                     mixBlur={0.25} //反射的銳利度
-                    mixStrength={0.5} // 反射強度，透明度
+                    mixStrength={0.7} // 反射強度，透明度
                     resolution={1024}
                     args={[50, 50]} // 平台大小
                     rotation={[-Math.PI / 2, 0, 0]}
@@ -36,7 +42,7 @@ const Section1 = ({ position, domContent }) => {
                     depthScale={0.5}
                     position={[0, -1.8, 0]}
                 />
-                <Html fullscreen>
+                <Html fullscreen portal={domContent}>
                     <div className='container'>
                         <div className='titleContainer'>
                             <h1 className='title'>台股加權指數</h1>
@@ -51,11 +57,11 @@ const Section1 = ({ position, domContent }) => {
                             <h2 className='stockinfo'>change to table</h2>
                         </div> */}
                         <div className='btnContainer'>
-                            <div className='btn'>
-                                <h2 className='btnWord'>進入股票清單</h2>
+                            <div className='btn bgcBtn'>
+                                <h2 className='btnWord firstBtn'>進入股票清單</h2>
                             </div>
                             <div className='btn'>
-                                <h2 className='btnWord'>進入股票清單</h2>
+                                <h2 className='btnWord secondBtn'>查詢個股資訊</h2>
                             </div>
                         </div>
                     </div>
