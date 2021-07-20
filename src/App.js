@@ -11,6 +11,7 @@ import { Provider } from 'react-redux';
 import store from './redux/store';
 import HomeBook from './components/pages/HomeBook';
 import HomeCarousel from './components/layouts/HomeCarousel';
+import NotSearchStockInoPage from './components/pages/NotSearchStockInoPage';
 
 function App() {
   return (
@@ -32,6 +33,9 @@ function App() {
             </Route>
             <Route exact path="/mylist">
               <StockListPage />
+            </Route>
+            <Route exact path="/try">
+              <NotSearchStockInoPage />
             </Route>
           </Switch>
         </div>

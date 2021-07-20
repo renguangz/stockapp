@@ -54,6 +54,9 @@ const Header = () => {
                     <Link to="/homecarousel">
                         <StyledHeaderItem>Others</StyledHeaderItem>
                     </Link>
+                    <Link to="/try">
+                        <StyledHeaderItem>Not search info</StyledHeaderItem>
+                    </Link>
                 </StyledHeaderSection>
                 <StyledHeaderSection>
                     <Search />

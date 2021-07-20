@@ -457,10 +457,9 @@ const News = styled.p`
     text-overflow: ellipsis;
 `;
 
-const StockInfoPage = ({ stockinfo }) => {
+const StockInfoPage = ({ stockinfo, notSearch }) => {
     useEffect(() => {
         fetchStock()
-        // console.log(stockinfo)
     }, [])
 
     return (
@@ -578,11 +577,9 @@ const StockInfoPage = ({ stockinfo }) => {
             </StyledInfoContainer>
             <StyledInfoContainer id='tech'>
                 <TechContainer>
-                    {/* 技術面 */}
                     <TechNav>
                         <TechMainH4>2021/07/02 開: 605.00 高: 607.00 低: 601.00 收: 604.00 量: 4000 ⬇️5.00</TechMainH4>
                         <TechNavRight>
-                            {/* <NavButton>日線</NavButton> */}
                             <TechDropSelect>
                                 <DropSelect>
                                     <TechDropOption>1分鐘</TechDropOption>
@@ -695,7 +692,6 @@ const StockInfoPage = ({ stockinfo }) => {
             </StyledInfoContainer>
             <StyledInfoContainer id='chip'>
                 <ChipContainer>
-                    {/* 籌碼面 */}
                     <ChipLeft>
                         <ChipTitle>三大法人 融資融券</ChipTitle>
                         <ChipLeftTop>
@@ -782,7 +778,6 @@ const StockInfoPage = ({ stockinfo }) => {
                                     <RadioInput type='radio' id='sell' />
                                     <RadioLabel for='sell'>賣超券商</RadioLabel>
                                 </RightBotRadio>
-                                {/* 近日，買超券商，賣超券商 */}
                             </RightBotNav>
                             <ChipTable margintop={'0'} height={'0'}>
                                 <thead>
@@ -816,7 +811,6 @@ const StockInfoPage = ({ stockinfo }) => {
             </StyledInfoContainer>
             <StyledInfoContainer id='news'>
                 <NewsContainer>
-                    {/* 消息面 */}
                     <NewsSection translate={'50px, -68px'}>
                         <NewsTitle>Ipsum mollit id nostrud deserunt deserunt Lorem fugiat ad Lorem.    <NewsDate>2021/6/25</NewsDate></NewsTitle>
                         <News>Excepteur voluptate elit reprehenderit minim velit laborum ullamco Lorem est. Elit proident occaecat cupidatat reprehenderit id excepteur labore anim eu ex sit enim eiusmod elit. Nulla elit irure reprehenderit cupidatat nisi nulla exercitation aliquip. Pariatur sunt tempor tempor exercitation duis et veniam minim fugiat. Non reprehenderit dolor consectetur mollit voluptate. Voluptate ea quis magna ex exercitation nulla.</News>

@@ -74,10 +74,11 @@ const Search = ({ searchRedux, fetchIdName }) => {
         if (search === '') {
             return null
         } else {
-            console.log(filtered(searchList, search)[0])
+            // console.log(filtered(searchList, search)[0])
             setSidebarDisplay(filtered(searchList, search)[0])
         }
         setSearch('');
+        console.log(sidebarDisplay)
     }
 
     return (
