@@ -33,3 +33,15 @@ export const fetchIdName = () => dispatch => {
             dispatch(fetchIdNameError(err))
         })
 }
+
+export const searchListClick = item => {
+    return {
+        type: 'SEARCHLIST_CLICK',
+        payload: item
+    }
+}
+
+export const clickSearch = (s) => dispatch => {
+    dispatch(searchListClick(s))
+    console.log(s)
+}

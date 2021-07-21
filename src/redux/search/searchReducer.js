@@ -1,11 +1,12 @@
 const initialState = {
     loading: true,
     id_and_name: [],
-    error: null
+    error: null,
+    notSearch: true,
+    sidebarTitle: ''
 }
 
 const searchReducer = (state = initialState, action) => {
-    // console.log(state, action)
     switch (action.type) {
         case 'FETCH_ID_NAME_REQUEST': 
             return {
@@ -23,6 +24,13 @@ const searchReducer = (state = initialState, action) => {
                 ...state,
                 loading: false,
                 error: action.payload
+            }
+        case 'SEARCHLIST_CLICK':
+            return {
+                ...state,
+                loading: false,
+                notSearch: false,
+                sidebarTitle: action.payload
             }
         default: return state
     }

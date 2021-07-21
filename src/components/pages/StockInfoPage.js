@@ -839,10 +839,10 @@ const StockInfoPage = ({ stockinfo, notSearch }) => {
 };
 
 const mapStateToProps = state => {
-    // console.log(state.stockInfo.stockinfo)
     return {
         stockinfo: state.stockInfo.stockinfo,
         // id_and_name: state.search.id_and_name,
+        search: state.search
     }
 }
 

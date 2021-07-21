@@ -3,6 +3,7 @@ import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import Container from '../common/Container';
+import Search1 from '../common/Seach1';
 import Search from '../common/Search';
 
 const StyledHeader = styled.header`

@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { fetchIdNameSuccess, handleSearch } from '../../redux';
+import { fetchIdNameSuccess, handleSearch, clickSearch } from '../../redux';
 import { fetchIdName } from '../../redux';
 import styled from 'styled-components';
+import * as Storage from '../helper/StorageHelper';
 
 const SearchUl = styled.ul`
     border: 1px solid white;
     position: absolute;
     width: 100%;
+    padding: 0;
 `;
 
 const SearchLi = styled.li`
@@ -24,30 +26,26 @@ const SearchSpan = styled.span`
 `;
 
 
-const Search = ({ searchRedux, fetchIdName }) => {
+const Search = ({ searchRedux, fetchIdName, clickSearch }) => {
     const [search, setSearch] = useState('')
     const inputSearch = (input) => {
         setSearch(input.target.value)
     }
 
-    // 做空白點擊時顯示歷史搜尋，輸入東西時顯示符合條件的股票
     useEffect(() => {
         fetchIdName()
     }, [])
 
     const searchList = searchRedux.id_and_name.map(item => Object.values(item)[0])
-
-    // 成功找到
     const filtered = (searchList, searchInput) => {
         return searchList.filter(value => {
             const regex = new RegExp(searchInput, 'g')
             return value.match(regex)
         })
     }
-    // 接下來做display以及傳遞到sidebar
-    const handleClick = () => {
-
-        return null
+    const handleClick = (m) => {
+        clickSearch(m)
+        setSearch('')
     }
     const DisplayMatches = () => {
         const matchArray = filtered(searchList, search)
@@ -58,7 +56,7 @@ const Search = ({ searchRedux, fetchIdName }) => {
                 {
                     matchArray.map((m, index) => {
                         return (
-                            <SearchLi key={index} onClick={handleClick}>
+                            <SearchLi key={index} onClick={() => handleClick(m)}>
                                 <SearchSpan>{m}</SearchSpan>
                             </SearchLi>
                         )
@@ -74,11 +72,10 @@ const Search = ({ searchRedux, fetchIdName }) => {
         if (search === '') {
             return null
         } else {
-            // console.log(filtered(searchList, search)[0])
             setSidebarDisplay(filtered(searchList, search)[0])
         }
         setSearch('');
-        console.log(sidebarDisplay)
+        clickSearch(sidebarDisplay)
     }
 
     return (
@@ -109,7 +106,8 @@ const mappedStateToProps = state => {
 const mappedDispatchToProps = dispatch => {
     return {
         handleSearch: (input) => dispatch(handleSearch(input)),
-        fetchIdName: () => dispatch(fetchIdName())
+        fetchIdName: () => dispatch(fetchIdName()),
+        clickSearch: (s) => dispatch(clickSearch(s))
     }
 };
 

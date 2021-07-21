@@ -55,13 +55,9 @@ const SideBarButton = styled.div`
     }
 `;
 
-function SideBar({ search, fetchIdName, searchSubmit }) {
-    useEffect(() => {
-        fetchIdName()
-    }, [])
+function SideBar({ search }) {
 
     // 拿到只含股票名稱的陣列 ex. ['1101', '1102', '1103', ...]
-    const searchList = search.id_and_name.map(item => Object.values(item)[0])
 
     const scrollToAnchor = (anchorName) => {
         if (!!anchorName) {
@@ -104,15 +100,7 @@ function SideBar({ search, fetchIdName, searchSubmit }) {
         <Sidebar>
             <SidebarContainer>
                 <StyledStockName>
-                    {/* <StockName>股票代碼＋名稱</StockName> */}
-                    <StockName>{searchList[1]}</StockName>
-                    {
-                        searchSubmit === '' ? (
-                            <StockName>{searchList[1]}</StockName>
-                        ) : (
-                            <StockName>{searchSubmit}</StockName>
-                        )
-                    }
+                    <StockName>{search.sidebarTitle}</StockName>
                     <StockName>⬆️漲幅(幅度%)</StockName>
                 </StyledStockName>
                 {
@@ -128,11 +116,6 @@ function SideBar({ search, fetchIdName, searchSubmit }) {
 }
 
 const mapStateToProps = state => {
-    // console.log(state.search.loading)
-    // console.log(state.search.id_and_name)
-    // console.log(state.search.id_and_name[1].id_name)
-    // const id_and_name = state.search.id_and_name
-    // console.log(id_and_name)
     return {
         search: state.search,
     }
