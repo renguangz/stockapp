@@ -12,12 +12,14 @@ app.config['SQLALCHEMY_BINDS'] = {
 
 db = SQLAlchemy(app)
 
+
 class StockInfo(object):
     __table_args__ = {'extend_existing': True}
     id = db.Column('index', db.Integer, primary_key=True)
     date = db.Column('date', db.String, nullable=False)
     cash = db.Column('現金及約當現金', db.Float, nullable=True)
     total = db.Column('資產總額', db.Float, nullable=True)
+
 
 def stock_serializer(stock):
     return {
@@ -27,11 +29,13 @@ def stock_serializer(stock):
         'total': stock.total
     }
 
+
 names = ['_1101', '_2317', '_2330', '_3481']
 stocks = []
 for name in names:
     n = type(name.title(), (StockInfo, db.Model), {'__tablename__': name})
     stocks.append(n)
+
 
 @app.route('/api/allStock')
 def index():
@@ -48,20 +52,22 @@ def index():
 class PocketStock(db.Model):
     __bind_key__ = 'pocket_stock'
     __tablename__ = 'stock'
-    stockid = db.Column('stock_id', db.Integer, primary_key=True)
-    # stockname = db.Column('stockname', db.String, nullable=False)
+    stockid = db.Column('stock_id', db.String, primary_key=True)
+
 
 def stockid_serializer(stock):
     return {
         'stockid': stock.stockid,
-        # 'stockname': stock.stockname
     }
+
 
 @app.route('/add_pocket_stock', methods=['POST', 'GET'])
 def addStock():
+    db.create_all()
     if request.method == 'POST':
         request_data = json.loads(request.data)
-        stock = PocketStock(stockid = request_data['stockid'])
+        stock = PocketStock(stockid=request_data['stockid'])
+        print(request_data)
         db.session.add(stock)
         db.session.commit()
         return {
@@ -70,10 +76,11 @@ def addStock():
     if request.method == 'GET':
         return jsonify([*map(stockid_serializer, PocketStock.query.all())])
 
+
 @app.route('/remove_pocket_stock', methods=['GET', 'POST', 'DELETE'])
 def removeStock():
     request_data = json.loads(request.data)
-    PocketStock.query.filter_by(stockid = request_data['stockid']).delete()
+    PocketStock.query.filter_by(stockid=request_data['stockid']).delete()
     db.session.commit()
     return {
         '204': 'remove stock successfully'
@@ -91,9 +98,11 @@ def id_and_name_serializer(stock):
         'id_name': stock.id_and_name
     }
 
+
 @app.route('/search', methods=['GET'])
 def search_stock():
-    read_data = jsonify([*map(id_and_name_serializer, StockIdName.query.all())])    
+    read_data = jsonify(
+        [*map(id_and_name_serializer, StockIdName.query.all())])
     return read_data
 
 

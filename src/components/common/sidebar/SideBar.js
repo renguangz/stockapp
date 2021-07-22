@@ -4,6 +4,7 @@ import { SideBarData } from './SideBarData';
 import './sideBar.css';
 import { connect } from 'react-redux';
 import { fetchIdName } from '../../../redux';
+import * as Storage from '../../helper/StorageHelper';
 
 const Sidebar = styled.div`
     background-color: #272821;
@@ -96,11 +97,13 @@ function SideBar({ search }) {
     //     // window.addEventListener('scroll', handleScroll)
     // })
 
+    const searchStockIdName = Storage.getData('stock_id_and_name')
+
     return (
         <Sidebar>
             <SidebarContainer>
                 <StyledStockName>
-                    <StockName>{search.sidebarTitle}</StockName>
+                    <StockName>{searchStockIdName}</StockName>
                     <StockName>⬆️漲幅(幅度%)</StockName>
                 </StyledStockName>
                 {

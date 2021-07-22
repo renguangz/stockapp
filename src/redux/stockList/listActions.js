@@ -19,10 +19,17 @@ const removeStock = (stockid) => {
     }
 }
 
-const fetchListStock = stockid => {
+const fetchListStockSuccess = stockid => {
     return {
-        type: 'FETCH_LIST_STOCK',
+        type: 'FETCH_LIST_STOCK_SUCCESS',
         payload: stockid
+    }
+}
+
+const fetchListStockFail = error => {
+    return {
+        type: 'FETCH_LIST_STOCK_FAIL',
+        payload: error
     }
 }
 
@@ -35,8 +42,8 @@ export const listStock = () => dispatch => {
             'Accept': 'application/json'
         }
     }).then(res => res.json())
-        .then(data => dispatch(fetchListStock(data)))
-        .catch(err => console.log(err))
+        .then(data => dispatch(fetchListStockSuccess(data)))
+        .catch(err => dispatch(fetchListStockFail(err)))
 }
 
 export const addListStock = stockid => dispatch => {
@@ -46,7 +53,6 @@ export const addListStock = stockid => dispatch => {
             stockid
         })
     }).then(res => res.json()).then(data => {
-        console.log(data)
         dispatch(addStock(data))
     })
 }

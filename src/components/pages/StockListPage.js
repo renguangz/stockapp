@@ -10,7 +10,6 @@ import { listStock, addListStock } from '../../redux';
 import styled from 'styled-components';
 
 // Mocked
-// import stockclose from '../images/mocked/stockclose.png';
 import { StockListMockedData } from '../common/mocked_data/StockListMockedData';
 
 const StyledContainer = styled(Container)`
@@ -21,13 +20,10 @@ const StyledContainer = styled(Container)`
 
 const ListCardContainer = styled.div`
     /* border: 2px solid orangered; */
-    /* width: 90%; */
     height: 180px;
-    /* margin: auto; */
     display: flex;
     justify-content: space-between;
     transform: translateY(36px);
-    /* padding: 12px; */
 `;
 
 const ListCard = styled.div`
@@ -46,15 +42,12 @@ const TableOrder = styled.div`
     justify-content: space-between;
     border-bottom: 2px solid grey;
     margin-bottom: -15px;
-    /* transform: translateY(36px); */
 `;
 
 const TableSwitch = styled.div`
     /* border: 2px solid green; */
     height: 100%;
     display: flex;
-    /* justify-content: center;
-    align-items: center; */
 `;
 
 const TableSwitchButton = styled.h3`
@@ -72,7 +65,6 @@ const TableSwitchButton = styled.h3`
 
 const AddStock = styled.form`
     /* border: 2px solid green; */
-    height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -82,42 +74,33 @@ const AddStockInput = styled.input`
 
 `;
 
+const AddStockButton = styled.button``;
+
 const StyledTable = styled.table`
     /* border: 2px solid pink; */
-    /* height: 60vh; */
     width: 100%;
-    /* margin: auto; */
-    /* margin-top: 80px; */
-    /* border-radius: 12px; */
     border-collapse: collapse;
-    /* border-spacing: 0 20px; */
     table-layout: fixed;
 `;
 
 const StyledThead = styled.thead`
-    /* width: 80vw; */
-    /* color: white; */
-    /* border: 2px solid white; */
 `;
 
 const StyledTbody = styled.tbody`
-    /* width: 100%; */
-    /* border: 2px solid orange; */
+
 `;
 
 const StyledHeadTr = styled.tr`
-    color: white;
     /* border: 2px solid white; */
+    color: white;
     width: 100%;
     height: 70px;
-    /* background-color: #F5F7F9; */
-    /* border-radius: 12px; */
 `;
 
 const StyledBodyTr = styled.tr`
+    /* border: 2px solid red; */
     width: 100%;
     height: 70px;
-    /* border: 2px solid red; */
     background-color: #2C3845;
     &:nth-child(even) {
         background-color: black;
@@ -142,9 +125,6 @@ const MockedClose = styled.div`
     height: 60px;
     margin: auto;
     display: flex;
-    /* background-image: linear-gradient(to top, #a18cd1 0%, #fbc2eb 100%); */
-    /* background-color: #554F24; */
-    /* background-image: linear-gradient(45deg, #8baaaa 0%, #ae8b9c 100%); */
     border-radius: 8px;
 `;
 
@@ -176,7 +156,6 @@ const MockedImg = styled.div`
 const MockedAdvanced = styled.div`
     width: 100%;
     border-radius: 4px;
-    /* background-color: #38C28E; */
     background-color: ${props => props.bgc};
     display: flex;
     flex-wrap: nowrap;
@@ -194,41 +173,76 @@ const Action = styled.div`
     width: 64%;
 `;
 
-const StockListPage = ({ stockListId, addStock }) => {
-    // useEffect(() => {
-    //     listStock()
-    // }, [])
+const SearchUl = styled.ul`
+    border: 1px solid white;
+    position: absolute;
+    right: 5%;
+    padding: 0;
+`;
+
+const SearchLi = styled.li`
+    border: 1px solid pink;
+    background-color: white;
+    list-style: none;
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
+`;
+
+const SearchSpan = styled.span`
+    color: black;
+`;
+
+const StockListPage = ({ searchRedux, stockList, listStock, addStock }) => {
+    useEffect(() => {
+        listStock()
+    }, [])
     const DragHandle = sortableHandle(() => <MenuOutlined style={{ cursor: 'grab', color: '#999' }} />);
 
-    // 做 addStock的搜尋
+
+    const searchList = searchRedux.id_and_name.map(item => Object.values(item)[0])
+    const filtered = (searchList, searchInput) => {
+        return searchList.filter(value => {
+            const regex = new RegExp(searchInput, 'g')
+            return value.match(regex)
+        })
+    }
+    const handleClick = (m) => {
+        addStock(m)
+        setSearch('')
+    }
+    const DisplayMatches = () => {
+        const matchArray = filtered(searchList, search)
+        if (search === '') {
+            return null
+        } else return (
+            <>
+                {
+                    matchArray.map((m, index) => {
+                        return (
+                            <SearchLi key={index} onClick={() => handleClick(m)}>
+                                <SearchSpan>{m}</SearchSpan>
+                            </SearchLi>
+                        )
+                    })
+                }
+            </>
+        )
+    }
+
     const [search, setSearch] = useState('')
     const inputSearch = (input) => {
         setSearch(input.target.value)
     }
     const handleSubmit = (e) => {
         e.preventDefault()
-        console.log(e)
+        const matchArray = filtered(searchList, search)
+        addStock(matchArray[0])
+        setSearch('')
     }
     return (
         <DefaultLayout noSidebar>
             <StyledContainer>
-                {/* <Table columns={StockListColumns} dataSource={data} expandable={{
-                    expandIcon: () => {
-                        return (
-                            <div style={{ display: 'flex' }}>
-                                <DragHandle />
-                                <MinusSquareOutlined />
-                            </div>
-                        )
-                    }
-                }}
-                    pagination={false}
-                />
-                <button onClick={() => console.log(stockListId)} />
-                <form>
-                    <input type='text' value={search} onChange={inputSearch} />
-                    <input type='submit' onSubmit={handleSubmit} />
-                </form> */}
                 <ListCardContainer>
                     <ListCard>台股指數</ListCard>
                     <ListCard>總報酬</ListCard>
@@ -243,10 +257,13 @@ const StockListPage = ({ stockListId, addStock }) => {
                         <TableSwitchButton>自選四</TableSwitchButton>
                     </TableSwitch>
                     <AddStock>
-                        <AddStockInput type='text' placeholder="新增股票" />
-                        <input type="submit" value="➕" />
+                        <AddStockInput type='text' placeholder="新增股票" value={search} onChange={inputSearch} />
+                        <AddStockButton onClick={handleSubmit}>➕</AddStockButton>
                     </AddStock>
                 </TableOrder>
+                <SearchUl>
+                    <DisplayMatches />
+                </SearchUl>
                 <StyledTable>
                     <StyledThead>
                         <StyledHeadTr>
@@ -269,8 +286,6 @@ const StockListPage = ({ stockListId, addStock }) => {
                                         <StyledTd>
                                             <Action>
                                                 <CloseSquareFilled />
-                                            {/* </Action>
-                                            <Action> */}
                                                 <MenuOutlined />
                                             </Action>
                                         </StyledTd>
@@ -278,9 +293,6 @@ const StockListPage = ({ stockListId, addStock }) => {
                                         <StyledTd>{data.close}</StyledTd>
                                         <StyledTd>
                                             <MockedClose>
-                                                {/* <MockedPrice>
-                                                    <Price>{data.close}</Price>
-                                                </MockedPrice> */}
                                                 <MockedImg url={data.url} />
                                             </MockedClose>
                                         </StyledTd>
@@ -311,15 +323,15 @@ const StockListPage = ({ stockListId, addStock }) => {
 };
 
 const mapStateToProps = state => {
-    console.log(state.stockList)
     return {
-        stockListId: state.stockList.stockid
+        stockList: state.stockList,
+        searchRedux: state.search
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        listStock: dispatch(listStock()),
+        listStock: () => dispatch(listStock()),
         addStock: (stockid) => dispatch(addListStock(stockid))
     }
 }

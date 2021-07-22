@@ -19,6 +19,7 @@ import techmid2 from '../images/mocked/techmid2.png';
 import movingstock1 from '../images/mocked/movingstock1.png';
 import movingstock2 from '../images/mocked/movingstock2.png';
 import { SearchOutlined } from '@ant-design/icons';
+import * as Storage from '../helper/StorageHelper';
 
 const StyledInfoContainer = styled.section`
     /* border: 1px solid blue; */
@@ -540,10 +541,10 @@ const NotSearchStockInfoPage = ({ stockinfo, notSearch, searchRedux, clickSearch
         })
     }
 
-    const [sidebarDisplay, setSidebarDisplay] = useState(searchList[1])
     const handleClick = (m) => {
-        setSidebarDisplay(m)
         setSearch('')
+        Storage.setData('stock_id_and_name', m)
+        Storage.setData('notSearch', false)
         clickSearch(m)
     }
     const DisplayMatches = () => {
@@ -564,11 +565,12 @@ const NotSearchStockInfoPage = ({ stockinfo, notSearch, searchRedux, clickSearch
             </>
         )
     }
+    const stockNotSearch = Storage.getData('notSearch')
 
     return (
         <>
             {
-                searchRedux.notSearch ? (
+                stockNotSearch === null ? (
                     <SidebarLayout>
                         <SearchForm>
                             <SearchContainer>
@@ -590,380 +592,381 @@ const NotSearchStockInfoPage = ({ stockinfo, notSearch, searchRedux, clickSearch
                         </SearchForm>
                     </SidebarLayout>
                 ) : (
-                    <SidebarLayout>
-                        <StyledInfoContainer id='move'>
-                            <MovingContainer>
-                                <MovingLeft>
-                                    <LeftTop>
-                                        <ChipImg url={movingstock1} height={'100'} width={'100'} />
-                                    </LeftTop>
-                                    <LeftBot>
-                                        <BotRow>
-                                            {
-                                                row1.map((data, index) => {
-                                                    return (
-                                                        <BotItem>
-                                                            <BotItemTitle>{data.title}</BotItemTitle>
-                                                            <BotItemNum fall={data.fall}>{data.num}</BotItemNum>
-                                                        </BotItem>
-                                                    )
-                                                })
-                                            }
-                                        </BotRow>
-                                        <BotRow>
-                                            {
-                                                row2.map((data, index) => {
-                                                    return (
-                                                        <BotItem>
-                                                            <BotItemTitle>{data.title}</BotItemTitle>
-                                                            <BotItemNum fall={data.fall}>{data.num}</BotItemNum>
-                                                        </BotItem>
-                                                    )
-                                                })
-                                            }
-                                        </BotRow>
-                                        <BotRow>
-                                            {
-                                                row3.map((data, index) => {
-                                                    return (
-                                                        <BotItem>
-                                                            <BotItemTitle>{data.title}</BotItemTitle>
-                                                            <BotItemNum fall={data.fall}>{data.num}</BotItemNum>
-                                                        </BotItem>
-                                                    )
-                                                })
-                                            }
-                                        </BotRow>
-                                    </LeftBot>
-                                </MovingLeft >
-                                <MovingRight>
-                                    <RightTop>
-                                        <TopCol textalign={'right'}>
-                                            {
-                                                mockedRightRow1.map((data, index) => {
-                                                    return (
-                                                        <ColNum>{data}</ColNum>
-                                                    )
-                                                })
-                                            }
-                                        </TopCol>
-                                        <TopCol textalign={'right'}>
-                                            {
-                                                mockedRightRow2.map((data, index) => {
-                                                    return (
-                                                        <ColNum>{data}</ColNum>
-                                                    )
-                                                })
-                                            }
-                                        </TopCol>
-                                        <TopCol textalign={'left'}>
-                                            {
-                                                mockedRightRow3.map((data, index) => {
-                                                    return (
-                                                        <ColNum>{data}</ColNum>
-                                                    )
-                                                })
-                                            }
-                                        </TopCol>
-                                        <TopCol textalign={'left'}>
-                                            {
-                                                mockedRightRow4.map((data, index) => {
-                                                    return (
-                                                        <ColNum>{data}</ColNum>
-                                                    )
-                                                })
-                                            }
-                                        </TopCol>
-                                        <RightTopTotal>
-                                            <ColNum>63.03</ColNum>
-                                            <ChipImg url={mockedmoving} height={'100'} />
-                                            <ColNum>31.16</ColNum>
-                                        </RightTopTotal>
-                                    </RightTop>
-                                    <RightBot>
-                                        <ChipImg url={movingstock2} height={'100'} width={'100'} />
-                                    </RightBot>
-                                </MovingRight>
-                            </MovingContainer >
-                        </StyledInfoContainer >
-                        <StyledInfoContainer id='basic'>
-                            <FundImgContainer>
-                                <FundImgBorder>
-                                    柱狀圖一
-                                    <Img url={stock2} />
-                                </FundImgBorder>
-                                <FundImgBorder>柱狀圖一</FundImgBorder>
-                                <FundImgBorder>柱狀圖一</FundImgBorder>
-                                <FundImgBorder>柱狀圖一</FundImgBorder>
-                                <FundImgBorder>柱狀圖一</FundImgBorder>
-                                <FundImgBorder>柱狀圖一</FundImgBorder>
-                            </FundImgContainer>
-                            <FundTableContainer>
-                                <StockInoTable />
-                            </FundTableContainer>
-                        </StyledInfoContainer>
-                        <StyledInfoContainer id='tech'>
-                            <TechContainer>
-                                <TechNav>
-                                    <TechMainH4>2021/07/02 開: 605.00 高: 607.00 低: 601.00 收: 604.00 量: 4000 ⬇️5.00</TechMainH4>
-                                    <TechNavRight>
-                                        <TechDropSelect>
-                                            <DropSelect>
-                                                <TechDropOption>1分鐘</TechDropOption>
-                                                <TechDropOption>5分鐘</TechDropOption>
-                                                <TechDropOption>10分鐘</TechDropOption>
-                                                <TechDropOption>15分鐘</TechDropOption>
-                                                <TechDropOption>30分鐘</TechDropOption>
-                                                <TechDropOption>60分鐘</TechDropOption>
-                                                <TechDropOption>日線</TechDropOption>
-                                                <TechDropOption>週線</TechDropOption>
-                                                <TechDropOption>月線</TechDropOption>
-                                            </DropSelect>
-                                        </TechDropSelect>
-                                        <NavButton>
-                                            <TechMainTitle>關閉隔線</TechMainTitle>
-                                        </NavButton>
-                                        <NavButton>
-                                            <TechMainTitle>重新整理</TechMainTitle>
-                                        </NavButton>
-                                    </TechNavRight>
-                                </TechNav>
-                                <TechMainContainer height={'40'}>
-                                    <TechMainLeft>
-                                        <TechMainTitleContainer>
-                                            <TechMainTitle>K線</TechMainTitle>
-                                            <TechMainH4>MA5: 26.01</TechMainH4>
-                                            <TechMainH4>MA100: 26.01</TechMainH4>
-                                            <TechMainH4>MA: 26.01</TechMainH4>
-                                        </TechMainTitleContainer>
-                                    </TechMainLeft>
-                                    <TechMainMid height={'88'}>
-                                        <ChipImg url={techmid} width={'100'} height={'100'} />
-                                    </TechMainMid>
-                                    <TechMainRight>
-                                        <TechMainH4 textAlign={'right'}>
-                                            35.55
-                                        </TechMainH4>
-                                        <TechMainH4 textAlign={'right'}>
-                                            35.55
-                                        </TechMainH4>
-                                        <TechMainH4 textAlign={'right'}>
-                                            35.55
-                                        </TechMainH4>
-                                        <TechMainH4 textAlign={'right'}>
-                                            35.55
-                                        </TechMainH4>
-                                    </TechMainRight>
-                                    <TechMainDate>
-                                        <TechMainH4>2021/02</TechMainH4>
-                                        <TechMainH4>2021/02</TechMainH4>
-                                        <TechMainH4>2021/02</TechMainH4>
-                                        <TechMainH4>2021/02</TechMainH4>
-                                    </TechMainDate>
-                                </TechMainContainer>
-                                <TechMainContainer>
-                                    <TechMainLeft>
-                                        <TechMainTitleContainer>
-                                            <TechMainTitle>成交量</TechMainTitle>
-                                            <TechMainH4>MA5: 26.01</TechMainH4>
-                                            <TechMainH4>MA100: 26.01</TechMainH4>
-                                            <TechMainH4>MA: 26.01</TechMainH4>
-                                        </TechMainTitleContainer>
-                                    </TechMainLeft>
-                                    <TechMainMid>
-                                        <ChipImg url={techmid1} width={'100'} height={'100'} />
-                                    </TechMainMid>
-                                    <TechMainRight height={'100'}>
-                                        <TechMainH4 textAlign={'right'}>
-                                            35.55
-                                        </TechMainH4>
-                                        <TechMainH4 textAlign={'right'}>
-                                            35.55
-                                        </TechMainH4>
-                                        <TechMainH4 textAlign={'right'}>
-                                            35.55
-                                        </TechMainH4>
-                                        <TechMainH4 textAlign={'right'}>
-                                            35.55
-                                        </TechMainH4>
-                                    </TechMainRight>
-                                </TechMainContainer>
-                                <TechMainContainer>
-                                    <TechMainLeft>
-                                        <TechMainTitleContainer>
-                                            <TechMainTitle>KDJ</TechMainTitle>
-                                            <TechMainH4>MA5: 26.01</TechMainH4>
-                                            <TechMainH4>MA100: 26.01</TechMainH4>
-                                            <TechMainH4>MA: 26.01</TechMainH4>
-                                        </TechMainTitleContainer>
-                                    </TechMainLeft>
-                                    <TechMainMid>
-                                        <ChipImg url={techmid2} width={'100'} height={'100'} />
-                                    </TechMainMid>
-                                    <TechMainRight height={'100'}>
-                                        <TechMainH4 textAlign={'right'}>
-                                            35.55
-                                        </TechMainH4>
-                                        <TechMainH4 textAlign={'right'}>
-                                            35.55
-                                        </TechMainH4>
-                                        <TechMainH4 textAlign={'right'}>
-                                            35.55
-                                        </TechMainH4>
-                                        <TechMainH4 textAlign={'right'}>
-                                            35.55
-                                        </TechMainH4>
-                                    </TechMainRight>
-                                </TechMainContainer>
-                            </TechContainer>
-                        </StyledInfoContainer>
-                        <StyledInfoContainer id='chip'>
-                            <ChipContainer>
-                                <ChipLeft>
-                                    <ChipTitle>三大法人 融資融券</ChipTitle>
-                                    <ChipLeftTop>
-                                        <ChipImg width={'100'} height={'100'} url={chip} />
-                                    </ChipLeftTop>
-                                    <ChipLeftBot>
-                                        <ChipTable height={'0'}>
-                                            <thead>
-                                                <ChipHeadTr>
-                                                    <ChipTh textalign={'left'}>日期</ChipTh>
-                                                    <ChipTh color={'#1889D0'}>外資</ChipTh>
-                                                    <ChipTh color={'#E34E40'}>投信</ChipTh>
-                                                    <ChipTh color={'#7B4EA4'}>自營商</ChipTh>
-                                                    <ChipTh>法人合計</ChipTh>
-                                                    <ChipTh color={'greenyellow'}>融資</ChipTh>
-                                                    <ChipTh color={'pink'}>融券</ChipTh>
-                                                    <ChipTh>資券相抵</ChipTh>
-                                                    <ChipTh color={'#FEB805'}>股價</ChipTh>
-                                                </ChipHeadTr>
-                                            </thead>
-                                            <tbody>
+                        <SidebarLayout>
+                            <StyledInfoContainer id='move'>
+                                <MovingContainer>
+                                    <MovingLeft>
+                                        <LeftTop>
+                                            <ChipImg url={movingstock1} height={'100'} width={'100'} />
+                                        </LeftTop>
+                                        <LeftBot>
+                                            <BotRow>
                                                 {
-                                                    chipbot.map((data, index) => {
+                                                    row1.map((data, index) => {
                                                         return (
-                                                            <ChipBodytr>
-                                                                <ChipTd textalign={'left'}>{data.date}</ChipTd>
-                                                                <ChipTd>{data.foreign}</ChipTd>
-                                                                <ChipTd>{data.security}</ChipTd>
-                                                                <ChipTd>{data.selfEmployed}</ChipTd>
-                                                                <ChipTd>{data.total}</ChipTd>
-                                                                <ChipTd>{data.financing}</ChipTd>
-                                                                <ChipTd>{data.securityLend}</ChipTd>
-                                                                <ChipTd>{data.total2}</ChipTd>
-                                                                <ChipTd>{data.price}</ChipTd>
-                                                            </ChipBodytr>
+                                                            <BotItem>
+                                                                <BotItemTitle>{data.title}</BotItemTitle>
+                                                                <BotItemNum fall={data.fall}>{data.num}</BotItemNum>
+                                                            </BotItem>
                                                         )
                                                     })
                                                 }
-                                            </tbody>
-                                        </ChipTable>
-                                    </ChipLeftBot>
-                                </ChipLeft>
-                                <ChipRight>
-                                    <ChipTitle>籌碼分布</ChipTitle>
-                                    <ChipRightTop>
-                                        <ChipImg url={chiprighttop} />
-                                        <ChipTable margintop={'0'} height={'0'}>
-                                            <thead>
-                                                <ChipHeadTr>
-                                                    <ChipTh textalign={'left'}>項目</ChipTh>
-                                                    <ChipTh>持股張數</ChipTh>
-                                                    <ChipTh>持股比例</ChipTh>
-                                                </ChipHeadTr>
-                                            </thead>
-                                            <tbody>
+                                            </BotRow>
+                                            <BotRow>
                                                 {
-                                                    chipRightTop.map(data => {
+                                                    row2.map((data, index) => {
                                                         return (
-                                                            <ChipBodytr>
-                                                                <ChipTd textalign={'left'}>{data.name}</ChipTd>
-                                                                <ChipTd>{data.hold}</ChipTd>
-                                                                <ChipTd>{data.percent}</ChipTd>
-                                                            </ChipBodytr>
+                                                            <BotItem>
+                                                                <BotItemTitle>{data.title}</BotItemTitle>
+                                                                <BotItemNum fall={data.fall}>{data.num}</BotItemNum>
+                                                            </BotItem>
                                                         )
                                                     })
                                                 }
-                                            </tbody>
-                                        </ChipTable>
-                                    </ChipRightTop>
-                                    <ChipRightBot>
-                                        <ChipTitle margintop={'12'}>15大券商進出</ChipTitle>
-                                        <RightBotNav>
-                                            <DropSelectButton>
+                                            </BotRow>
+                                            <BotRow>
+                                                {
+                                                    row3.map((data, index) => {
+                                                        return (
+                                                            <BotItem>
+                                                                <BotItemTitle>{data.title}</BotItemTitle>
+                                                                <BotItemNum fall={data.fall}>{data.num}</BotItemNum>
+                                                            </BotItem>
+                                                        )
+                                                    })
+                                                }
+                                            </BotRow>
+                                        </LeftBot>
+                                    </MovingLeft >
+                                    <MovingRight>
+                                        <RightTop>
+                                            <TopCol textalign={'right'}>
+                                                {
+                                                    mockedRightRow1.map((data, index) => {
+                                                        return (
+                                                            <ColNum>{data}</ColNum>
+                                                        )
+                                                    })
+                                                }
+                                            </TopCol>
+                                            <TopCol textalign={'right'}>
+                                                {
+                                                    mockedRightRow2.map((data, index) => {
+                                                        return (
+                                                            <ColNum>{data}</ColNum>
+                                                        )
+                                                    })
+                                                }
+                                            </TopCol>
+                                            <TopCol textalign={'left'}>
+                                                {
+                                                    mockedRightRow3.map((data, index) => {
+                                                        return (
+                                                            <ColNum>{data}</ColNum>
+                                                        )
+                                                    })
+                                                }
+                                            </TopCol>
+                                            <TopCol textalign={'left'}>
+                                                {
+                                                    mockedRightRow4.map((data, index) => {
+                                                        return (
+                                                            <ColNum>{data}</ColNum>
+                                                        )
+                                                    })
+                                                }
+                                            </TopCol>
+                                            <RightTopTotal>
+                                                <ColNum>63.03</ColNum>
+                                                <ChipImg url={mockedmoving} height={'100'} />
+                                                <ColNum>31.16</ColNum>
+                                            </RightTopTotal>
+                                        </RightTop>
+                                        <RightBot>
+                                            <ChipImg url={movingstock2} height={'100'} width={'100'} />
+                                        </RightBot>
+                                    </MovingRight>
+                                </MovingContainer >
+                            </StyledInfoContainer >
+                            <StyledInfoContainer id='basic'>
+                                <FundImgContainer>
+                                    <FundImgBorder>
+                                        柱狀圖一
+                                        <Img url={stock2} />
+                                    </FundImgBorder>
+                                    <FundImgBorder>柱狀圖一</FundImgBorder>
+                                    <FundImgBorder>柱狀圖一</FundImgBorder>
+                                    <FundImgBorder>柱狀圖一</FundImgBorder>
+                                    <FundImgBorder>柱狀圖一</FundImgBorder>
+                                    <FundImgBorder>柱狀圖一</FundImgBorder>
+                                </FundImgContainer>
+                                <FundTableContainer>
+                                    <StockInoTable />
+                                </FundTableContainer>
+                            </StyledInfoContainer>
+                            <StyledInfoContainer id='tech'>
+                                <TechContainer>
+                                    <TechNav>
+                                        <TechMainH4>2021/07/02 開: 605.00 高: 607.00 低: 601.00 收: 604.00 量: 4000 ⬇️5.00</TechMainH4>
+                                        <TechNavRight>
+                                            <TechDropSelect>
                                                 <DropSelect>
-                                                    <option>近日</option>
-                                                    <option>5日</option>
-                                                    <option>10日</option>
-                                                    <option>30日</option>
+                                                    <TechDropOption>1分鐘</TechDropOption>
+                                                    <TechDropOption>5分鐘</TechDropOption>
+                                                    <TechDropOption>10分鐘</TechDropOption>
+                                                    <TechDropOption>15分鐘</TechDropOption>
+                                                    <TechDropOption>30分鐘</TechDropOption>
+                                                    <TechDropOption>60分鐘</TechDropOption>
+                                                    <TechDropOption>日線</TechDropOption>
+                                                    <TechDropOption>週線</TechDropOption>
+                                                    <TechDropOption>月線</TechDropOption>
                                                 </DropSelect>
-                                            </DropSelectButton>
-                                            <RightBotRadio>
-                                                <RadioInput type='radio' id='buy' />
-                                                <RadioLabel for="buy">買超券商</RadioLabel>
-                                                <RadioInput type='radio' id='sell' />
-                                                <RadioLabel for='sell'>賣超券商</RadioLabel>
-                                            </RightBotRadio>
-                                        </RightBotNav>
-                                        <ChipTable margintop={'0'} height={'0'}>
-                                            <thead>
-                                                <ChipHeadTr>
-                                                    <ChipTh textalign={'left'}>券商</ChipTh>
-                                                    <ChipTh>買進</ChipTh>
-                                                    <ChipTh>賣出</ChipTh>
-                                                    <ChipTh>買賣超</ChipTh>
-                                                    <ChipTh>成交比例</ChipTh>
-                                                </ChipHeadTr>
-                                            </thead>
-                                            <tbody>
-                                                {
-                                                    chipRightBot.map(data => {
-                                                        return (
-                                                            <ChipBodytr>
-                                                                <ChipTd textalign={'left'}>{data.name}</ChipTd>
-                                                                <ChipTd>{data.buy}</ChipTd>
-                                                                <ChipTd>{data.sell}</ChipTd>
-                                                                <ChipTd>{data.total}</ChipTd>
-                                                                <ChipTd>{data.percent}</ChipTd>
-                                                            </ChipBodytr>
-                                                        )
-                                                    })
-                                                }
-                                            </tbody>
-                                        </ChipTable>
-                                    </ChipRightBot>
-                                </ChipRight>
-                            </ChipContainer>
-                        </StyledInfoContainer>
-                        <StyledInfoContainer id='news'>
-                            <NewsContainer>
-                                <NewsSection translate={'50px, -68px'}>
-                                    <NewsTitle>Ipsum mollit id nostrud deserunt deserunt Lorem fugiat ad Lorem.    <NewsDate>2021/6/25</NewsDate></NewsTitle>
-                                    <News>Excepteur voluptate elit reprehenderit minim velit laborum ullamco Lorem est. Elit proident occaecat cupidatat reprehenderit id excepteur labore anim eu ex sit enim eiusmod elit. Nulla elit irure reprehenderit cupidatat nisi nulla exercitation aliquip. Pariatur sunt tempor tempor exercitation duis et veniam minim fugiat. Non reprehenderit dolor consectetur mollit voluptate. Voluptate ea quis magna ex exercitation nulla.</News>
-                                    <NewsTitle>Ipsum mollit id nostrud deserunt deserunt Lorem fugiat ad Lorem.    <NewsDate>2021/6/25</NewsDate></NewsTitle>
-                                    <News>Excepteur voluptate elit reprehenderit minim velit laborum ullamco Lorem est. Elit proident occaecat cupidatat reprehenderit id excepteur labore anim eu ex sit enim eiusmod elit. Nulla elit irure reprehenderit cupidatat nisi nulla exercitation aliquip. Pariatur sunt tempor tempor exercitation duis et veniam minim fugiat. Non reprehenderit dolor consectetur mollit voluptate. Voluptate ea quis magna ex exercitation nulla.</News>
-                                    <NewsTitle>Ipsum mollit id nostrud deserunt deserunt Lorem fugiat ad Lorem.    <NewsDate>2021/6/25</NewsDate></NewsTitle>
-                                    <News>Excepteur voluptate elit reprehenderit minim velit laborum ullamco Lorem est. Elit proident occaecat cupidatat reprehenderit id excepteur labore anim eu ex sit enim eiusmod elit. Nulla elit irure reprehenderit cupidatat nisi nulla exercitation aliquip. Pariatur sunt tempor tempor exercitation duis et veniam minim fugiat. Non reprehenderit dolor consectetur mollit voluptate. Voluptate ea quis magna ex exercitation nulla.</News>
-                                    <NewsTitle>Ipsum mollit id nostrud deserunt deserunt Lorem fugiat ad Lorem.    <NewsDate>2021/6/25</NewsDate></NewsTitle>
-                                    <News>Excepteur voluptate elit reprehenderit minim velit laborum ullamco Lorem est. Elit proident occaecat cupidatat reprehenderit id excepteur labore anim eu ex sit enim eiusmod elit. Nulla elit irure reprehenderit cupidatat nisi nulla exercitation aliquip. Pariatur sunt tempor tempor exercitation duis et veniam minim fugiat. Non reprehenderit dolor consectetur mollit voluptate. Voluptate ea quis magna ex exercitation nulla.</News>
-                                </NewsSection>
-                                <NewsSection translate={'-36px, 68px'}>
-                                    <NewsTitle>Ipsum mollit id nostrud deserunt deserunt Lorem fugiat ad Lorem.    <NewsDate>2021/6/25</NewsDate></NewsTitle>
-                                    <News>Excepteur voluptate elit reprehenderit minim velit laborum ullamco Lorem est. Elit proident occaecat cupidatat reprehenderit id excepteur labore anim eu ex sit enim eiusmod elit. Nulla elit irure reprehenderit cupidatat nisi nulla exercitation aliquip. Pariatur sunt tempor tempor exercitation duis et veniam minim fugiat. Non reprehenderit dolor consectetur mollit voluptate. Voluptate ea quis magna ex exercitation nulla.</News>
-                                    <NewsTitle>Ipsum mollit id nostrud deserunt deserunt Lorem fugiat ad Lorem.    <NewsDate>2021/6/25</NewsDate></NewsTitle>
-                                    <News>Excepteur voluptate elit reprehenderit minim velit laborum ullamco Lorem est. Elit proident occaecat cupidatat reprehenderit id excepteur labore anim eu ex sit enim eiusmod elit. Nulla elit irure reprehenderit cupidatat nisi nulla exercitation aliquip. Pariatur sunt tempor tempor exercitation duis et veniam minim fugiat. Non reprehenderit dolor consectetur mollit voluptate. Voluptate ea quis magna ex exercitation nulla.</News>
-                                    <NewsTitle>Ipsum mollit id nostrud deserunt deserunt Lorem fugiat ad Lorem.    <NewsDate>2021/6/25</NewsDate></NewsTitle>
-                                    <News>Excepteur voluptate elit reprehenderit minim velit laborum ullamco Lorem est. Elit proident occaecat cupidatat reprehenderit id excepteur labore anim eu ex sit enim eiusmod elit. Nulla elit irure reprehenderit cupidatat nisi nulla exercitation aliquip. Pariatur sunt tempor tempor exercitation duis et veniam minim fugiat. Non reprehenderit dolor consectetur mollit voluptate. Voluptate ea quis magna ex exercitation nulla.</News>
-                                    <NewsTitle>Ipsum mollit id nostrud deserunt deserunt Lorem fugiat ad Lorem.    <NewsDate>2021/6/25</NewsDate></NewsTitle>
-                                    <News>Excepteur voluptate elit reprehenderit minim velit laborum ullamco Lorem est. Elit proident occaecat cupidatat reprehenderit id excepteur labore anim eu ex sit enim eiusmod elit. Nulla elit irure reprehenderit cupidatat nisi nulla exercitation aliquip. Pariatur sunt tempor tempor exercitation duis et veniam minim fugiat. Non reprehenderit dolor consectetur mollit voluptate. Voluptate ea quis magna ex exercitation nulla.</News>
-                                </NewsSection>
-                            </NewsContainer>
-                        </StyledInfoContainer>
-                        this is stock info page
-                    </SidebarLayout >
+                                            </TechDropSelect>
+                                            <NavButton>
+                                                <TechMainTitle>關閉隔線</TechMainTitle>
+                                            </NavButton>
+                                            <NavButton>
+                                                <TechMainTitle>重新整理</TechMainTitle>
+                                            </NavButton>
+                                        </TechNavRight>
+                                    </TechNav>
+                                    <TechMainContainer height={'40'}>
+                                        <TechMainLeft>
+                                            <TechMainTitleContainer>
+                                                <TechMainTitle>K線</TechMainTitle>
+                                                <TechMainH4>MA5: 26.01</TechMainH4>
+                                                <TechMainH4>MA100: 26.01</TechMainH4>
+                                                <TechMainH4>MA: 26.01</TechMainH4>
+                                            </TechMainTitleContainer>
+                                        </TechMainLeft>
+                                        <TechMainMid height={'88'}>
+                                            <ChipImg url={techmid} width={'100'} height={'100'} />
+                                        </TechMainMid>
+                                        <TechMainRight>
+                                            <TechMainH4 textAlign={'right'}>
+                                                35.55
+                                            </TechMainH4>
+                                            <TechMainH4 textAlign={'right'}>
+                                                35.55
+                                            </TechMainH4>
+                                            <TechMainH4 textAlign={'right'}>
+                                                35.55
+                                            </TechMainH4>
+                                            <TechMainH4 textAlign={'right'}>
+                                                35.55
+                                            </TechMainH4>
+                                        </TechMainRight>
+                                        <TechMainDate>
+                                            <TechMainH4>2021/02</TechMainH4>
+                                            <TechMainH4>2021/02</TechMainH4>
+                                            <TechMainH4>2021/02</TechMainH4>
+                                            <TechMainH4>2021/02</TechMainH4>
+                                        </TechMainDate>
+                                    </TechMainContainer>
+                                    <TechMainContainer>
+                                        <TechMainLeft>
+                                            <TechMainTitleContainer>
+                                                <TechMainTitle>成交量</TechMainTitle>
+                                                <TechMainH4>MA5: 26.01</TechMainH4>
+                                                <TechMainH4>MA100: 26.01</TechMainH4>
+                                                <TechMainH4>MA: 26.01</TechMainH4>
+                                            </TechMainTitleContainer>
+                                        </TechMainLeft>
+                                        <TechMainMid>
+                                            <ChipImg url={techmid1} width={'100'} height={'100'} />
+                                        </TechMainMid>
+                                        <TechMainRight height={'100'}>
+                                            <TechMainH4 textAlign={'right'}>
+                                                35.55
+                                            </TechMainH4>
+                                            <TechMainH4 textAlign={'right'}>
+                                                35.55
+                                            </TechMainH4>
+                                            <TechMainH4 textAlign={'right'}>
+                                                35.55
+                                            </TechMainH4>
+                                            <TechMainH4 textAlign={'right'}>
+                                                35.55
+                                            </TechMainH4>
+                                        </TechMainRight>
+                                    </TechMainContainer>
+                                    <TechMainContainer>
+                                        <TechMainLeft>
+                                            <TechMainTitleContainer>
+                                                <TechMainTitle>KDJ</TechMainTitle>
+                                                <TechMainH4>MA5: 26.01</TechMainH4>
+                                                <TechMainH4>MA100: 26.01</TechMainH4>
+                                                <TechMainH4>MA: 26.01</TechMainH4>
+                                            </TechMainTitleContainer>
+                                        </TechMainLeft>
+                                        <TechMainMid>
+                                            <ChipImg url={techmid2} width={'100'} height={'100'} />
+                                        </TechMainMid>
+                                        <TechMainRight height={'100'}>
+                                            <TechMainH4 textAlign={'right'}>
+                                                35.55
+                                            </TechMainH4>
+                                            <TechMainH4 textAlign={'right'}>
+                                                35.55
+                                            </TechMainH4>
+                                            <TechMainH4 textAlign={'right'}>
+                                                35.55
+                                            </TechMainH4>
+                                            <TechMainH4 textAlign={'right'}>
+                                                35.55
+                                            </TechMainH4>
+                                        </TechMainRight>
+                                    </TechMainContainer>
+                                </TechContainer>
+                            </StyledInfoContainer>
+                            <StyledInfoContainer id='chip'>
+                                <ChipContainer>
+                                    <ChipLeft>
+                                        <ChipTitle>三大法人 融資融券</ChipTitle>
+                                        <ChipLeftTop>
+                                            <ChipImg width={'100'} height={'100'} url={chip} />
+                                        </ChipLeftTop>
+                                        <ChipLeftBot>
+                                            <ChipTable height={'0'}>
+                                                <thead>
+                                                    <ChipHeadTr>
+                                                        <ChipTh textalign={'left'}>日期</ChipTh>
+                                                        <ChipTh color={'#1889D0'}>外資</ChipTh>
+                                                        <ChipTh color={'#E34E40'}>投信</ChipTh>
+                                                        <ChipTh color={'#7B4EA4'}>自營商</ChipTh>
+                                                        <ChipTh>法人合計</ChipTh>
+                                                        <ChipTh color={'greenyellow'}>融資</ChipTh>
+                                                        <ChipTh color={'pink'}>融券</ChipTh>
+                                                        <ChipTh>資券相抵</ChipTh>
+                                                        <ChipTh color={'#FEB805'}>股價</ChipTh>
+                                                    </ChipHeadTr>
+                                                </thead>
+                                                <tbody>
+                                                    {
+                                                        chipbot.map((data, index) => {
+                                                            return (
+                                                                <ChipBodytr>
+                                                                    <ChipTd textalign={'left'}>{data.date}</ChipTd>
+                                                                    <ChipTd>{data.foreign}</ChipTd>
+                                                                    <ChipTd>{data.security}</ChipTd>
+                                                                    <ChipTd>{data.selfEmployed}</ChipTd>
+                                                                    <ChipTd>{data.total}</ChipTd>
+                                                                    <ChipTd>{data.financing}</ChipTd>
+                                                                    <ChipTd>{data.securityLend}</ChipTd>
+                                                                    <ChipTd>{data.total2}</ChipTd>
+                                                                    <ChipTd>{data.price}</ChipTd>
+                                                                </ChipBodytr>
+                                                            )
+                                                        })
+                                                    }
+                                                </tbody>
+                                            </ChipTable>
+                                        </ChipLeftBot>
+                                    </ChipLeft>
+                                    <ChipRight>
+                                        <ChipTitle>籌碼分布</ChipTitle>
+                                        <ChipRightTop>
+                                            <ChipImg url={chiprighttop} />
+                                            <ChipTable margintop={'0'} height={'0'}>
+                                                <thead>
+                                                    <ChipHeadTr>
+                                                        <ChipTh textalign={'left'}>項目</ChipTh>
+                                                        <ChipTh>持股張數</ChipTh>
+                                                        <ChipTh>持股比例</ChipTh>
+                                                    </ChipHeadTr>
+                                                </thead>
+                                                <tbody>
+                                                    {
+                                                        chipRightTop.map(data => {
+                                                            return (
+                                                                <ChipBodytr>
+                                                                    <ChipTd textalign={'left'}>{data.name}</ChipTd>
+                                                                    <ChipTd>{data.hold}</ChipTd>
+                                                                    <ChipTd>{data.percent}</ChipTd>
+                                                                </ChipBodytr>
+                                                            )
+                                                        })
+                                                    }
+                                                </tbody>
+                                            </ChipTable>
+                                        </ChipRightTop>
+                                        <ChipRightBot>
+                                            <ChipTitle margintop={'12'}>15大券商進出</ChipTitle>
+                                            <RightBotNav>
+                                                <DropSelectButton>
+                                                    <DropSelect>
+                                                        <option>近日</option>
+                                                        <option>5日</option>
+                                                        <option>10日</option>
+                                                        <option>30日</option>
+                                                    </DropSelect>
+                                                </DropSelectButton>
+                                                <RightBotRadio>
+                                                    <RadioInput type='radio' id='buy' />
+                                                    <RadioLabel for="buy">買超券商</RadioLabel>
+                                                    <RadioInput type='radio' id='sell' />
+                                                    <RadioLabel for='sell'>賣超券商</RadioLabel>
+                                                </RightBotRadio>
+                                            </RightBotNav>
+                                            <ChipTable margintop={'0'} height={'0'}>
+                                                <thead>
+                                                    <ChipHeadTr>
+                                                        <ChipTh textalign={'left'}>券商</ChipTh>
+                                                        <ChipTh>買進</ChipTh>
+                                                        <ChipTh>賣出</ChipTh>
+                                                        <ChipTh>買賣超</ChipTh>
+                                                        <ChipTh>成交比例</ChipTh>
+                                                    </ChipHeadTr>
+                                                </thead>
+                                                <tbody>
+                                                    {
+                                                        chipRightBot.map(data => {
+                                                            return (
+                                                                <ChipBodytr>
+                                                                    <ChipTd textalign={'left'}>{data.name}</ChipTd>
+                                                                    <ChipTd>{data.buy}</ChipTd>
+                                                                    <ChipTd>{data.sell}</ChipTd>
+                                                                    <ChipTd>{data.total}</ChipTd>
+                                                                    <ChipTd>{data.percent}</ChipTd>
+                                                                </ChipBodytr>
+                                                            )
+                                                        })
+                                                    }
+                                                </tbody>
+                                            </ChipTable>
+                                        </ChipRightBot>
+                                    </ChipRight>
+                                </ChipContainer>
+                            </StyledInfoContainer>
+                            <StyledInfoContainer id='news'>
+                                <NewsContainer>
+                                    <NewsSection translate={'50px, -68px'}>
+                                        <NewsTitle>Ipsum mollit id nostrud deserunt deserunt Lorem fugiat ad Lorem.    <NewsDate>2021/6/25</NewsDate></NewsTitle>
+                                        <News>Excepteur voluptate elit reprehenderit minim velit laborum ullamco Lorem est. Elit proident occaecat cupidatat reprehenderit id excepteur labore anim eu ex sit enim eiusmod elit. Nulla elit irure reprehenderit cupidatat nisi nulla exercitation aliquip. Pariatur sunt tempor tempor exercitation duis et veniam minim fugiat. Non reprehenderit dolor consectetur mollit voluptate. Voluptate ea quis magna ex exercitation nulla.</News>
+                                        <NewsTitle>Ipsum mollit id nostrud deserunt deserunt Lorem fugiat ad Lorem.    <NewsDate>2021/6/25</NewsDate></NewsTitle>
+                                        <News>Excepteur voluptate elit reprehenderit minim velit laborum ullamco Lorem est. Elit proident occaecat cupidatat reprehenderit id excepteur labore anim eu ex sit enim eiusmod elit. Nulla elit irure reprehenderit cupidatat nisi nulla exercitation aliquip. Pariatur sunt tempor tempor exercitation duis et veniam minim fugiat. Non reprehenderit dolor consectetur mollit voluptate. Voluptate ea quis magna ex exercitation nulla.</News>
+                                        <NewsTitle>Ipsum mollit id nostrud deserunt deserunt Lorem fugiat ad Lorem.    <NewsDate>2021/6/25</NewsDate></NewsTitle>
+                                        <News>Excepteur voluptate elit reprehenderit minim velit laborum ullamco Lorem est. Elit proident occaecat cupidatat reprehenderit id excepteur labore anim eu ex sit enim eiusmod elit. Nulla elit irure reprehenderit cupidatat nisi nulla exercitation aliquip. Pariatur sunt tempor tempor exercitation duis et veniam minim fugiat. Non reprehenderit dolor consectetur mollit voluptate. Voluptate ea quis magna ex exercitation nulla.</News>
+                                        <NewsTitle>Ipsum mollit id nostrud deserunt deserunt Lorem fugiat ad Lorem.    <NewsDate>2021/6/25</NewsDate></NewsTitle>
+                                        <News>Excepteur voluptate elit reprehenderit minim velit laborum ullamco Lorem est. Elit proident occaecat cupidatat reprehenderit id excepteur labore anim eu ex sit enim eiusmod elit. Nulla elit irure reprehenderit cupidatat nisi nulla exercitation aliquip. Pariatur sunt tempor tempor exercitation duis et veniam minim fugiat. Non reprehenderit dolor consectetur mollit voluptate. Voluptate ea quis magna ex exercitation nulla.</News>
+                                    </NewsSection>
+                                    <NewsSection translate={'-36px, 68px'}>
+                                        <NewsTitle>Ipsum mollit id nostrud deserunt deserunt Lorem fugiat ad Lorem.    <NewsDate>2021/6/25</NewsDate></NewsTitle>
+                                        <News>Excepteur voluptate elit reprehenderit minim velit laborum ullamco Lorem est. Elit proident occaecat cupidatat reprehenderit id excepteur labore anim eu ex sit enim eiusmod elit. Nulla elit irure reprehenderit cupidatat nisi nulla exercitation aliquip. Pariatur sunt tempor tempor exercitation duis et veniam minim fugiat. Non reprehenderit dolor consectetur mollit voluptate. Voluptate ea quis magna ex exercitation nulla.</News>
+                                        <NewsTitle>Ipsum mollit id nostrud deserunt deserunt Lorem fugiat ad Lorem.    <NewsDate>2021/6/25</NewsDate></NewsTitle>
+                                        <News>Excepteur voluptate elit reprehenderit minim velit laborum ullamco Lorem est. Elit proident occaecat cupidatat reprehenderit id excepteur labore anim eu ex sit enim eiusmod elit. Nulla elit irure reprehenderit cupidatat nisi nulla exercitation aliquip. Pariatur sunt tempor tempor exercitation duis et veniam minim fugiat. Non reprehenderit dolor consectetur mollit voluptate. Voluptate ea quis magna ex exercitation nulla.</News>
+                                        <NewsTitle>Ipsum mollit id nostrud deserunt deserunt Lorem fugiat ad Lorem.    <NewsDate>2021/6/25</NewsDate></NewsTitle>
+                                        <News>Excepteur voluptate elit reprehenderit minim velit laborum ullamco Lorem est. Elit proident occaecat cupidatat reprehenderit id excepteur labore anim eu ex sit enim eiusmod elit. Nulla elit irure reprehenderit cupidatat nisi nulla exercitation aliquip. Pariatur sunt tempor tempor exercitation duis et veniam minim fugiat. Non reprehenderit dolor consectetur mollit voluptate. Voluptate ea quis magna ex exercitation nulla.</News>
+                                        <NewsTitle>Ipsum mollit id nostrud deserunt deserunt Lorem fugiat ad Lorem.    <NewsDate>2021/6/25</NewsDate></NewsTitle>
+                                        <News>Excepteur voluptate elit reprehenderit minim velit laborum ullamco Lorem est. Elit proident occaecat cupidatat reprehenderit id excepteur labore anim eu ex sit enim eiusmod elit. Nulla elit irure reprehenderit cupidatat nisi nulla exercitation aliquip. Pariatur sunt tempor tempor exercitation duis et veniam minim fugiat. Non reprehenderit dolor consectetur mollit voluptate. Voluptate ea quis magna ex exercitation nulla.</News>
+                                    </NewsSection>
+                                </NewsContainer>
+                            </StyledInfoContainer>
+                            this is stock info page
+                        </SidebarLayout >
                 )
             }
+            
         </>
     )
 };

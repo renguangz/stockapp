@@ -45,6 +45,8 @@ const Search = ({ searchRedux, fetchIdName, clickSearch }) => {
     }
     const handleClick = (m) => {
         clickSearch(m)
+        Storage.setData('stock_id_and_name', m)
+        Storage.setData('notSearch', false)
         setSearch('')
     }
     const DisplayMatches = () => {
@@ -65,17 +67,18 @@ const Search = ({ searchRedux, fetchIdName, clickSearch }) => {
             </>
         )
     }
-    const [sidebarDisplay, setSidebarDisplay] = useState(searchList[1])
 
     const handleSubmit = (e) => {
+        const matchArray = filtered(searchList, search)
         e.preventDefault();
         if (search === '') {
             return null
         } else {
-            setSidebarDisplay(filtered(searchList, search)[0])
+            clickSearch(matchArray[0])
         }
+        Storage.setData('stock_id_and_name', matchArray[0])
+        Storage.setData('notSearch', false)
         setSearch('');
-        clickSearch(sidebarDisplay)
     }
 
     return (

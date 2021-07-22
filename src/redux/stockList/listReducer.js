@@ -1,15 +1,13 @@
 const initialState = {
     loading: true,
-    key: '',
     stockid: [],
-    stockname: [],
+    error: '',
     basic: [],
     cash: '',
     own: ''
 }
 
 const listReducer = (state = initialState, action) => {
-    console.log(state, action)
     switch (action.type) {
         case 'FETCH_LIST_REQUEST':
             return {
@@ -29,11 +27,17 @@ const listReducer = (state = initialState, action) => {
                 loading: false,
                 stockid: action.payload
             }
-        case 'FETCH_LIST_STOCK':
+        case 'FETCH_LIST_STOCK_SUCCESS':
             return {
                 ...state,
                 loading: false,
                 stockid: action.payload
+            }
+        case 'FETCH_LIST_STOCK_FAIL':
+            return {
+                ...state,
+                loading: false,
+                error: action.payload
             }
         default: return state
     }
