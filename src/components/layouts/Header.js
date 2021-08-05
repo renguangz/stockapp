@@ -1,9 +1,7 @@
-import { Menu } from 'antd';
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import Container from '../common/Container';
-import Search1 from '../common/Seach1';
 import Search from '../common/Search';
 
 const StyledHeader = styled.header`
@@ -52,12 +50,12 @@ const Header = () => {
                     <Link to="/stockinfo">
                         <StyledHeaderItem>個股資訊</StyledHeaderItem>
                     </Link>
-                    <Link to="/homecarousel">
+                    {/* <Link to="/homecarousel">
                         <StyledHeaderItem>Others</StyledHeaderItem>
                     </Link>
                     <Link to="/try">
                         <StyledHeaderItem>Not search info</StyledHeaderItem>
-                    </Link>
+                    </Link> */}
                 </StyledHeaderSection>
                 <StyledHeaderSection>
                     <Search />

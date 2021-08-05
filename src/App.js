@@ -12,6 +12,7 @@ import store from './redux/store';
 import HomeBook from './components/pages/HomeBook';
 import HomeCarousel from './components/layouts/HomeCarousel';
 import NotSearchStockInoPage from './components/pages/NotSearchStockInoPage';
+import InfoSearch from './components/common/InfoSearch';
 
 function App() {
   return (
@@ -36,6 +37,9 @@ function App() {
             </Route>
             <Route exact path="/try">
               <NotSearchStockInoPage />
+            </Route>
+            <Route exact path="/search">
+              <InfoSearch />
             </Route>
           </Switch>
         </div>

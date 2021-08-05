@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import DefaultLayout from '../layouts/DefaultLayout';
 import SidebarLayout from '../layouts/SidebarLayout';
 import styled from 'styled-components';
-import { fetchStock, fetchIdName, clickSearch } from '../../redux';
+import { fetchStock, fetchIdName, clickSearch, fetchBasic } from '../../redux';
 import { connect } from 'react-redux';
 import stock2 from '../images/mocked/fundstock.png';
 import mockedmoving from '../images/mocked/mockedmoving.png';
@@ -972,10 +972,10 @@ const NotSearchStockInfoPage = ({ stockinfo, notSearch, searchRedux, clickSearch
 };
 
 const mapStateToProps = state => {
-    // console.log(state.stockInfo.stockinfo)
     return {
         stockinfo: state.stockInfo.stockinfo,
         searchRedux: state.search,
+        basic: state.basic
     }
 }
 
@@ -983,7 +983,8 @@ const mapDispatchToProps = dispatch => {
     return {
         fetchStock: () => dispatch(fetchStock()),
         fetchIdName: () => dispatch(fetchIdName()),
-        clickSearch: (s) => dispatch(clickSearch(s))
+        clickSearch: (s) => dispatch(clickSearch(s)),
+        fetchBasic: (stockid) => dispatch(fetchBasic(stockid))
     }
 }
 

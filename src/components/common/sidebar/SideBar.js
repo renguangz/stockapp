@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { SideBarData } from './SideBarData';
 import './sideBar.css';
 import { connect } from 'react-redux';
-import { fetchIdName } from '../../../redux';
+import { fetchIdName, fetchBasic, fetchBasicError } from '../../../redux';
 import * as Storage from '../../helper/StorageHelper';
 
 const Sidebar = styled.div`
@@ -56,7 +56,7 @@ const SideBarButton = styled.div`
     }
 `;
 
-function SideBar({ search }) {
+function SideBar({ search, fetchBasic, basic }) {
 
     // 拿到只含股票名稱的陣列 ex. ['1101', '1102', '1103', ...]
 
@@ -98,6 +98,10 @@ function SideBar({ search }) {
     // })
 
     const searchStockIdName = Storage.getData('stock_id_and_name')
+    const searchStock = searchStockIdName.split('　')[0]
+    useEffect(() => {
+        fetchBasic(searchStock)
+    }, [searchStock])
 
     return (
         <Sidebar>
@@ -121,12 +125,14 @@ function SideBar({ search }) {
 const mapStateToProps = state => {
     return {
         search: state.search,
+        basic: state.basic,
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        fetchIdName: () => dispatch(fetchIdName())
+        fetchIdName: () => dispatch(fetchIdName()),
+        fetchBasic: (stockid) => dispatch(fetchBasic(stockid)),
     }
 };
 
