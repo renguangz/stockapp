@@ -4,12 +4,14 @@ export const fetchBasicRequest = () => {
     }
 }
 
-export const fetchBasicSuccess = (info) => {
+export const fetchBasicSuccess = (income, balance, cashFlow) => {
     return {
         type: 'FETCH_BASIC_SUCCESS',
         payload: {
-            income: info,
-        },
+            income,
+            balance,
+            cashFlow,
+        }
     }
 }
 
@@ -20,14 +22,30 @@ export const fetchBasicError = error => {
     }
 }
 
-export const fetchBasic = stockid => dispatch => {
+export const fetchBasicIncome = stockid => dispatch => {
     dispatch(fetchBasicRequest)
-    fetch('/income', {
-        method: 'POST',
-        body: JSON.stringify({
-            'table_name': stockid
-        })
-    }).then(res => res.json()).then(data => {
-        dispatch(fetchBasicSuccess(data))
-    }).catch(err => dispatch(fetchBasicError(err)))
 }
+
+export const fetchBasic = stockid => {
+    return async (dispatch) => {
+        const fetchBalance = await fetch('/balance', {
+            method: 'POST',
+            body: JSON.stringify({
+                'table_name': stockid
+            })
+        }).then(res => res.json()).then(data => {
+            return data
+        }).catch(err => dispatch(fetchBasicError(err)))
+        const fetchIncome = await fetch('/income', {
+            method: 'POST',
+            body: JSON.stringify({
+                'table_name': stockid
+            })
+        }).then(res => res.json()).then(data => {
+            return data
+        }).catch(err => dispatch(fetchBasicError(err)))
+        dispatch({ type: 'FETCH_BASIC_SUCCESS', payload: { income: fetchIncome, balance: fetchBalance } })
+    }
+}
+
+// 待解決：fetch 到 payload balance時出現error

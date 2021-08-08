@@ -1,55 +1,61 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import Container from '../common/Container';
-import Search from '../common/Search';
+import { HomeFilled, FileDoneOutlined, SearchOutlined } from '@ant-design/icons';
 
 const StyledHeader = styled.header`
-    /* border: 1px solid black; */
-    background-color: #272821;
+    background-color: ${props => props.bgc || '#272821'};
+    /* background-color: transparent; */
     width: 100vw;
     height: 8vh;
 `;
 
 const StyledHeaderContainer = styled(Container)`
+    /* border: 1px solid white; */
     display: flex;
     justify-content: space-between;
 `;
 
 const StyledHeaderSection = styled.div`
+    /* border: 1px solid yellow; */
     display: flex;
 `;
 
 const StyledHeaderItem = styled.div`
+    /* border: 1px solid pink; */
     padding: 8px;
-    /* border: 1px solid black; */
     height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
     margin-right: 16px;
     font-size: 24px;
+    color: white;
     &:hover {
         /* background-color: #1890ff; */
         color: white;
-        transition: 0.5s;
+        /* transition: 0.5s; */
+        border-bottom: 4px solid white;
+        border-radius: 50%;
+        border-radius: 4px;
     }
 `;
 
-const Header = () => {
+const Header = ({ headerBgc }) => {
     return (
-        <StyledHeader>
+        <StyledHeader bgc={headerBgc}>
             <StyledHeaderContainer>
                 <StyledHeaderSection>
                     <Link to="/">
-                        <StyledHeaderItem>首頁</StyledHeaderItem>
+                        <StyledHeaderItem><HomeFilled style={{ color: 'white', marginRight: '8px' }} />首頁</StyledHeaderItem>
                     </Link>
-                    <Link to="/mylist">
+                    {/* <Link to="/mylist">
                         <StyledHeaderItem>股票清單</StyledHeaderItem>
-                    </Link>
-                    <Link to="/stockinfo">
+                    </Link> */}
+                    {/* <Link to="/stockinfo">
                         <StyledHeaderItem>個股資訊</StyledHeaderItem>
-                    </Link>
+                    </Link> */}
                     {/* <Link to="/homecarousel">
                         <StyledHeaderItem>Others</StyledHeaderItem>
                     </Link>
@@ -58,7 +64,15 @@ const Header = () => {
                     </Link> */}
                 </StyledHeaderSection>
                 <StyledHeaderSection>
-                    <Search />
+                    <Link to="/mylist">
+                        <StyledHeaderItem><FileDoneOutlined style={{ color: 'white', marginRight: '8px' }} />股票清單</StyledHeaderItem>
+                    </Link>
+                    {/* <Link to='/stockinfo'>
+                        <StyledHeaderItem><SolutionOutlined />個股資訊</StyledHeaderItem>
+                    </Link> */}
+                    <Link to='/search'>
+                        <StyledHeaderItem><SearchOutlined style={{ color: 'white', marginRight: '8px' }} />搜尋股票</StyledHeaderItem>
+                    </Link>
                 </StyledHeaderSection>
             </StyledHeaderContainer>
         </StyledHeader>

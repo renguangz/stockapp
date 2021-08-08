@@ -1,6 +1,8 @@
 const initialState = {
     loading: true,
     income: [],
+    balance: [],
+    cashFlow: [],
     error: '',
 }
 
@@ -16,6 +18,8 @@ const basicReducer = (state = initialState, action) => {
                 ...state,
                 loading: false,
                 income: action.payload.income,
+                balance: action.payload.balance,
+                cashFlow: action.payload.cashFlow
             }
         case 'FETCH_BASIC_ERROR':
             return {

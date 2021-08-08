@@ -199,7 +199,6 @@ const StockListPage = ({ searchRedux, stockList, listStock, addStock }) => {
     }, [])
     const DragHandle = sortableHandle(() => <MenuOutlined style={{ cursor: 'grab', color: '#999' }} />);
 
-
     const searchList = searchRedux.id_and_name.map(item => Object.values(item)[0])
     const filtered = (searchList, searchInput) => {
         return searchList.filter(value => {

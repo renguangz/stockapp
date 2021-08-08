@@ -109,6 +109,7 @@ class Balance(object):
     __bind_key__ = 'balance_sheet'
     __table_args__ = {'extend_existing': True}
     id = db.Column('index', db.Integer, primary_key=True)
+    date = db.Column('date', db.String, nullable=False)
     accounts_receivable = db.Column('應收帳款淨額', db.Float, nullable=False)
     accounts_payable = db.Column('應付帳款', db.Float, nullable=False)
     total_liabilities = db.Column('負債總額', db.Float, nullable=False)
@@ -119,6 +120,7 @@ class Balance(object):
 def balance_serializer(balance):
     return {
         'id': balance.id,
+        'date': balance.date,
         'accounts_receivable': balance.accounts_receivable,
         'accounts_payable': balance.accounts_payable,
         'total_liabilities': balance.total_liabilities,
@@ -127,10 +129,11 @@ def balance_serializer(balance):
         'stock_holders_equity': balance.stock_holders_equity
     }
 
-@app.route('/balance', methods=['POST'])
+@app.route('/balance', methods=['POST', 'GET'])
 def balance_display():
-    request_data = json.loads(request.data)
-    n = type('_' + request_data.get('table_name'), (Balance, db.Model), {'__tablename__': '_' + request_data.get('table_name')})
+    if request.method == 'POST':
+        request_data = json.loads(request.data)
+        n = type('balance_' + request_data.get('table_name'), (Balance, db.Model), {'__tablename__': 'balance_' + request_data.get('table_name')})
     read_data = jsonify([*map(balance_serializer, n.query.all())])
     return read_data
 
@@ -164,10 +167,7 @@ def income_display():
         n = type('_' + request_data.get('table_name'), (Income, db.Model), {'__tablename__': '_' + request_data.get('table_name')})
 
     read_data = jsonify([*map(income_serializer, n.query.all())])
-    # read_data = db.session.query(n).all()
-    # return jsonify([*map(income_serializer, read_data)])
     return read_data
-    # return 'ok'
 
 class CashFlow(db.Model):
     __bind_key__ = 'cashFlow_sheet'

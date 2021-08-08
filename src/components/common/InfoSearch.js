@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import DefaultLayout from '../layouts/DefaultLayout';
 import styled from 'styled-components';
 import { SearchOutlined } from '@ant-design/icons';
 import { connect } from 'react-redux';
-import { clickSearch } from '../../redux';
+import { clickSearch, fetchIdName } from '../../redux';
 import * as Storage from '../helper/StorageHelper';
 import { Link } from 'react-router-dom';
 
@@ -30,9 +30,9 @@ const SearchTitle = styled.h2`
 `;
 
 const SearchContainer = styled.div`
-    /* border-bottom: 1px solid white; */
-    width: 44%;
-    width: 60%;
+    border-bottom: 1px solid #2E5E30;
+    width: 52%;
+    /* width: 60%; */
     height: 10%;
     margin: 0 auto;
     border-radius: 4px;
@@ -49,7 +49,7 @@ const SearchContainer = styled.div`
 const SearchInput = styled.input`
     outline: none;
     border: none;
-    border-bottom: 1px solid #2E5E30;
+    /* border-bottom: 1px solid #2E5E30; */
     width: 82.4%;
     height: 100%;
     font-size: 40px;
@@ -61,9 +61,9 @@ const SearchInput = styled.input`
 const SearchButton = styled.button`
     /* border: 1px solid yellow; */
     border: none;
-    height: 100%;
-    width: 40%;
-    border: 4px solid #57955B;
+    height: 52%;
+    width: 32%;
+    border-left: 2px solid #57955B;
     cursor: pointer;
     color: #1890ff;
     color: #fff;
@@ -72,16 +72,20 @@ const SearchButton = styled.button`
     font-weight: 700;
     padding: 12px;
     transition: opacity .2s ease-in-out, color .2s ease-in-out, transform .2s ease-in-out;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     &:hover {
-        color: #25587C;
+        /* color: #25587C; */
+        /* font-size: 40px; */
+        /* 波浪形狀、顏色跑馬 */
     }
 `;
 
 const SearchIcon = styled.div`
-    border-bottom: 1px solid #2E5E30;
+    /* border-bottom: 1px solid #2E5E30; */
     width: 10%;
     height: 100%;
-    padding-left: 12px;
     display: flex;
     align-items: center;
     padding-left: 0;
@@ -121,7 +125,10 @@ const SearchSpan = styled.span`
     font-size: 20px;
 `;
 
-const InfoSearch = ({ searchRedux }) => {
+const InfoSearch = ({ searchRedux, fetchIdName }) => {
+    useEffect(() => {
+        fetchIdName()
+    }, [])
     const [search, setSearch] = useState('')
     const inputSearch = (input) => {
         setSearch(input.target.value)
@@ -179,7 +186,7 @@ const InfoSearch = ({ searchRedux }) => {
                 <SearchContainer>
                     <SearchIcon>
                         <SearchOutlined
-                            style={{ fontSize: '40px', color: 'white', cursor: 'pointer' }}
+                            style={{ fontSize: '40px', color: 'white' }}
                         />
                     </SearchIcon>
                     <SearchInput
@@ -213,6 +220,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         clickSearch: (s) => dispatch(clickSearch(s)),
+        fetchIdName: () => dispatch(fetchIdName()),
     }
 }
 

@@ -43,65 +43,185 @@ const Td = styled.td`
     /* border: 1px solid white; */
 `;
 
-const Col1 = () => {
-    const tableTitle = [
-        '營業收入淨額', '營業成本', '營業利益', '業外收入合計', '稅前淨利', '本期稅後淨利', '每股盈餘(元)', '應收帳款', '存貨',
-        '應付帳款', '負債總額', '固定資產', '長期投資', '折舊', '攤提', '股東權益總額'
-    ]
-    return (
-        <>
-            {
-                tableTitle.map((title, index) => {
-                    return (
-                        <BodyTr key={index}>
-                            <Td start>{title}</Td>
-                        </BodyTr>
-                    )
-                })
-            }
-        </>
-    )
-}
+const TableButtonContainer = styled.div`
+    /* border: 1px solid white; */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+`;
 
-// const TableBasic = ({ basic }) => {
-//     console.log(basic)
-// }
+const ButtonContainer = styled.div`
+    display: flex;
+    border: 2px solid #2A3033;
+    border-radius: 8px;
+`;
 
+const LeftTableButton = styled.div`
+    background-color: #2C3235;
+    font-size: 16px;
+    font-weight: 600;
+    padding: 0 16px;
+    cursor: pointer;
+`;
+
+const RightTableButton = styled.div`
+    font-size: 16px;
+    font-weight: 600;
+    padding: 0 16px;
+    cursor: pointer;
+`;
 
 const StockInoTable = ({ basic }) => {
+    const tableTitle = [
+        '營業收入淨額', '營業成本', '營業利益', '業外收入合計', '稅前淨利', '每股盈餘(元)', '應收帳款',
+        '應付帳款', '負債總額', '資產總額', '固定資產', '股東權益總額', '存貨', '折舊', '攤提'
+    ]
+
     return (
-        <TableContainer>
-            <Thead>
-                <HeadTr>
-                    <Th width={120}>項目(百萬)</Th>
-                    <Th>Q1</Th>
-                    <Th>Q2</Th>
-                    <Th>Q3</Th>
-                    <Th>Q4</Th>
-                    <Th>Q4</Th>
-                    <Th>Q4</Th>
-                    <Th>Q4</Th>
-                </HeadTr>
-            </Thead>
-            <Tbody>
-                <Col1 />
-                {/* {
-                    basic.income.map((data, key) => {
-                        // console.log(data.date)
-                        return (
-                            <BodyTr>
-                                <Td>{data.benefit}</Td>
-                                <Td>{data.benefit_total}</Td>
-                                <Td>{data.cost_total}</Td>
-                                <Td>1</Td>
-                                <Td>2</Td>
-                                <Td>3</Td>
-                            </BodyTr>
-                        )
-                    })
-                } */}
-            </Tbody>
-        </TableContainer>
+        <>
+            <TableButtonContainer>
+                <LeftTableButton>＜上一年</LeftTableButton>
+                <LeftTableButton>下一年＞</LeftTableButton>
+                <ButtonContainer>
+                    <RightTableButton>報表</RightTableButton>
+                    <RightTableButton>指標</RightTableButton>
+                </ButtonContainer>
+            </TableButtonContainer>
+            <TableContainer>
+                <Thead>
+                    <HeadTr>
+                        <Th width={120}>項目(百萬)</Th>
+                        <Th>Q1</Th>
+                        <Th>Q2</Th>
+                        <Th>Q3</Th>
+                        <Th>Q4</Th>
+                    </HeadTr>
+                </Thead>
+                <Tbody>
+                    <BodyTr>
+                        <Td start>{tableTitle[0]}</Td>
+                        {
+                            basic.income.map((data, key) => {
+                                return (
+                                    <Td>{(data.benefit_total / 100000).toFixed(0)}</Td>
+                                )
+                            })
+                        }
+                    </BodyTr>
+                    <BodyTr>
+                        <Td start>{tableTitle[1]}</Td>
+                        {
+                            basic.income.map((data, index) => {
+                                console.log(data.cost_total[-4])
+                                return (
+                                    <Td key={index}>{(data.cost_total / 100000).toFixed(0)}</Td>
+                                )
+                            })
+                        }
+                    </BodyTr>
+                    <BodyTr>
+                        <Td start>{tableTitle[2]}</Td>
+                        {
+                            basic.income.map((data, index) => {
+                                return (
+                                    <Td key={index}>{(data.benefit / 100000).toFixed(0)}</Td>
+                                )
+                            })
+                        }
+                    </BodyTr>
+                    <BodyTr>
+                        <Td start>{tableTitle[3]}</Td>
+                        {
+                            basic.income.map((data, index) => {
+                                return (
+                                    <Td key={index}>{(data.non_operation_income / 100000).toFixed(0)}</Td>
+                                )
+                            })
+                        }
+                    </BodyTr>
+                    <BodyTr>
+                        <Td start>{tableTitle[4]}</Td>
+                        {
+                            basic.income.map((data, index) => {
+                                return (
+                                    <Td key={index}>{(data.profit_before_tax / 100000).toFixed(0)}</Td>
+                                )
+                            })
+                        }
+                    </BodyTr>
+                    <BodyTr>
+                        <Td start>{tableTitle[5]}</Td>
+                        {
+                            basic.balance.map((data, index) => {
+                                return (
+                                    <Td key={index}>{(data.total_assets / 10000000).toFixed(0)}</Td>
+                                )
+                            })
+                        }
+                    </BodyTr>
+                    <BodyTr>
+                        <Td start>{tableTitle[6]}</Td>
+                        {
+                            basic.balance.map((data, index) => {
+                                return (
+                                    <Td key={index}>{(data.accounts_receivable / 10000000).toFixed(0)}</Td>
+                                )
+                            })
+                        }
+                    </BodyTr>
+                    <BodyTr>
+                        <Td start>{tableTitle[7]}</Td>
+                        {
+                            basic.balance.map((data, index) => {
+                                return (
+                                    <Td key={index}>{(data.accounts_payable / 10000000).toFixed(0)}</Td>
+                                )
+                            })
+                        }
+                    </BodyTr>
+                    <BodyTr>
+                        <Td start>{tableTitle[8]}</Td>
+                        {
+                            basic.balance.map((data, index) => {
+                                return (
+                                    <Td key={index}>{(data.total_liabilities / 10000000).toFixed(0)}</Td>
+                                )
+                            })
+                        }
+                    </BodyTr>
+                    <BodyTr>
+                        <Td start>{tableTitle[9]}</Td>
+                        {
+                            basic.balance.map((data, index) => {
+                                return (
+                                    <Td key={index}>{(data.total_assets / 10000000).toFixed(0)}</Td>
+                                )
+                            })
+                        }
+                    </BodyTr>
+                    <BodyTr>
+                        <Td start>{tableTitle[10]}</Td>
+                        {
+                            basic.balance.map((data, index) => {
+                                return (
+                                    <Td key={index}>{(data.non_current_assets / 10000000).toFixed(0)}</Td>
+                                )
+                            })
+                        }
+                    </BodyTr>
+                    <BodyTr>
+                        <Td start>{tableTitle[11]}</Td>
+                        {
+                            basic.balance.map((data, index) => {
+                                return (
+                                    <Td key={index}>{(data.stock_holders_equity / 10000000).toFixed(0)}</Td>
+                                )
+                            })
+                        }
+                    </BodyTr>
+                </Tbody>
+            </TableContainer >
+        </>
     )
 };
 

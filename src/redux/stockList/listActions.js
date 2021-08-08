@@ -54,5 +54,7 @@ export const addListStock = stockid => dispatch => {
         })
     }).then(res => res.json()).then(data => {
         dispatch(addStock(data))
+    }).catch(err => {
+        dispatch(fetchListStockFail(err))
     })
 }

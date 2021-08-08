@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import DefaultLayout from '../layouts/DefaultLayout';
 import SidebarLayout from '../layouts/SidebarLayout';
 import styled from 'styled-components';
-import { fetchStock, fetchIdName, clickSearch, fetchBasic } from '../../redux';
+import { fetchStock, fetchIdName, clickSearch, fetchBasicIncome } from '../../redux';
 import { connect } from 'react-redux';
 import stock2 from '../images/mocked/fundstock.png';
 import mockedmoving from '../images/mocked/mockedmoving.png';
@@ -984,7 +984,7 @@ const mapDispatchToProps = dispatch => {
         fetchStock: () => dispatch(fetchStock()),
         fetchIdName: () => dispatch(fetchIdName()),
         clickSearch: (s) => dispatch(clickSearch(s)),
-        fetchBasic: (stockid) => dispatch(fetchBasic(stockid))
+        fetchBasicIncome: (stockid) => dispatch(fetchBasicIncome(stockid))
     }
 }
 
