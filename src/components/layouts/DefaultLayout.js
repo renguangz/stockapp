@@ -35,11 +35,11 @@ const DefaultLayout = ({ headerNotFixed, noSidebar, children }) => {
         <div>
             {
                 headerNotFixed ? (
-                    <Header headerBgc={'transparent'} />
+                    <Header headerBgc={'#111111'} />
                 ) : (
                     <StyledFixedHeader>
                         <PageHeader>
-                            <Header headerBgc={'transparent'} />
+                                <Header headerBgc={'#111111'} />
                         </PageHeader>
                         <ClearFix height="8vh" />
                     </StyledFixedHeader>

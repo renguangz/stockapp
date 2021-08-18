@@ -20,6 +20,9 @@ import movingstock1 from '../images/mocked/movingstock1.png';
 import movingstock2 from '../images/mocked/movingstock2.png';
 import { SearchOutlined } from '@ant-design/icons';
 import * as Storage from '../helper/StorageHelper';
+import InfoTableChart from '../charts/InfoTableChart';
+import InfoTableBasicChart from '../layouts/InfoTableBasicChart';
+import CandleStickChart from '../layouts/InfoTechCandlestickChart/CandlestickChart';
 
 const StyledInfoContainer = styled.section`
     /* border: 1px solid blue; */
@@ -151,29 +154,13 @@ const RightBot = styled.div`
     height: 56%;
 `;
 
-const FundImgContainer = styled.div`
-    /* border: 2px solid yellow; */
-    height: 100%;
-    width: 68%;
-    margin-right: 16px;
-    display: flex;
-    flex-wrap: wrap;
-`;
-
-const FundImgBorder = styled.div`
-    border: 2px solid green;
-    width: 46.4%;
-    height: 30%;
-    margin: 12px;
-`;
-
 const FundTableContainer = styled.div`
     /* border: 2px solid orange; */
     width: 36%;
 `;
 
 const TechContainer = styled.div`
-    /* border: 2px solid yellow; */
+    border: 2px solid yellow;
     width: 100%;
     height: 100%;
 `;
@@ -689,24 +676,15 @@ const NotSearchStockInfoPage = ({ stockinfo, notSearch, searchRedux, clickSearch
                             </MovingContainer >
                         </StyledInfoContainer >
                         <StyledInfoContainer id='basic'>
-                            <FundImgContainer>
-                                <FundImgBorder>
-                                    柱狀圖一
-                                    <Img url={stock2} />
-                                </FundImgBorder>
-                                <FundImgBorder>柱狀圖一</FundImgBorder>
-                                <FundImgBorder>柱狀圖一</FundImgBorder>
-                                <FundImgBorder>柱狀圖一</FundImgBorder>
-                                <FundImgBorder>柱狀圖一</FundImgBorder>
-                                <FundImgBorder>柱狀圖一</FundImgBorder>
-                            </FundImgContainer>
+                            <InfoTableBasicChart />
                             <FundTableContainer>
                                 <StockInoTable />
                             </FundTableContainer>
                         </StyledInfoContainer>
                         <StyledInfoContainer id='tech'>
                             <TechContainer>
-                                <TechNav>
+                                <CandleStickChart />
+                                {/* <TechNav>
                                     <TechMainH4>2021/07/02 開: 605.00 高: 607.00 低: 601.00 收: 604.00 量: 4000 ⬇️5.00</TechMainH4>
                                     <TechNavRight>
                                         <TechDropSelect>
@@ -816,7 +794,7 @@ const NotSearchStockInfoPage = ({ stockinfo, notSearch, searchRedux, clickSearch
                                             35.55
                                         </TechMainH4>
                                     </TechMainRight>
-                                </TechMainContainer>
+                                </TechMainContainer> */}
                             </TechContainer>
                         </StyledInfoContainer>
                         <StyledInfoContainer id='chip'>

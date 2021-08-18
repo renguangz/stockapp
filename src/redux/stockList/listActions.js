@@ -58,3 +58,14 @@ export const addListStock = stockid => dispatch => {
         dispatch(fetchListStockFail(err))
     })
 }
+
+export const removeListStock = stockid => dispatch => {
+    fetch('/remove_pocket_stock', {
+        method: 'POST',
+        body: JSON.stringify({
+            stockid
+        })
+    }).then(res => res.json()).then(data => {
+        dispatch(removeStock(data))
+    }).catch(err => dispatch(fetchListStockFail(err)))
+}

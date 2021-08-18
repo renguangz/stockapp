@@ -1,0 +1,43 @@
+svg {
+    fill: white;
+}
+
+svg .domain {
+    fill: none;
+}
+
+svg .c3-chart-lines {
+    fill: none;
+    stroke-width: 2px;
+    stroke-linecap: round;
+}
+
+svg .c3-ygrids {
+    stroke: #9A9E9F;
+}
+
+svg .c3-legend-background {
+    fill: none;
+}
+
+.c3-tooltip-container {
+    /* border: 1px solid white; */
+    border-radius: 6px;
+    background-color: #242424;
+    opacity: 0.9;
+    text-align: left;
+    padding: 4px;
+}
+/* .c3-tooltip-container::before {
+    content: '';
+    border-width: 8px 10px 8px 0;
+    border-style: solid;
+    border-color: rgba(0, 0, 0, 0) #F3F3F3 rgba(0, 0, 0, 0) rgba(0, 0, 0, 0);
+    position: absolute;
+    top: 20%;
+    left: -10px;
+} */
+
+.c3-tooltip-container th {
+    /* border-bottom: 1px solid white; */
+}

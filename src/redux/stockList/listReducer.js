@@ -1,5 +1,6 @@
 const initialState = {
     loading: true,
+    stockListId: [],
     stockid: [],
     error: '',
     basic: [],
@@ -31,7 +32,7 @@ const listReducer = (state = initialState, action) => {
             return {
                 ...state,
                 loading: false,
-                stockid: action.payload
+                stockListId: action.payload
             }
         case 'FETCH_LIST_STOCK_FAIL':
             return {

@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { Table } from 'antd';
 import DefaultLayout from '../layouts/DefaultLayout';
-import { StockListColumns, data } from './StockListData';
 import Container from '../common/Container';
 import { MenuOutlined, MinusSquareOutlined, EditFilled, CloseSquareFilled } from '@ant-design/icons';
 import { sortableHandle } from 'react-sortable-hoc';
 import { connect } from 'react-redux';
-import { listStock, addListStock } from '../../redux';
+import { listStock, addListStock, removeListStock, fetchIdName } from '../../redux';
 import styled from 'styled-components';
+import * as Storage from '../helper/StorageHelper';
 
 // Mocked
 import { StockListMockedData } from '../common/mocked_data/StockListMockedData';
+import { Link } from 'react-router-dom';
 
 const StyledContainer = styled(Container)`
     height: 92vh;
@@ -193,8 +193,9 @@ const SearchSpan = styled.span`
     color: black;
 `;
 
-const StockListPage = ({ searchRedux, stockList, listStock, addStock }) => {
+const StockListPage = ({ searchRedux, stockList, listStock, addStock, removeStock, fetchIdName }) => {
     useEffect(() => {
+        fetchIdName()
         listStock()
     }, [])
     const DragHandle = sortableHandle(() => <MenuOutlined style={{ cursor: 'grab', color: '#999' }} />);
@@ -209,6 +210,7 @@ const StockListPage = ({ searchRedux, stockList, listStock, addStock }) => {
     const handleClick = (m) => {
         addStock(m)
         setSearch('')
+        listStock()
     }
     const DisplayMatches = () => {
         const matchArray = filtered(searchList, search)
@@ -233,12 +235,22 @@ const StockListPage = ({ searchRedux, stockList, listStock, addStock }) => {
     const inputSearch = (input) => {
         setSearch(input.target.value)
     }
-    const handleSubmit = (e) => {
-        e.preventDefault()
+    const handleSubmit = () => {
         const matchArray = filtered(searchList, search)
         addStock(matchArray[0])
         setSearch('')
+        listStock()
     }
+
+    const handleClickRemove = stockid => {
+        removeStock(stockid)
+        listStock()
+    }
+
+    const handleClickLink = (e) => {
+        Storage.setData('stock_id_and_name', e)
+    }
+
     return (
         <DefaultLayout noSidebar>
             <StyledContainer>
@@ -278,6 +290,24 @@ const StockListPage = ({ searchRedux, stockList, listStock, addStock }) => {
                         </StyledHeadTr>
                     </StyledThead>
                     <StyledTbody>
+                        {
+                            stockList.stockListId.map((data, index) => {
+                                const d = data.stockid
+                                return (
+                                    <StyledBodyTr key={index}>
+                                        <StyledTd>
+                                            <Action>
+                                                <CloseSquareFilled onClick={() => handleClickRemove(d)} />
+                                                <MenuOutlined />
+                                            </Action>
+                                        </StyledTd>
+                                        <StyledTd onClick={() => handleClickLink(d)}>
+                                            <Link style={{ color: 'white' }} to='/stockinfo'>{data.stockid}</Link>
+                                        </StyledTd>
+                                    </StyledBodyTr>
+                                )
+                            })
+                        }
                         {
                             StockListMockedData.map((data, index) => {
                                 return (
@@ -331,7 +361,9 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         listStock: () => dispatch(listStock()),
-        addStock: (stockid) => dispatch(addListStock(stockid))
+        addStock: (stockid) => dispatch(addListStock(stockid)),
+        removeStock: (stockid) => dispatch(removeListStock(stockid)),
+        fetchIdName: () => dispatch(fetchIdName()),
     }
 }
 

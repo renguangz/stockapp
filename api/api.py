@@ -11,6 +11,7 @@ app.config['SQLALCHEMY_BINDS'] = {
     'balance_sheet': 'sqlite:///data/balance_sheet.db',
     'income_sheet': 'sqlite:///data/income_sheet.db',
     'cashFlow_sheet': 'sqlite:///data/cashFlow_sheet.db',
+    'legal_person': 'sqlite:///data/legal_person.db',
 }
 
 db = SQLAlchemy(app)
@@ -176,6 +177,7 @@ class CashFlow(db.Model):
     inventory = db.Column('存貨（增加）減少', db.Float, nullable=False)
     depreciation_expense = db.Column('折舊費用', db.Float, nullable=False)
     amortization_fee = db.Column('攤銷費用', db.Float, nullable=False)
+    # cashFlow_operating = db.Column('')
 
 def cash_serializer(cash):
     return {
@@ -190,7 +192,18 @@ def cash_display():
     read_data = jsonify([*map(cash_serializer, CashFlow.query.all())])
     return read_data
 
+class LegalPerson(object):
+    __bind_key__ = 'legal_person'
+    __table_args__ = {'extend_existing': True}
 
+def legalPerson_serializer(item):
+    return {
+
+    }
+
+@app.route('/legalPerson')
+def legalPerson_display():
+    read_data = jsonify([*map(legalPerson_serializer, LegalPerson.query.all())])
 
 if __name__ == '__main__':
     app.config['JSON_AS_ASCII'] = False

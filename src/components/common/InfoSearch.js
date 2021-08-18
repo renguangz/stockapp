@@ -32,12 +32,9 @@ const SearchTitle = styled.h2`
 const SearchContainer = styled.div`
     border-bottom: 1px solid #2E5E30;
     width: 52%;
-    /* width: 60%; */
     height: 10%;
     margin: 0 auto;
     border-radius: 4px;
-    /* margin-top: 40%;
-    margin-right: 10%; */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -47,9 +44,9 @@ const SearchContainer = styled.div`
 `;
 
 const SearchInput = styled.input`
+    /* border-bottom: 1px solid #2E5E30; */
     outline: none;
     border: none;
-    /* border-bottom: 1px solid #2E5E30; */
     width: 82.4%;
     height: 100%;
     font-size: 40px;
@@ -102,7 +99,6 @@ const SearchUl = styled.ul`
     position: absolute;
     left: 10%;
     top: 48%;
-    /* justify-content: space-between; */
 `;
 
 const SearchLi = styled.li`
@@ -114,7 +110,6 @@ const SearchLi = styled.li`
     display: flex;
     align-items: center;
     padding: 0.75rem 1rem;
-    /* margin-top: 50%; */
     margin-right: 12px;
     margin-top: 12px;
     border-radius: 4px;
@@ -173,7 +168,7 @@ const InfoSearch = ({ searchRedux, fetchIdName }) => {
     const [clickSearchButton, setClickSearchButton] = useState(false)
     const handleSearchClick = (e) => {
         e.preventDefault()
-        console.log('click search button')
+        // console.log('click search button')
         setClickSearchButton(true)
     }
 
