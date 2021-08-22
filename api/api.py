@@ -103,8 +103,10 @@ def id_and_name_serializer(stock):
 
 @app.route('/search', methods=['GET'])
 def search_stock():
-    read_data = jsonify([*map(id_and_name_serializer, StockIdName.query.all())])
+    read_data = jsonify(
+        [*map(id_and_name_serializer, StockIdName.query.all())])
     return read_data
+
 
 class Balance(object):
     __bind_key__ = 'balance_sheet'
@@ -117,6 +119,9 @@ class Balance(object):
     total_assets = db.Column('資產總額', db.Float, nullable=False)
     non_current_assets = db.Column('非流動資產合計', db.Float, nullable=False)
     stock_holders_equity = db.Column('權益總額', db.Float, nullable=True)
+    common_stock = db.Column('普通股股本', db.Float, nullable=True)
+    inventory = db.Column('存貨', db.Float, nullable=True)
+
 
 def balance_serializer(balance):
     return {
@@ -127,16 +132,21 @@ def balance_serializer(balance):
         'total_liabilities': balance.total_liabilities,
         'total_assets': balance.total_assets,
         'non_current_assets': balance.non_current_assets,
-        'stock_holders_equity': balance.stock_holders_equity
+        'stock_holders_equity': balance.stock_holders_equity,
+        'common_stock': balance.common_stock,
+        'inventory': balance.inventory,
     }
+
 
 @app.route('/balance', methods=['POST', 'GET'])
 def balance_display():
     if request.method == 'POST':
         request_data = json.loads(request.data)
-        n = type('balance_' + request_data.get('table_name'), (Balance, db.Model), {'__tablename__': 'balance_' + request_data.get('table_name')})
+        n = type('balance_' + request_data.get('table_name'), (Balance, db.Model),
+                 {'__tablename__': 'balance_' + request_data.get('table_name')})
     read_data = jsonify([*map(balance_serializer, n.query.all())])
     return read_data
+
 
 class Income(object):
     __bind_key__ = 'income_sheet'
@@ -148,7 +158,9 @@ class Income(object):
     cost_total = db.Column('營業成本合計', db.Float, nullable=False)
     non_operating_income = db.Column('營業外收入及支出合計', db.Float, nullable=False)
     profit_before_tax = db.Column('稅前淨利（淨損）', db.Float, nullable=False)
+    net_income = db.Column('繼續營業單位本期淨利（淨損）', db.Float, nullable=True)
     # 稅後淨利, 每股盈餘
+
 
 def income_serializer(income):
     return {
@@ -158,52 +170,69 @@ def income_serializer(income):
         'benefit': income.benefit,
         'cost_total': income.cost_total,
         'non_operation_income': income.non_operating_income,
-        'profit_before_tax': income.profit_before_tax
+        'profit_before_tax': income.profit_before_tax,
+        'net_income': income.net_income,
     }
+
 
 @app.route('/income', methods=['POST', 'GET'])
 def income_display():
     if request.method == 'POST':
         request_data = json.loads(request.data)
-        n = type('_' + request_data.get('table_name'), (Income, db.Model), {'__tablename__': '_' + request_data.get('table_name')})
+        n = type('_' + request_data.get('table_name'), (Income, db.Model),
+                 {'__tablename__': '_' + request_data.get('table_name')})
 
     read_data = jsonify([*map(income_serializer, n.query.all())])
     return read_data
 
-class CashFlow(db.Model):
+
+class CashFlow(object):
     __bind_key__ = 'cashFlow_sheet'
     __table_args__ = {'extend_existing': True}
     id = db.Column('index', db.Integer, primary_key=True)
-    inventory = db.Column('存貨（增加）減少', db.Float, nullable=False)
+    inventory_increase = db.Column('存貨（增加）減少', db.Float, nullable=False)
     depreciation_expense = db.Column('折舊費用', db.Float, nullable=False)
     amortization_fee = db.Column('攤銷費用', db.Float, nullable=False)
-    # cashFlow_operating = db.Column('')
+    cashFlow_operating = db.Column('營業活動之淨現金流入（流出）', db.Float, nullable=True)
+
 
 def cash_serializer(cash):
     return {
         'id': cash.id,
-        'inventory': cash.inventory,
+        'inventory_increase': cash.inventory_increase,
         'depreciation_expense': cash.depreciation_expense,
-        'amortization_fee': cash.amortization_fee
+        'amortization_fee': cash.amortization_fee,
+        'cashFlow_operating': cash.cashFlow_operating,
     }
 
-@app.route('/cash')
-def cash_display():
-    read_data = jsonify([*map(cash_serializer, CashFlow.query.all())])
+
+@app.route('/cashFlow', methods=['POST', 'GET'])
+def cashFlow_display():
+    if request.method == 'POST':
+        request_data = json.loads(request.data)
+        n = type('cashFlow_' + request_data.get('table_name'), (CashFlow, db.Model),
+                 {'__tablename__': 'cashFlow_' + request_data.get('table_name')})
+
+    read_data = jsonify([*map(cash_serializer, n.query.all())])
     return read_data
+
 
 class LegalPerson(object):
     __bind_key__ = 'legal_person'
     __table_args__ = {'extend_existing': True}
+
 
 def legalPerson_serializer(item):
     return {
 
     }
 
+
 @app.route('/legalPerson')
 def legalPerson_display():
-    read_data = jsonify([*map(legalPerson_serializer, LegalPerson.query.all())])
+    read_data = jsonify(
+        [*map(legalPerson_serializer, LegalPerson.query.all())])
+
 
 if __name__ == '__main__':
     app.config['JSON_AS_ASCII'] = False

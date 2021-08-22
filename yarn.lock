@@ -5447,15 +5447,15 @@
   "resolved" "https://registry.npmjs.org/d3-selection/-/d3-selection-1.4.2.tgz"
   "version" "1.4.2"
 
+"d3-selection@^3.0.0", "d3-selection@2 - 3", "d3-selection@3":
+  "integrity" "sha512-fmTRWbNMmsmWq6xJV8D19U/gw/bwrHfNXxrIN+HfZgnzqTHp9jOmKMhsTUjXOJnZOdZY9Q28y4yebKzqDKlxlQ=="
+  "resolved" "https://registry.npmjs.org/d3-selection/-/d3-selection-3.0.0.tgz"
+  "version" "3.0.0"
+
 "d3-selection@1.0.2":
   "integrity" "sha1-rmYq/UcCrJxdoDmyEHoXZPockHA="
   "resolved" "https://registry.npmjs.org/d3-selection/-/d3-selection-1.0.2.tgz"
   "version" "1.0.2"
-
-"d3-selection@2 - 3", "d3-selection@3":
-  "integrity" "sha512-fmTRWbNMmsmWq6xJV8D19U/gw/bwrHfNXxrIN+HfZgnzqTHp9jOmKMhsTUjXOJnZOdZY9Q28y4yebKzqDKlxlQ=="
-  "resolved" "https://registry.npmjs.org/d3-selection/-/d3-selection-3.0.0.tgz"
-  "version" "3.0.0"
 
 "d3-shape@1.0.3":
   "integrity" "sha1-v2hdz8GS7R01o5/2mCakCak4UDQ="

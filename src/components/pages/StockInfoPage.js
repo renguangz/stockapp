@@ -2,11 +2,11 @@ import React, { useEffect, useState } from 'react';
 import DefaultLayout from '../layouts/DefaultLayout';
 import SidebarLayout from '../layouts/SidebarLayout';
 import styled from 'styled-components';
-import { fetchStock, fetchIdName, clickSearch, fetchBasicIncome } from '../../redux';
+import { fetchStock, fetchIdName, clickSearch, fetchBasicIncome, fetchBasic } from '../../redux';
 import { connect } from 'react-redux';
 import stock2 from '../images/mocked/fundstock.png';
 import mockedmoving from '../images/mocked/mockedmoving.png';
-import StockInoTable from '../layouts/StockInfotable';
+import StockInfoTable from '../layouts/StockInfotable';
 import { row1, row2, row3 } from '../common/mocked_data/StockInfoMoving';
 import { mockedRightRow1, mockedRightRow2, mockedRightRow3, mockedRightRow4 } from '../common/mocked_data/StockinfoRightTop';
 import { chipbot } from '../common/mocked_data/ChipBot';
@@ -678,124 +678,11 @@ const NotSearchStockInfoPage = ({ stockinfo, notSearch, searchRedux, clickSearch
                         <StyledInfoContainer id='basic'>
                             <InfoTableBasicChart />
                             <FundTableContainer>
-                                <StockInoTable />
+                                <StockInfoTable />
                             </FundTableContainer>
                         </StyledInfoContainer>
                         <StyledInfoContainer id='tech'>
-                            <TechContainer>
-                                <CandleStickChart />
-                                {/* <TechNav>
-                                    <TechMainH4>2021/07/02 開: 605.00 高: 607.00 低: 601.00 收: 604.00 量: 4000 ⬇️5.00</TechMainH4>
-                                    <TechNavRight>
-                                        <TechDropSelect>
-                                            <DropSelect>
-                                                <TechDropOption>1分鐘</TechDropOption>
-                                                <TechDropOption>5分鐘</TechDropOption>
-                                                <TechDropOption>10分鐘</TechDropOption>
-                                                <TechDropOption>15分鐘</TechDropOption>
-                                                <TechDropOption>30分鐘</TechDropOption>
-                                                <TechDropOption>60分鐘</TechDropOption>
-                                                <TechDropOption>日線</TechDropOption>
-                                                <TechDropOption>週線</TechDropOption>
-                                                <TechDropOption>月線</TechDropOption>
-                                            </DropSelect>
-                                        </TechDropSelect>
-                                        <NavButton>
-                                            <TechMainTitle>關閉隔線</TechMainTitle>
-                                        </NavButton>
-                                        <NavButton>
-                                            <TechMainTitle>重新整理</TechMainTitle>
-                                        </NavButton>
-                                    </TechNavRight>
-                                </TechNav>
-                                <TechMainContainer height={'40'}>
-                                    <TechMainLeft>
-                                        <TechMainTitleContainer>
-                                            <TechMainTitle>K線</TechMainTitle>
-                                            <TechMainH4>MA5: 26.01</TechMainH4>
-                                            <TechMainH4>MA100: 26.01</TechMainH4>
-                                            <TechMainH4>MA: 26.01</TechMainH4>
-                                        </TechMainTitleContainer>
-                                    </TechMainLeft>
-                                    <TechMainMid height={'88'}>
-                                        <ChipImg url={techmid} width={'100'} height={'100'} />
-                                    </TechMainMid>
-                                    <TechMainRight>
-                                        <TechMainH4 textAlign={'right'}>
-                                            35.55
-                                        </TechMainH4>
-                                        <TechMainH4 textAlign={'right'}>
-                                            35.55
-                                        </TechMainH4>
-                                        <TechMainH4 textAlign={'right'}>
-                                            35.55
-                                        </TechMainH4>
-                                        <TechMainH4 textAlign={'right'}>
-                                            35.55
-                                        </TechMainH4>
-                                    </TechMainRight>
-                                    <TechMainDate>
-                                        <TechMainH4>2021/02</TechMainH4>
-                                        <TechMainH4>2021/02</TechMainH4>
-                                        <TechMainH4>2021/02</TechMainH4>
-                                        <TechMainH4>2021/02</TechMainH4>
-                                    </TechMainDate>
-                                </TechMainContainer>
-                                <TechMainContainer>
-                                    <TechMainLeft>
-                                        <TechMainTitleContainer>
-                                            <TechMainTitle>成交量</TechMainTitle>
-                                            <TechMainH4>MA5: 26.01</TechMainH4>
-                                            <TechMainH4>MA100: 26.01</TechMainH4>
-                                            <TechMainH4>MA: 26.01</TechMainH4>
-                                        </TechMainTitleContainer>
-                                    </TechMainLeft>
-                                    <TechMainMid>
-                                        <ChipImg url={techmid1} width={'100'} height={'100'} />
-                                    </TechMainMid>
-                                    <TechMainRight height={'100'}>
-                                        <TechMainH4 textAlign={'right'}>
-                                            35.55
-                                        </TechMainH4>
-                                        <TechMainH4 textAlign={'right'}>
-                                            35.55
-                                        </TechMainH4>
-                                        <TechMainH4 textAlign={'right'}>
-                                            35.55
-                                        </TechMainH4>
-                                        <TechMainH4 textAlign={'right'}>
-                                            35.55
-                                        </TechMainH4>
-                                    </TechMainRight>
-                                </TechMainContainer>
-                                <TechMainContainer>
-                                    <TechMainLeft>
-                                        <TechMainTitleContainer>
-                                            <TechMainTitle>KDJ</TechMainTitle>
-                                            <TechMainH4>MA5: 26.01</TechMainH4>
-                                            <TechMainH4>MA100: 26.01</TechMainH4>
-                                            <TechMainH4>MA: 26.01</TechMainH4>
-                                        </TechMainTitleContainer>
-                                    </TechMainLeft>
-                                    <TechMainMid>
-                                        <ChipImg url={techmid2} width={'100'} height={'100'} />
-                                    </TechMainMid>
-                                    <TechMainRight height={'100'}>
-                                        <TechMainH4 textAlign={'right'}>
-                                            35.55
-                                        </TechMainH4>
-                                        <TechMainH4 textAlign={'right'}>
-                                            35.55
-                                        </TechMainH4>
-                                        <TechMainH4 textAlign={'right'}>
-                                            35.55
-                                        </TechMainH4>
-                                        <TechMainH4 textAlign={'right'}>
-                                            35.55
-                                        </TechMainH4>
-                                    </TechMainRight>
-                                </TechMainContainer> */}
-                            </TechContainer>
+                            <CandleStickChart />
                         </StyledInfoContainer>
                         <StyledInfoContainer id='chip'>
                             <ChipContainer>
@@ -962,7 +849,8 @@ const mapDispatchToProps = dispatch => {
         fetchStock: () => dispatch(fetchStock()),
         fetchIdName: () => dispatch(fetchIdName()),
         clickSearch: (s) => dispatch(clickSearch(s)),
-        fetchBasicIncome: (stockid) => dispatch(fetchBasicIncome(stockid))
+        fetchBasicIncome: (stockid) => dispatch(fetchBasicIncome(stockid)),
+        fetchBasic: (stockid) => dispatch(fetchBasic(stockid))
     }
 }
 

@@ -4,7 +4,8 @@ import styled from 'styled-components';
 import { MockedInfo } from '../common/mocked_data/StockInfoTableMocked';
 
 const TableContainer = styled.table`
-    height: 100%;
+    /* border: 1px solid white; */
+    height: 94%;
     width: 100%;
     border-collapse: collapse;
     /* border-spacing: 0px 8px; */
@@ -28,9 +29,11 @@ const Th = styled.th`
 
 const Tbody = styled.tbody`
     /* border: 1px solid white; */
+
 `;
 
 const BodyTr = styled.tr`
+    ${props => props.display}
     width: 100%;
     &:nth-child(odd) {
         background-color: #F88200;
@@ -49,31 +52,42 @@ const TableButtonContainer = styled.div`
     align-items: center;
 `;
 
+const TableTitleContainer = styled.div`
+    /* border: 1px solid white; */
+    margin-right: 4px;
+`;
+
+const TableTitle = styled.h2`
+    color: white;
+    font-size: 20px;
+    margin: auto;
+`;
+
 const ButtonContainer = styled.div`
     display: flex;
     border: 2px solid #2A3033;
     border-radius: 8px;
 `;
 
-const LeftTableButton = styled.div`
+const RightTableButton = styled.div`
     background-color: #2C3235;
     font-size: 16px;
     font-weight: 600;
-    padding: 0 16px;
+    padding: 0 12px;
     cursor: pointer;
 `;
 
-const RightTableButton = styled.div`
+const LeftTableButton = styled.div`
     font-size: 16px;
     font-weight: 600;
     padding: 0 16px;
     cursor: pointer;
 `;
 
-const StockInoTable = ({ basic }) => {
+const StockInfoTable = ({ basic }) => {
     const tableTitle = [
-        '營業收入', '營業成本', '營業利益', '業外收入合計', '稅前淨利', '每股盈餘(元)', '應收帳款',
-        '應付帳款', '負債總額', '資產總額', '固定資產', '股東權益總額', '存貨', '折舊', '攤提'
+        '營業收入', '營業成本', '營業利益', '業外損益', '稅前淨利', '應收帳款', '應付帳款',
+        '負債總額', '資產總額', '固定資產', '股東權益總額', '存貨', '折舊', '攤提', '每股盈餘(元)'
     ]
 
     const indicateTableTitle = [
@@ -82,26 +96,44 @@ const StockInoTable = ({ basic }) => {
     ]
 
     const [financeReportDisplay, setFinanceReportDisplay] = useState(true)
-    const clickRightTableButtonReport = () => {
+    const clickLeftTableButtonReport = () => {
         setFinanceReportDisplay(true)
     }
-    const clickRightTableButtonIndicate = () => {
+    const clickLeftTableButtonIndicate = () => {
         setFinanceReportDisplay(false)
     }
 
     const incomeDisplay = basic.income.slice(-4)
     const balanceDisplay = basic.balance.slice(-4)
+    const cashFlowDisplay = basic.cashFlow.slice(-4)
+
+    // eps
+    const eps = []
+    const net_income = []
+    const common_stock = []
+    incomeDisplay.map(data => {
+        net_income.push(data.net_income)
+    })
+    balanceDisplay.map(data => {
+        common_stock.push(data.common_stock)
+    })
+    net_income.map((num, idx) => {
+        eps.push(parseFloat((num / common_stock[idx]).toFixed(2)))
+    })
 
 
     return (
         <>
             <TableButtonContainer>
-                <LeftTableButton>＜上一年</LeftTableButton>
-                <LeftTableButton>下一年＞</LeftTableButton>
+                <TableTitleContainer>
+                    <TableTitle>109年</TableTitle>
+                </TableTitleContainer>
                 <ButtonContainer>
-                    <RightTableButton onClick={clickRightTableButtonReport}>報表</RightTableButton>
-                    <RightTableButton onClick={clickRightTableButtonIndicate}>指標</RightTableButton>
+                    <LeftTableButton onClick={clickLeftTableButtonReport}>報表</LeftTableButton>
+                    <LeftTableButton onClick={clickLeftTableButtonIndicate}>指標</LeftTableButton>
                 </ButtonContainer>
+                <RightTableButton>＜上一年</RightTableButton>
+                <RightTableButton>下一年＞</RightTableButton>
             </TableButtonContainer>
             <TableContainer>
                 <Thead>
@@ -167,11 +199,21 @@ const StockInoTable = ({ basic }) => {
                                 }
                             </BodyTr>
                             <BodyTr>
+                                <Td start>{tableTitle[14]}</Td>
+                                {
+                                    eps.map((data, index) => {
+                                        return (
+                                            <Td key={index}>{data}</Td>
+                                        )
+                                    })
+                                }
+                            </BodyTr>
+                            <BodyTr>
                                 <Td start>{tableTitle[5]}</Td>
                                 {
                                     balanceDisplay.map((data, index) => {
                                         return (
-                                            <Td key={index}>{(data.total_assets / 10000000).toFixed(0)}</Td>
+                                            <Td key={index}>{(data.accounts_receivable / 10000000).toFixed(2)}</Td>
                                         )
                                     })
                                 }
@@ -181,7 +223,7 @@ const StockInoTable = ({ basic }) => {
                                 {
                                     balanceDisplay.map((data, index) => {
                                         return (
-                                            <Td key={index}>{(data.accounts_receivable / 10000000).toFixed(0)}</Td>
+                                            <Td key={index}>{(data.accounts_payable / 10000000).toFixed(2)}</Td>
                                         )
                                     })
                                 }
@@ -191,7 +233,7 @@ const StockInoTable = ({ basic }) => {
                                 {
                                     balanceDisplay.map((data, index) => {
                                         return (
-                                            <Td key={index}>{(data.accounts_payable / 10000000).toFixed(0)}</Td>
+                                            <Td key={index}>{(data.total_liabilities / 10000000).toFixed(2)}</Td>
                                         )
                                     })
                                 }
@@ -201,7 +243,7 @@ const StockInoTable = ({ basic }) => {
                                 {
                                     balanceDisplay.map((data, index) => {
                                         return (
-                                            <Td key={index}>{(data.total_liabilities / 10000000).toFixed(0)}</Td>
+                                            <Td key={index}>{(data.total_assets / 10000000).toFixed(2)}</Td>
                                         )
                                     })
                                 }
@@ -211,7 +253,7 @@ const StockInoTable = ({ basic }) => {
                                 {
                                     balanceDisplay.map((data, index) => {
                                         return (
-                                            <Td key={index}>{(data.total_assets / 10000000).toFixed(0)}</Td>
+                                            <Td key={index}>{(data.non_current_assets / 10000000).toFixed(2)}</Td>
                                         )
                                     })
                                 }
@@ -221,7 +263,7 @@ const StockInoTable = ({ basic }) => {
                                 {
                                     balanceDisplay.map((data, index) => {
                                         return (
-                                            <Td key={index}>{(data.non_current_assets / 10000000).toFixed(0)}</Td>
+                                            <Td key={index}>{(data.stock_holders_equity / 10000000).toFixed(2)}</Td>
                                         )
                                     })
                                 }
@@ -231,7 +273,17 @@ const StockInoTable = ({ basic }) => {
                                 {
                                     balanceDisplay.map((data, index) => {
                                         return (
-                                            <Td key={index}>{(data.stock_holders_equity / 10000000).toFixed(0)}</Td>
+                                            <Td key={index}>{(data.inventory / 1000000).toFixed(2)}</Td>
+                                        )
+                                    })
+                                }
+                            </BodyTr>
+                            <BodyTr>
+                                <Td start>{tableTitle[12]}</Td>
+                                {
+                                    cashFlowDisplay.map((data, index) => {
+                                        return (
+                                            <Td key={index}>{(data.depreciation_expense / 1000000).toFixed(2)}</Td>
                                         )
                                     })
                                 }
@@ -269,16 +321,16 @@ const StockInoTable = ({ basic }) => {
                                     })
                                 }
                             </BodyTr>
-                                <BodyTr>
-                                    <Td start>{indicateTableTitle[3]}</Td>
-                                    {
-                                        incomeDisplay.map((data, index) => {
-                                            return (
-                                                <Td key={index}>{(data.benefit / (data.benefit + data.non_operation_income) * 100).toFixed(0)}%</Td>
-                                            )
-                                        })
-                                    }
-                                </BodyTr>
+                            <BodyTr>
+                                <Td start>{indicateTableTitle[3]}</Td>
+                                {
+                                    incomeDisplay.map((data, index) => {
+                                        return (
+                                            <Td key={index}>{(data.benefit / (data.benefit + data.non_operation_income) * 100).toFixed(0)}%</Td>
+                                        )
+                                    })
+                                }
+                            </BodyTr>
                             {
                                 indicateTableTitle.map(data => {
                                     return (
@@ -303,4 +355,4 @@ const mapStateToProps = state => {
     }
 }
 
-export default connect(mapStateToProps,)(StockInoTable);
+export default connect(mapStateToProps,)(StockInfoTable);
