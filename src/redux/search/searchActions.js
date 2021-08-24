@@ -43,5 +43,4 @@ export const searchListClick = item => {
 
 export const clickSearch = (s) => dispatch => {
     dispatch(searchListClick(s))
-    // console.log(s)
 }

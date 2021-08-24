@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
+from posixpath import abspath
 from flask import Flask, jsonify, request, json
 from flask_sqlalchemy import SQLAlchemy
+import pandas as pd
+import os
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data/cashFlow_sheet.db'
@@ -12,6 +15,7 @@ app.config['SQLALCHEMY_BINDS'] = {
     'income_sheet': 'sqlite:///data/income_sheet.db',
     'cashFlow_sheet': 'sqlite:///data/cashFlow_sheet.db',
     'legal_person': 'sqlite:///data/legal_person.db',
+    'price': 'sqlite:///data/price.db',
 }
 
 db = SQLAlchemy(app)
@@ -195,7 +199,6 @@ class CashFlow(object):
     amortization_fee = db.Column('攤銷費用', db.Float, nullable=False)
     cashFlow_operating = db.Column('營業活動之淨現金流入（流出）', db.Float, nullable=True)
 
-
 def cash_serializer(cash):
     return {
         'id': cash.id,
@@ -216,6 +219,45 @@ def cashFlow_display():
     read_data = jsonify([*map(cash_serializer, n.query.all())])
     return read_data
 
+@app.route('/price', methods=['POST', 'GET'])
+def price_csv():
+    if request.method == 'POST':
+        request_data = json.loads(request.data)
+        print(request_data['table_name']) # 2330
+        absPath = os.path.dirname(os.path.abspath(__file__))
+        path = os.path.join(absPath, 'data', 'price_data', 'price_' + request_data['table_name'] +  '.csv')
+        csv_file = pd.read_csv(path)
+        print(csv_file)
+    return 'csv_file'
+
+class Price(object):
+    __bind_key__ = 'price'
+    __table_args__ = {'extend_existing': True}
+    Date = db.Column('Date', db.String, primary_key=True)
+    Open = db.Column('Open', db.Float, nullable=False)
+    High = db.Column('High', db.Float, nullable=False)
+    Low = db.Column('Low', db.Float, nullable=False)
+    Close = db.Column('Close', db.Float, nullable=False)
+    Volume = db.Column('Volume', db.Float, nullable=False)
+
+def price_serializer(price):
+    return {
+        'Date': price.Date,
+        'Open': price.Open,
+        'High': price.High,
+        'Low': price.Low,
+        'Close': price.Close,
+        'Volume': price.Volume
+    }
+
+@app.route('/stockprice', methods=['POST', 'GET'])
+def price_display():
+    if request.method == 'POST':
+        request_data = json.loads(request.data)
+        n = type('price_' + request_data.get('table_name'), (Price, db.Model), {'_tablename__': 'price_' + request_data.get('table_name')})
+    read_data = jsonify([*map(price_serializer, n.query.all())])
+    return read_data
+
 
 class LegalPerson(object):
     __bind_key__ = 'legal_person'
@@ -226,7 +268,6 @@ def legalPerson_serializer(item):
     return {
 
     }
-
 
 @app.route('/legalPerson')
 def legalPerson_display():
