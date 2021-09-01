@@ -35,9 +35,9 @@ function App() {
             <Route exact path="/mylist">
               <StockListPage />
             </Route>
-            <Route exact path="/try">
+            {/* <Route exact path="/try">
               <NotSearchStockInoPage />
-            </Route>
+            </Route> */}
             <Route exact path="/search">
               <InfoSearch />
             </Route>

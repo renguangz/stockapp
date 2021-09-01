@@ -5,6 +5,8 @@ import './sideBar.css';
 import { connect } from 'react-redux';
 import { fetchIdName, fetchBasicIncome, fetchBasic } from '../../../redux';
 import * as Storage from '../../helper/StorageHelper';
+import { CaretUpOutlined, CaretDownOutlined } from '@ant-design/icons';
+import { useState } from 'react';
 
 const Sidebar = styled.div`
     background-color: #272821;
@@ -16,7 +18,7 @@ const Sidebar = styled.div`
 `;
 
 const StyledStockName = styled.div`
-    border: 2px solid green;
+    /* border: 2px solid green; */
     width: 80%;
     height: 120px;
     margin-bottom: 16%;
@@ -24,8 +26,8 @@ const StyledStockName = styled.div`
 `;
 
 const StockName = styled.h2`
-    font-size: 2rem;
-    color: white;
+    font-size: ${props => props.fontSize || '1.8'}rem;
+    color: ${props => props.color || 'white'};
 `;
 
 const SidebarContainer = styled.div`
@@ -56,7 +58,13 @@ const SideBarButton = styled.div`
     }
 `;
 
-function SideBar({ search, fetchBasicIncome, basic, fetchBasic }) {
+const Flex = styled.div`
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0;
+`;
+
+function SideBar({ price, fetchBasicIncome, fetchBasic, basic }) {
 
     // 拿到只含股票名稱的陣列 ex. ['1101', '1102', '1103', ...]
 
@@ -74,7 +82,6 @@ function SideBar({ search, fetchBasicIncome, basic, fetchBasic }) {
         const stockInfoId = ['move', 'basic', 'tech', 'chip', 'news']
         stockInfoId.forEach(id => {
             const section = e.target.getElementById(id)
-            console.log(section)
             const sectionTop = section.offsetTop
             const sectionHeight = section.clientHeight
             if (window.pageYOffset >= (sectionTop - sectionHeight / 2.5)) {
@@ -104,12 +111,41 @@ function SideBar({ search, fetchBasicIncome, basic, fetchBasic }) {
         fetchBasic(searchStock)
     }, [searchStock])
 
+    const [newBasic, setNewBasic] = useState([])
+    useEffect(() => {
+        setNewBasic(basic)
+    }, [basic])
+
+    const datas = price.price.slice(-80)
+    const stockPrice = datas.slice(-1)
+    const lastSecondData = datas[datas.length - 2]
+
     return (
         <Sidebar>
             <SidebarContainer>
                 <StyledStockName>
-                    <StockName>{searchStockIdName}</StockName>
-                    <StockName>⬆️漲幅(幅度%)</StockName>
+                    <StockName fontSize={2}>{searchStockIdName}</StockName>
+                    {
+                        stockPrice.map(item => {
+                            const lastDayClose = lastSecondData.Close
+                            let color;
+                            (item.Close > lastDayClose) ? (color = '#FF2627') : (item.Close === lastDayClose) ? (color = 'white') : (color = '#1DFF1E')
+                            return (
+                                <>
+                                    <Flex>
+                                        <StockName fontSize={1.8}>現: </StockName>
+                                        <StockName fontSize={1.8} color={color}>{item.Close}&ensp;</StockName>
+                                        <StockName color={color}>{(item.Close > lastDayClose) ? <CaretUpOutlined style={{ fill: '#FF2627' }} /> : (item.Close === lastDayClose) ? '' : <CaretDownOutlined className='greenColor' />}</StockName>
+                                        <StockName color={color}>{(Math.abs(item.Close - lastDayClose)).toFixed(2)}</StockName>
+                                    </Flex>
+                                    {/* <Flex>
+                                        <StockName fontSize={1.4}>漲跌: </StockName>
+                                        <StockName>🔺 {Math.abs(item.Close - lastDayClose)}</StockName>
+                                    </Flex> */}
+                                </>
+                            )
+                        })
+                    }
                 </StyledStockName>
                 {
                     SideBarData.map((data, index) => {
@@ -125,8 +161,9 @@ function SideBar({ search, fetchBasicIncome, basic, fetchBasic }) {
 
 const mapStateToProps = state => {
     return {
-        search: state.search,
+        // search: state.search,
         basic: state.basic,
+        price: state.price,
     }
 }
 

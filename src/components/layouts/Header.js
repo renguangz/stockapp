@@ -48,7 +48,7 @@ const Header = ({ headerBgc }) => {
             <StyledHeaderContainer>
                 <StyledHeaderSection>
                     <Link to="/">
-                        <StyledHeaderItem><HomeFilled style={{ color: 'white', marginRight: '8px' }} />首頁</StyledHeaderItem>
+                        <StyledHeaderItem><HomeFilled style={{ fill: 'white', color: 'white', marginRight: '8px' }} />首頁</StyledHeaderItem>
                     </Link>
                     {/* <Link to="/mylist">
                         <StyledHeaderItem>股票清單</StyledHeaderItem>
@@ -65,13 +65,13 @@ const Header = ({ headerBgc }) => {
                 </StyledHeaderSection>
                 <StyledHeaderSection>
                     <Link to="/mylist">
-                        <StyledHeaderItem><FileDoneOutlined style={{ color: 'white', marginRight: '8px' }} />股票清單</StyledHeaderItem>
+                        <StyledHeaderItem><FileDoneOutlined style={{ fill: 'white', color: 'white', marginRight: '8px' }} />股票清單</StyledHeaderItem>
                     </Link>
                     {/* <Link to='/stockinfo'>
                         <StyledHeaderItem><SolutionOutlined />個股資訊</StyledHeaderItem>
                     </Link> */}
                     <Link to='/search'>
-                        <StyledHeaderItem><SearchOutlined style={{ color: 'white', marginRight: '8px' }} />搜尋股票</StyledHeaderItem>
+                        <StyledHeaderItem><SearchOutlined style={{ fill: 'white', color: 'white', marginRight: '8px' }} />搜尋股票</StyledHeaderItem>
                     </Link>
                 </StyledHeaderSection>
             </StyledHeaderContainer>

@@ -7,6 +7,9 @@ import { connect } from 'react-redux';
 import techmid from '../../images/mocked/techmid.png';
 import techmid1 from '../../images/mocked/techmid1.png';
 import techmid2 from '../../images/mocked/techmid2.png';
+import CandlestickMain from './candlestickMain';
+import SecondChart from './SecondChart';
+import ThirdChart from './ThirdChart';
 
 const TechContainer = styled.div`
     /* border: 2px solid yellow; */
@@ -136,6 +139,13 @@ const CandleStickChart = ({ price, fetchPrice }) => {
     }, [])
     const datas = price.price.slice(-60)
     console.log(datas)
+    datas.map(item => {
+        const parseDate = d3.timeParse('%Y%m%d')
+        // console.log(item.Date)
+        // console.log(parseDate(+item.Date))
+        // console.clear();
+    })
+    const mainRef = useRef();
 
     const width = 1020;
     const height = 340;
@@ -144,7 +154,7 @@ const CandleStickChart = ({ price, fetchPrice }) => {
     const innerHeight = height - padding * 2
 
     // g
-    const svg = d3.select('#candlestick_main_chart').attr('width', innerWidth).attr('height', innerHeight)
+    const svg = d3.select(mainRef.current).attr('width', innerWidth).attr('height', innerHeight)
     const rootLayer = svg.append('g').attr('transform', `translate(0, 0)`)
     const axisLayer = rootLayer.append('g')
     const xAxisLayer = axisLayer.append('g').attr('transform', `translate(0, ${height})`)
@@ -168,8 +178,8 @@ const CandleStickChart = ({ price, fetchPrice }) => {
 
     const calcExtent = () => {
         xExtent = [d3.min(datas, data => new Date(data.Date)), d3.max(datas, data => new Date(data.Date))]
-        yExtent = [d3.min(datas, data => data.Low), d3.max(datas, data => data.High)]
-        console.log(xExtent, yExtent)
+        yExtent = [d3.min(datas, data => data.Low) * 0.98, d3.max(datas, data => data.High) * 1.02]
+        // console.log(xExtent, yExtent)
     }
 
     const calcScale = () => {
@@ -178,10 +188,11 @@ const CandleStickChart = ({ price, fetchPrice }) => {
     }
 
     const paintAxis = () => {
-        xAxis = d3.axisBottom().scale(xScale)
-        yAxis = d3.axisLeft().scale(yScale)
+        // xAxis = d3.axisBottom().scale(xScale)
+        xAxis = d3.axisBottom(xScale)
+        yAxis = d3.axisLeft(yScale)
 
-        xAxisLayer.call(xAxis)
+        xAxisLayer.call(xAxis.ticks(3, '.2f').tickSize(-height, 0))
         yAxisLayer.call(yAxis)
     }
 
@@ -307,98 +318,12 @@ const CandleStickChart = ({ price, fetchPrice }) => {
     secondPaintRects();
 
 
-
-
-
     return (
         <TechContainer>
-            <TechNav>
-                <TechMainH4>2021/07/02 開: 605.00 高: 607.00 低: 601.00 收: 604.00 量: 4000 ⬇️5.00</TechMainH4>
-                <TechNavRight>
-                    <TechDropSelect>
-                        <DropSelect>
-                            {/* <TechDropOption>1分鐘</TechDropOption>
-                            <TechDropOption>5分鐘</TechDropOption>
-                            <TechDropOption>10分鐘</TechDropOption>
-                            <TechDropOption>15分鐘</TechDropOption>
-                            <TechDropOption>30分鐘</TechDropOption>
-                            <TechDropOption>60分鐘</TechDropOption> */}
-                            <TechDropOption>日線</TechDropOption>
-                            <TechDropOption>週線</TechDropOption>
-                            <TechDropOption>月線</TechDropOption>
-                        </DropSelect>
-                    </TechDropSelect>
-                    <NavButton>
-                        <TechMainTitle>關閉隔線</TechMainTitle>
-                    </NavButton>
-                    <NavButton>
-                        <TechMainTitle>重新整理</TechMainTitle>
-                    </NavButton>
-                </TechNavRight>
-            </TechNav>
-            <TechMainContainer height={'40'}>
-                <TechMainLeft>
-                    <TechMainTitleContainer>
-                        <TechMainTitle>K線</TechMainTitle>
-                        <TechMainH4>MA5: 26.01</TechMainH4>
-                        <TechMainH4>MA100: 26.01</TechMainH4>
-                        <TechMainH4>MA: 26.01</TechMainH4>
-                    </TechMainTitleContainer>
-                </TechMainLeft>
-                <TechMainMid height={'88'}>
-                    {/* <ChipImg url={techmid} width={'100'} height={'100'} /> */}
-                    <svg id='candlestick_main_chart'></svg>
-                </TechMainMid>
-                <TechMainRight>
-                    <TechMainH4 textAlign={'right'}>
-                        35.55
-                    </TechMainH4>
-                    <TechMainH4 textAlign={'right'}>
-                        35.55
-                    </TechMainH4>
-                    <TechMainH4 textAlign={'right'}>
-                        35.55
-                    </TechMainH4>
-                    <TechMainH4 textAlign={'right'}>
-                        35.55
-                    </TechMainH4>
-                </TechMainRight>
-                {/* <TechMainDate>
-                    <TechMainH4>2021/02</TechMainH4>
-                    <TechMainH4>2021/02</TechMainH4>
-                    <TechMainH4>2021/02</TechMainH4>
-                    <TechMainH4>2021/02</TechMainH4>
-                </TechMainDate> */}
-            </TechMainContainer>
-            <TechMainContainer>
-                <TechMainLeft>
-                    <TechMainTitleContainer>
-                        <TechMainTitle>成交量</TechMainTitle>
-                        <TechMainH4>MA5: 26.01</TechMainH4>
-                        <TechMainH4>MA100: 26.01</TechMainH4>
-                        <TechMainH4>MA: 26.01</TechMainH4>
-                    </TechMainTitleContainer>
-                </TechMainLeft>
-                <TechMainMid>
-                    <ChipImg url={techmid1} width={'100'} height={'100'} />
-                    {/* <svg id='candlestick_secondary_chart'></svg> */}
-                </TechMainMid>
-                <TechMainRight height={'100'}>
-                    <TechMainH4 textAlign={'right'}>
-                        35.55
-                    </TechMainH4>
-                    <TechMainH4 textAlign={'right'}>
-                        35.55
-                    </TechMainH4>
-                    <TechMainH4 textAlign={'right'}>
-                        35.55
-                    </TechMainH4>
-                    <TechMainH4 textAlign={'right'}>
-                        35.55
-                    </TechMainH4>
-                </TechMainRight>
-            </TechMainContainer>
-            <TechMainContainer>
+            <CandlestickMain />
+            <SecondChart />
+            <ThirdChart />
+            {/* <TechMainContainer>
                 <TechMainLeft>
                     <TechMainTitleContainer>
                         <TechMainTitle>KDJ</TechMainTitle>
@@ -424,7 +349,7 @@ const CandleStickChart = ({ price, fetchPrice }) => {
                         35.55
                     </TechMainH4>
                 </TechMainRight>
-            </TechMainContainer>
+            </TechMainContainer> */}
         </TechContainer>
     )
 };

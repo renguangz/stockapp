@@ -233,12 +233,21 @@ def price_csv():
 class Price(object):
     __bind_key__ = 'price'
     __table_args__ = {'extend_existing': True}
-    Date = db.Column('Date', db.String, primary_key=True)
-    Open = db.Column('Open', db.Float, nullable=False)
-    High = db.Column('High', db.Float, nullable=False)
-    Low = db.Column('Low', db.Float, nullable=False)
-    Close = db.Column('Close', db.Float, nullable=False)
-    Volume = db.Column('Volume', db.Float, nullable=False)
+    Date = db.Column('date', db.String, primary_key=True)
+    Open = db.Column('open', db.Float, nullable=False)
+    High = db.Column('high', db.Float, nullable=False)
+    Low = db.Column('low', db.Float, nullable=False)
+    Close = db.Column('close', db.Float, nullable=False)
+    Volume = db.Column('volume', db.Float, nullable=False)
+    Ma5 = db.Column('ma5', db.Float, nullable=True)
+    Ma10 = db.Column('ma10', db.Float, nullable=True)
+    Ma20 = db.Column('ma20', db.Float, nullable=True)
+    volumeMa5 = db.Column('volumeMa5', db.Float, nullable=True)
+    volumeMa10 = db.Column('volumeMa10', db.Float, nullable=True)
+    volumeMa20 = db.Column('volumeMa20', db.Float, nullable=True)
+    slowk = db.Column('slowk', db.Float, nullable=True)
+    slowd = db.Column('slowd', db.Float, nullable=True)
+    slowj = db.Column('slowj', db.Float, nullable=True)
 
 def price_serializer(price):
     return {
@@ -247,7 +256,16 @@ def price_serializer(price):
         'High': price.High,
         'Low': price.Low,
         'Close': price.Close,
-        'Volume': price.Volume
+        'Volume': price.Volume,
+        'Ma5': price.Ma5,
+        'Ma10': price.Ma10,
+        'Ma20': price.Ma20,
+        'volumeMa5': price.volumeMa5,
+        'volumeMa10': price.volumeMa10,
+        'volumeMa20': price.volumeMa20,
+        'slowk': price.slowk,
+        'slowd': price.slowd,
+        'slowj': price.slowj,
     }
 
 @app.route('/stockprice', methods=['POST', 'GET'])

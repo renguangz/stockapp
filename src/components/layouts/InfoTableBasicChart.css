@@ -1,4 +1,4 @@
-svg {
+.svgWhite {
     fill: white;
 }
 
@@ -38,6 +38,10 @@ svg .c3-legend-background {
     left: -10px;
 } */
 
-.c3-tooltip-container th {
-    /* border-bottom: 1px solid white; */
+.legend span {
+    width: 50%;
+    display: inline-block;
+    text-align: center;
+    cursor: pointer;
+    color: white;
 }

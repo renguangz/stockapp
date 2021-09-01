@@ -181,7 +181,7 @@ const InfoSearch = ({ searchRedux, fetchIdName }) => {
                 <SearchContainer>
                     <SearchIcon>
                         <SearchOutlined
-                            style={{ fontSize: '40px', color: 'white' }}
+                            style={{ fontSize: '40px', fill: 'white' }}
                         />
                     </SearchIcon>
                     <SearchInput

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
+import { fetchBasic } from '../../redux';
 import { MockedInfo } from '../common/mocked_data/StockInfoTableMocked';
 
 const TableContainer = styled.table`
@@ -84,7 +85,10 @@ const LeftTableButton = styled.div`
     cursor: pointer;
 `;
 
-const StockInfoTable = ({ basic }) => {
+const StockInfoTable = ({ basic, fetchBasic }) => {
+
+    
+
     const tableTitle = [
         '營業收入', '營業成本', '營業利益', '業外損益', '稅前淨利', '應收帳款', '應付帳款',
         '負債總額', '資產總額', '固定資產', '股東權益總額', '存貨', '折舊', '攤提', '每股盈餘(元)'
@@ -103,9 +107,9 @@ const StockInfoTable = ({ basic }) => {
         setFinanceReportDisplay(false)
     }
 
-    const incomeDisplay = basic.income.slice(-4)
-    const balanceDisplay = basic.balance.slice(-4)
-    const cashFlowDisplay = basic.cashFlow.slice(-4)
+    const incomeDisplay = basic && basic.income && basic.income.slice(-4)
+    const balanceDisplay = basic && basic.balance && basic.balance.slice(-4)
+    const cashFlowDisplay = basic && basic.cashFlow && basic.cashFlow.slice(-4)
 
     // eps
     const eps = []
@@ -352,6 +356,12 @@ const StockInfoTable = ({ basic }) => {
 const mapStateToProps = state => {
     return {
         basic: state.basic
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        fetchBasic: (stockid) => dispatch(fetchBasic(stockid))
     }
 }
 

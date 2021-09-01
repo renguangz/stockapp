@@ -510,10 +510,11 @@ const SearchSpan = styled.span`
 `;
 
 
-const NotSearchStockInfoPage = ({ stockinfo, notSearch, searchRedux, clickSearch }) => {
+const NotSearchStockInfoPage = ({ stockinfo, notSearch, searchRedux, clickSearch, fetchBasic }) => {
     useEffect(() => {
         fetchStock()
         fetchIdName()
+        // fetchBasic(searchStock)
     }, [])
 
     const [search, setSearch] = useState('')
@@ -553,6 +554,8 @@ const NotSearchStockInfoPage = ({ stockinfo, notSearch, searchRedux, clickSearch
         )
     }
     const stockNotSearch = Storage.getData('notSearch')
+    const searchStockIdName = Storage.getData('stock_id_and_name')
+    const searchStock = searchStockIdName.split('　')[0]
 
     return (
         <>

@@ -1,0 +1,51 @@
+svg { 
+    fill: inherit;
+}
+
+.tick {
+    text-align: right;
+}
+
+.tick text {
+    border: 1px solid pink;
+    text-align: right;
+    font-weight: 500;
+    font-size: 16px;
+    color: #999999;
+}
+
+.main-chart {
+    background-color: #333333;
+}
+
+#candlestick-main {
+    background-color: #333333;
+    text-align: end;
+}
+
+#candlestick-main:first-child {
+    opacity: 0;
+}
+
+.greybackground {
+    z-index: -1;
+}
+
+.redColor {
+    color: #FF2627;
+    fill: #FF2627;
+}
+
+.greenColor {
+    color: #1DFF1E;
+    fill: #1DFF1E;
+}
+
+.whiteColor {
+    color: white;
+    fill: white;
+}
+
+.gBackground {
+    background-color: #333333;
+}
