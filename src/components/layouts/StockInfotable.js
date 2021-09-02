@@ -79,15 +79,16 @@ const RightTableButton = styled.div`
 `;
 
 const LeftTableButton = styled.div`
+    /* border: 1px solid red; */
+    border-radius: 4px;
     font-size: 16px;
     font-weight: 600;
     padding: 0 16px;
     cursor: pointer;
+    background-color: ${props => props.bgc};
 `;
 
 const StockInfoTable = ({ basic, fetchBasic }) => {
-
-    
 
     const tableTitle = [
         '營業收入', '營業成本', '營業利益', '業外損益', '稅前淨利', '應收帳款', '應付帳款',
@@ -100,11 +101,17 @@ const StockInfoTable = ({ basic, fetchBasic }) => {
     ]
 
     const [financeReportDisplay, setFinanceReportDisplay] = useState(true)
+    const [financeFocus, setFinanceFocus] = useState('#2C3235');
+    const [indicateFocus, setIndicateFocus] = useState('transparent');
     const clickLeftTableButtonReport = () => {
         setFinanceReportDisplay(true)
+        setFinanceFocus('#2C3235')
+        setIndicateFocus('transparent')
     }
     const clickLeftTableButtonIndicate = () => {
         setFinanceReportDisplay(false)
+        setIndicateFocus('#2C3235')
+        setFinanceFocus('transparent')
     }
 
     const incomeDisplay = basic && basic.income && basic.income.slice(-4)
@@ -133,8 +140,8 @@ const StockInfoTable = ({ basic, fetchBasic }) => {
                     <TableTitle>109年</TableTitle>
                 </TableTitleContainer>
                 <ButtonContainer>
-                    <LeftTableButton onClick={clickLeftTableButtonReport}>報表</LeftTableButton>
-                    <LeftTableButton onClick={clickLeftTableButtonIndicate}>指標</LeftTableButton>
+                    <LeftTableButton bgc={financeFocus} onClick={clickLeftTableButtonReport}>報表</LeftTableButton>
+                    <LeftTableButton bgc={indicateFocus} onClick={clickLeftTableButtonIndicate}>指標</LeftTableButton>
                 </ButtonContainer>
                 <RightTableButton>＜上一年</RightTableButton>
                 <RightTableButton>下一年＞</RightTableButton>

@@ -277,20 +277,23 @@ def price_display():
     return read_data
 
 
-class LegalPerson(object):
+class LegalPerson(db.Model):
     __bind_key__ = 'legal_person'
-    __table_args__ = {'extend_existing': True}
-
+    # __table_args__ = {'extend_existing': True}
+    stock_id = db.Column('stock_id', db.String, primary_key=True)
+    date = db.Column('date', db.String, nullable=False)
 
 def legalPerson_serializer(item):
     return {
-
+        'stock_id': item.stock_id,
+        'date': item.date,
     }
 
 @app.route('/legalPerson')
 def legalPerson_display():
     read_data = jsonify(
         [*map(legalPerson_serializer, LegalPerson.query.all())])
+    return read_data
 
 
 if __name__ == '__main__':

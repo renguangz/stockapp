@@ -1,12 +1,11 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
-import { SideBarData } from './SideBarData';
+import { SideBarData, addStockToList } from './SideBarData';
 import './sideBar.css';
 import { connect } from 'react-redux';
-import { fetchIdName, fetchBasicIncome, fetchBasic } from '../../../redux';
+import { fetchIdName, fetchBasicIncome, fetchBasic, addListStock, removeListStock } from '../../../redux';
 import * as Storage from '../../helper/StorageHelper';
 import { CaretUpOutlined, CaretDownOutlined } from '@ant-design/icons';
-import { useState } from 'react';
 
 const Sidebar = styled.div`
     background-color: #272821;
@@ -60,13 +59,15 @@ const SideBarButton = styled.div`
 
 const Flex = styled.div`
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     margin: 0;
 `;
 
-function SideBar({ price, fetchBasicIncome, fetchBasic, basic }) {
+const addToList = addStockToList
 
-    // 拿到只含股票名稱的陣列 ex. ['1101', '1102', '1103', ...]
+function SideBar({ price, fetchBasicIncome, fetchBasic, basic, addStock, removeStock, addStockToList }) {
+
+    // const [addToList, setAddToList] = useState(true)
 
     const scrollToAnchor = (anchorName) => {
         if (!!anchorName) {
@@ -74,6 +75,14 @@ function SideBar({ price, fetchBasicIncome, fetchBasic, basic }) {
             if (anchorElement) {
                 window.scrollTo(0, anchorElement.offsetTop - window.innerHeight / 14)
             }
+        }
+
+        if (anchorName === 'add') {
+            addStockToList = !addStockToList
+            console.log(addToList)
+            console.log(addStockToList)
+            addStockToList ? console.log('新增') : console.log('remove')
+            // addStock(searchStockIdName) : removeStock(searchStockIdName)
         }
     }
 
@@ -97,6 +106,7 @@ function SideBar({ price, fetchBasicIncome, fetchBasic, basic }) {
     }
 
     const Ref = useRef([])
+    // console.log(Ref.current[4])
     // useEffect(() => {
     //     document.addEventListener('DOMContentLoaded', () => {
     //         window.addEventListener('scroll', handleScroll)
@@ -133,15 +143,11 @@ function SideBar({ price, fetchBasicIncome, fetchBasic, basic }) {
                             return (
                                 <>
                                     <Flex>
-                                        <StockName fontSize={1.8}>現: </StockName>
+                                        <StockName fontSize={1.8}>現:&ensp;</StockName>
                                         <StockName fontSize={1.8} color={color}>{item.Close}&ensp;</StockName>
                                         <StockName color={color}>{(item.Close > lastDayClose) ? <CaretUpOutlined style={{ fill: '#FF2627' }} /> : (item.Close === lastDayClose) ? '' : <CaretDownOutlined className='greenColor' />}</StockName>
                                         <StockName color={color}>{(Math.abs(item.Close - lastDayClose)).toFixed(2)}</StockName>
                                     </Flex>
-                                    {/* <Flex>
-                                        <StockName fontSize={1.4}>漲跌: </StockName>
-                                        <StockName>🔺 {Math.abs(item.Close - lastDayClose)}</StockName>
-                                    </Flex> */}
                                 </>
                             )
                         })
@@ -171,7 +177,9 @@ const mapDispatchToProps = dispatch => {
     return {
         fetchIdName: () => dispatch(fetchIdName()),
         fetchBasicIncome: (stockid) => dispatch(fetchBasicIncome(stockid)),
-        fetchBasic: (stockid) => dispatch(fetchBasic(stockid))
+        fetchBasic: (stockid) => dispatch(fetchBasic(stockid)),
+        addStock: (stockid) => dispatch(addListStock(stockid)),
+        removeStock: (stockid) => dispatch(removeListStock(stockid)),
     }
 };
 

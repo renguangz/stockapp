@@ -11,7 +11,6 @@ import { Provider } from 'react-redux';
 import store from './redux/store';
 import HomeBook from './components/pages/HomeBook';
 import HomeCarousel from './components/layouts/HomeCarousel';
-import NotSearchStockInoPage from './components/pages/NotSearchStockInoPage';
 import InfoSearch from './components/common/InfoSearch';
 
 function App() {
@@ -35,9 +34,6 @@ function App() {
             <Route exact path="/mylist">
               <StockListPage />
             </Route>
-            {/* <Route exact path="/try">
-              <NotSearchStockInoPage />
-            </Route> */}
             <Route exact path="/search">
               <InfoSearch />
             </Route>

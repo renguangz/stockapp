@@ -1,4 +1,6 @@
-import React from 'react'
+import React from 'react';
+
+export let addStockToList = false;
 
 export const SideBarData = [
     {
@@ -29,10 +31,10 @@ export const SideBarData = [
         id: 'chip'
     },
     {
-        title: '個股新聞',
+        title: addStockToList ?  '新增至清單' : '從清單移除',
         path: '/news',
         icon: <div>news icons</div>,
         className: '',
-        id: 'news',
+        id: 'add',
     },
 ]
