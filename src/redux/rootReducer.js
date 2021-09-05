@@ -5,6 +5,8 @@ import searchReducer from './search/searchReducer';
 import basicReducer from './infoBasic/basicReducer';
 import candlestickReducer from './candlestick/candlestickReducer';
 import mouseEventReducer from './mouseEvent/mouseReducer';
+import chipReducer from './stockChip/chipReducer';
+import marginTradeReducer from './marginTrade/marginTradeReducer';
 
 const rootReducer = combineReducers({
     stockInfo: stockReducer,
@@ -13,6 +15,8 @@ const rootReducer = combineReducers({
     basic: basicReducer, 
     price: candlestickReducer,
     mouseEvent: mouseEventReducer,
+    chip: chipReducer,
+    marginTrade: marginTradeReducer,
 });
 
 export default rootReducer;

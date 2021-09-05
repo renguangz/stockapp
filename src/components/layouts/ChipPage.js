@@ -1,10 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import styled from 'styled-components';
 import * as d3 from 'd3';
 import { chipRightTop, chipRightBot } from '../common/mocked_data/ChipRight';
 import { chipbot } from '../common/mocked_data/ChipBot';
 import chiprighttop from '../images/mocked/chiprighttop1.jpeg';
 import chip from '../images/mocked/chip.jpeg';
+import { connect } from 'react-redux';
+import { fetchChip } from '../../redux';
+import './chipPage.css';
+import { ConsoleSqlOutlined } from '@ant-design/icons';
 
 const ChipContainer = styled.div`
     /* border: 2px solid yellow; */
@@ -16,7 +20,7 @@ const ChipContainer = styled.div`
 const ChipLeft = styled.div`
     /* border: 1px solid red; */
     height: 100%;
-    width: 66%;
+    width: 60%;
     margin-right: 2%;
 `;
 
@@ -30,7 +34,7 @@ const ChipTitle = styled.h2`
 
 const ChipLeftTop = styled.div`
     /* border: 1px solid white; */
-    width: 64%;
+    width: 96%;
     height: 48%;
     margin: 0 auto;
 `;
@@ -39,10 +43,11 @@ const ButtonContainer = styled.div`
     border: 2px solid #2B3234;
     border-radius: 12px;
     height: 16%;
-    width: 88%;
+    width: 52%;
     display: flex;
     align-items: center;
     padding: 2px;
+    margin: 0 auto;
 `;
 
 const ButtonChange = styled.div`
@@ -99,7 +104,7 @@ const ChipTd = styled.td`
 const ChipRight = styled.div`
     /* border: 1px solid gainsboro; */
     height: 100%;
-    width: 32%;
+    width: 38%;
 `;
 
 const ChipRightTop = styled.div`
@@ -141,15 +146,6 @@ const RadioLabel = styled.label`
     width: 50%;
     height: 100%;
     line-height: 100%;
-`;
-
-
-const RadioInput = styled.input`
-    display: none;
-    cursor: initial;
-    &:checked + ${RadioLabel} {
-        background-color: #2C3235;
-    }
 `;
 
 const RightBotRadio = styled.div`
@@ -196,7 +192,13 @@ const DropSelect = styled.select`
     width: 100px;
 `;
 
-const ChipPage = () => {
+const ChipSvg = styled.svg`
+    /* border: 1px solid red; */
+    height: 280px;
+    width: 620px;
+`;
+
+const ChipPage = ({ chipInfo, price, marginTrade }) => {
 
     const [LeftButtonBgc, setLeftButtonBgc] = useState('#2B3234');
     const [rightButtonBgc, setRightButtonBgc] = useState('transparent')
@@ -220,6 +222,127 @@ const ChipPage = () => {
         setSellButtonBgc('#2B3234')
     }
 
+    const datas = chipInfo.data.slice(-11)
+    const reverseData = chipInfo.data.slice(-11).reverse();
+    const keys = ['foreign_invest', 'credit', 'self_employee']
+    const stackDatas = d3.stack().keys(keys).offset(d3.stackOffsetDiverging)(datas)
+
+    const marginDatas = marginTrade.data.slice(-11)
+
+    const margin_trade_array = []
+    const short_sell_array = []
+    const total_offset_array = []
+    marginTrade && marginDatas && marginDatas.map(item => {
+        margin_trade_array.push(item.margin_trade_total)
+        short_sell_array.push(item.short_sell_total)
+        total_offset_array.push(item.total_offset)
+    })
+    margin_trade_array.reverse()
+    short_sell_array.reverse()
+    total_offset_array.reverse()
+
+    const priceDatas = price.price.slice(-11)
+    const displayPrice = []
+    priceDatas.map(item => {
+        console.log(item.Close)
+        displayPrice.push(item.Close)
+    })
+    displayPrice.reverse()
+    console.log(priceDatas)
+
+    const chipRef = useRef();
+    const chipSvg = d3.select(chipRef.current)
+    const width = 620;
+    const height = 280;
+
+    const margin = { top: 10, left: 80, bottom: 30, right: 50 }
+    const innerHeight = height - margin.top - margin.bottom
+    const innerWidth = width - margin.left - margin.right
+    const g = chipSvg.append('g').attr('transform', `translate(${margin.left}, ${margin.top})`)
+
+    const xScale = d3.scaleBand()
+        .domain(datas.map(d => d.date.split(' ')[0].split('-')[2]))
+        .range([innerWidth, 0])
+        .padding(0.3)
+
+    const yAxisMaxValue = Math.max(Math.abs(d3.min(datas, d => d.total_invest)), d3.max(datas, d => d.total_invest)) * 1.2
+    const yAxisTickvalue = [-yAxisMaxValue, -yAxisMaxValue * 2 / 3, -yAxisMaxValue / 3, 0, yAxisMaxValue / 3, yAxisMaxValue * 2 / 3, yAxisMaxValue]
+    const yScale = d3.scaleLinear()
+        .domain([-yAxisMaxValue, yAxisMaxValue])
+        .range([innerHeight, 0])
+    const yExtentRight = [d3.min(displayPrice) * 0.95, d3.max(displayPrice) * 1.05]
+    const yRightTickvalues = [yExtentRight[0].toFixed(1), (yExtentRight[0] + (yExtentRight[1] - yExtentRight[0]) / 4).toFixed(1), (yExtentRight[0] + (yExtentRight[1] - yExtentRight[0]) / 2).toFixed(1), (yExtentRight[0] + (yExtentRight[1] - yExtentRight[0]) / 4 * 3).toFixed(1), yExtentRight[1].toFixed(1)]
+    const yScaleRight = d3.scaleLinear()
+        .domain(yExtentRight)
+        .range([innerHeight, 0])
+
+    const xAxis = d3.axisBottom(xScale).tickSize(0)
+    const yAxis = d3.axisLeft(yScale).tickValues(yAxisTickvalue).tickSize(0)
+    const yAxisRight = d3.axisRight(yScaleRight).tickValues(yRightTickvalues).tickSize(0)
+    const xAxisG = g.append('g').attr('class', 'chip-x-axis').call(xAxis).attr('transform', `translate(0, ${innerHeight})`)
+    const yAxisG = g.append('g').call(yAxis).attr('transform', `translate(0, 0)`)
+    const yAxisRightG = g.append('g').call(yAxisRight).attr('transform', `translate(${innerWidth}, 0)`)
+
+    const color = d3.scaleOrdinal()
+        .range(['#1889D0', '#E34E40', '#7B4EA4'])
+
+    // background bar
+    g.selectAll('rect').data(datas, d => d.date).enter()
+        .append('rect').attr('class', 'bgc-bar')
+        .attr('x', d => xScale(d.date.split(' ')[0].split('-')[2]))
+        .attr('y', d => yScale(yAxisMaxValue))
+        .attr('width', xScale.bandwidth())
+        .attr('height', innerHeight)
+        .attr('fill', '#171C1D')
+
+    g.selectAll('.stacked-bar').data(stackDatas).enter().append('g').attr('class', 'stacked-bar')
+        .attr('fill', item => { return color(item.key) })
+        .selectAll('.bar-chart').data(layer => layer).enter().append('rect')
+        .attr('x', item => { return xScale(item.data.date.split(' ')[0].split('-')[2]) })
+        .attr('y', item => { return yScale(item[1]) })
+        .attr('width', xScale.bandwidth())
+        .attr('height', item => { return Math.abs(yScale(item[0]) - yScale(item[1])) })
+    // .attr('rx', 12)
+    // .attr('ry', 12)
+
+    // const rx = 12;
+    // const ry = 12;
+    // g.selectAll('.stacked-bar').data(stackDatas).enter().append('g').attr('class', 'stacked-bar')
+    //     .attr('fill', item => { return color(item.key) })
+    //     .selectAll('.bar-chart').data(layer => layer).enter().append('path')
+    //     .attr('d', item => `
+    //         M${xScale(item.data.date.split(' ')[0].split('-')[2])}, ${yScale(item[1]) + ry}
+    //         h${xScale.bandwidth() - rx}
+    //         a${rx}, ${ry} 0 0 1 ${rx}, ${-ry}
+    //         v${innerHeight - yScale(item[1]) - ry}
+    //         a${rx}, ${ry} 0 0 1 ${rx}, ${ry}
+    //         h${-xScale.bandwidth()}Z
+    // `)
+    // Move to bottom left corner => M x,y
+    // Line to bottom of top left arc => L x,y-height+radius
+    // Arc to top of top left arc => A radius,radius,0,0,1,x+radius,y-height
+    // Line to the top of the top right arc => L x+width-r,y-height
+    // Arc to the bottom of the top right arc. => A radius,radius,0,0,1,x+width,y-height+radius
+    // Line to the bottom right corner => L x+width,y
+    // Close path. => Z
+
+    console.log(priceDatas)
+    const pricePath = d3.line()
+        .x(d => xScale(d.Date.split('/')[2]))
+        .y(d => yScaleRight(d.Close))
+    
+    g.append('path').datum(priceDatas)
+        .attr('transform', `translate(${xScale.bandwidth() / 2}, 0)`)
+        .attr('fill', 'none')
+        .attr('stroke', '#F6B305')
+        .attr('stroke-width', 2)
+        .attr('d', pricePath)
+
+
+    xAxisG.selectAll('.tick text').attr('transform', `translate(0, 8)`)
+    g.selectAll('.domain').remove()
+    // g.selectAll('.stacked-bar rect').style('border-radius', '12px')
+
     return (
         <ChipContainer>
             <ChipLeft>
@@ -227,13 +350,13 @@ const ChipPage = () => {
                 <ChipLeftTop>
                     <ButtonContainer>
                         <ButtonChange bgc={LeftButtonBgc} onClick={handleClickLeftButton}>
-                            <ButtonTitle>進出</ButtonTitle>
+                            <ButtonTitle>三大法人</ButtonTitle>
                         </ButtonChange>
                         <ButtonChange bgc={rightButtonBgc} onClick={handleClickRightButton}>
-                            <ButtonTitle>持股</ButtonTitle>
+                            <ButtonTitle>融資融券</ButtonTitle>
                         </ButtonChange>
                     </ButtonContainer>
-                    {/* <ChipImg width={'100'} height={'100'} url={chip} /> */}
+                    <ChipSvg ref={chipRef} />
                 </ChipLeftTop>
                 <ChipLeftBot>
                     <ChipTable height={'0'}>
@@ -252,18 +375,19 @@ const ChipPage = () => {
                         </thead>
                         <tbody>
                             {
-                                chipbot.map((data, index) => {
+                                reverseData.map((data, index) => {
+                                    console.log(index)
                                     return (
-                                        <ChipBodytr>
-                                            <ChipTd textalign={'left'}>{data.date}</ChipTd>
-                                            <ChipTd>{data.foreign}</ChipTd>
-                                            <ChipTd>{data.security}</ChipTd>
-                                            <ChipTd>{data.selfEmployed}</ChipTd>
-                                            <ChipTd>{data.total}</ChipTd>
-                                            <ChipTd>{data.financing}</ChipTd>
-                                            <ChipTd>{data.securityLend}</ChipTd>
-                                            <ChipTd>{data.total2}</ChipTd>
-                                            <ChipTd>{data.price}</ChipTd>
+                                        <ChipBodytr key={index}>
+                                            <ChipTd textalign={'left'}>{data.date.split(' ')[0]}</ChipTd>
+                                            <ChipTd>{data.foreign_invest}</ChipTd>
+                                            <ChipTd>{data.credit}</ChipTd>
+                                            <ChipTd>{data.self_employee}</ChipTd>
+                                            <ChipTd>{data.total_invest}</ChipTd>
+                                            <ChipTd>{margin_trade_array[index]}</ChipTd>
+                                            <ChipTd>{short_sell_array[index]}</ChipTd>
+                                            <ChipTd>{total_offset_array[index]}</ChipTd>
+                                            <ChipTd>{displayPrice[index]}</ChipTd>
                                         </ChipBodytr>
                                     )
                                 })
@@ -317,10 +441,6 @@ const ChipPage = () => {
                             <RadioButton bgc={sellButtonBgc} onClick={handleClickSellButton}>
                                 <RadioButtonTitle>賣超券商</RadioButtonTitle>
                             </RadioButton>
-                            {/* <RadioInput type='radio' id='buy' />
-                            <RadioLabel for="buy">買超券商</RadioLabel>
-                            <RadioInput type='radio' id='sell' />
-                            <RadioLabel for='sell'>賣超券商</RadioLabel> */}
                         </RightBotRadio>
                     </RightBotNav>
                     <ChipTable margintop={'0'} height={'0'}>
@@ -355,4 +475,18 @@ const ChipPage = () => {
     )
 };
 
-export default ChipPage;
+const mapStateToProps = state => {
+    return {
+        chipInfo: state.chip,
+        price: state.price,
+        marginTrade: state.marginTrade,
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        fetchChip: stockid => dispatch(fetchChip(stockid))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ChipPage);

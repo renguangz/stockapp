@@ -162,9 +162,9 @@ const StockInfoTable = ({ basic, fetchBasic }) => {
                             <BodyTr>
                                 <Td start>{tableTitle[0]}</Td>
                                 {
-                                    incomeDisplay.map((data, key) => {
+                                    incomeDisplay.map((data, index) => {
                                         return (
-                                            <Td>{(data.benefit_total / 100000).toFixed(0)}</Td>
+                                            <Td key={index}>{(data.benefit_total / 100000).toFixed(0)}</Td>
                                         )
                                     })
                                 }
@@ -372,4 +372,4 @@ const mapDispatchToProps = dispatch => {
     }
 }
 
-export default connect(mapStateToProps,)(StockInfoTable);
+export default connect(mapStateToProps, mapDispatchToProps)(StockInfoTable);

@@ -531,7 +531,7 @@ const StockInfoPage = ({ searchRedux, clickSearch, fetchBasic }) => {
                         </NewsSection>
                     </NewsContainer>
                 </StyledInfoContainer> */}
-                this is stock info page
+                {/* this is stock info page */}
             </SidebarLayout >
         </>
     )

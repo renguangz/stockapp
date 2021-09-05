@@ -2,6 +2,7 @@ import React, { useRef, useEffect } from 'react';
 import * as d3 from 'd3';
 import './InfoTableChart.css';
 import { connect } from 'react-redux';
+import { fetchBasic } from '../../redux';
 
 const InfoTableChart = ({ basic }) => {
     const d3Chart = useRef();
@@ -204,4 +205,10 @@ const mapStateToProps = state => {
     }
 }
 
-export default connect(mapStateToProps)(InfoTableChart);
+const mapDispatchToProps = dispatch => {
+    return {
+        fetchBasic: (stockid) => dispatch(fetchBasic(stockid))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(InfoTableChart);

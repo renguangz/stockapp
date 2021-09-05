@@ -15,7 +15,9 @@ app.config['SQLALCHEMY_BINDS'] = {
     'income_sheet': 'sqlite:///data/income_sheet.db',
     'cashFlow_sheet': 'sqlite:///data/cashFlow_sheet.db',
     'legal_person': 'sqlite:///data/legal_person.db',
+    'legalPerson': 'sqlite:///data/legalPerson.db',
     'price': 'sqlite:///data/price.db',
+    'marginTrade': 'sqlite:///data/marginTrading.db',
 }
 
 db = SQLAlchemy(app)
@@ -272,29 +274,61 @@ def price_serializer(price):
 def price_display():
     if request.method == 'POST':
         request_data = json.loads(request.data)
-        n = type('price_' + request_data.get('table_name'), (Price, db.Model), {'_tablename__': 'price_' + request_data.get('table_name')})
+        n = type('price_' + request_data.get('table_name'), (Price, db.Model), {'__tablename__': 'price_' + request_data.get('table_name')})
     read_data = jsonify([*map(price_serializer, n.query.all())])
     return read_data
 
 
-class LegalPerson(db.Model):
-    __bind_key__ = 'legal_person'
-    # __table_args__ = {'extend_existing': True}
-    stock_id = db.Column('stock_id', db.String, primary_key=True)
-    date = db.Column('date', db.String, nullable=False)
+class LegalPerson(object):
+    __bind_key__ = 'legalPerson'
+    __table_args__ = {'extend_existing': True}
+    index = db.Column('index', db.Integer, primary_key=True)
+    # stock_id = db.Column('stock_id', db.String, primary_key=True)
+    date = db.Column('date', db.String,  nullable=True)
+    foreign_invest = db.Column('外陸資買賣超股數(不含外資自營商)', db.Integer, nullable=True)
+    credit = db.Column('投信買賣超股數', db.Integer, nullable=True)
+    self_employee = db.Column('自營商買賣超股數', db.Integer, nullable=True)
+    total_invest = db.Column('三大法人買賣超股數', db.Integer, nullable=True)
 
 def legalPerson_serializer(item):
     return {
-        'stock_id': item.stock_id,
+        # 'stock_id': item.stock_id,
         'date': item.date,
+        'foreign_invest': item.foreign_invest,
+        'credit': item.credit,
+        'self_employee': item.self_employee,
+        'total_invest': item.total_invest,
     }
 
-@app.route('/legalPerson')
+@app.route('/legalPerson', methods=['POST'])
 def legalPerson_display():
-    read_data = jsonify(
-        [*map(legalPerson_serializer, LegalPerson.query.all())])
+    request_data = json.loads(request.data)
+    n = type('legalPerson_' + request_data.get('table_name'), (LegalPerson, db.Model), {'__tablename__': 'legalPerson_' + request_data.get('table_name')})
+    read_data = jsonify([*map(legalPerson_serializer, n.query.all())])
     return read_data
 
+class MarginTrade(object):
+    __bind_key__ = 'marginTrade'
+    __table_args__ = {'extend_existing': True}
+    index = db.Column('index', db.Integer, primary_key=True)
+    margin_trade_total = db.Column('margin_trade_total', db.Integer, nullable=True)
+    short_sell_total = db.Column('short_sell_total', db.Integer, nullable=True)
+    total_offset = db.Column('total_offset', db.Integer, nullable=True)
+
+def marginTrade_serializer(item):
+    return {
+        'index': item.index,
+        'margin_trade_total': item.margin_trade_total,
+        'short_sell_total': item.short_sell_total,
+        'total_offset': item.total_offset,
+    }
+
+@app.route('/marginTrade', methods=['POST'])
+def marginTrade_display():
+    request_data = json.loads(request.data)
+    n = type('marginTrading_' + request_data.get('table_name'), (MarginTrade, db.Model), {'__tablename__': 'marginTrading_' + request_data.get('table_name')})
+    read_data = jsonify([*map(marginTrade_serializer, n.query.all())])
+    return read_data
 
 if __name__ == '__main__':
     app.config['JSON_AS_ASCII'] = False
