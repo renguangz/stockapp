@@ -22,22 +22,22 @@ function App() {
         <div className="App">
           <Switch>
             <BrowserRouter basename={process.env.PUBLIC_URL}>
-              <Route exact path={"/homecarousel"}>
+              <Route exact path="/homecarousel">
                 <HomeCarousel />
               </Route>
-              <Route exact path={"/book"}>
+              <Route exact path="/book">
                 <HomeBook />
               </Route>
-              <Route exact path={'/'}>
+              <Route exact path='/'>
                 <HomePage />
               </Route>
-              <Route exact path={"/stockinfo/"}>
+              <Route exact path="/stockinfo">
                 <StockInfoPage />
               </Route>
-              <Route exact path={"/mylist/"}>
+              <Route exact path="/mylist">
                 <StockListPage />
               </Route>
-              <Route exact path={"/search/"}>
+              <Route exact path="/search">
                 <InfoSearch />
               </Route>
             </BrowserRouter>
