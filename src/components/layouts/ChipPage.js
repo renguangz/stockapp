@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
 import * as d3 from 'd3';
 import { chipRightTop, chipRightBot } from '../common/mocked_data/ChipRight';
@@ -8,7 +8,6 @@ import chip from '../images/mocked/chip.jpeg';
 import { connect } from 'react-redux';
 import { fetchChip } from '../../redux';
 import './chipPage.css';
-import { ConsoleSqlOutlined } from '@ant-design/icons';
 
 const ChipContainer = styled.div`
     /* border: 2px solid yellow; */
@@ -202,13 +201,16 @@ const ChipPage = ({ chipInfo, price, marginTrade }) => {
 
     const [LeftButtonBgc, setLeftButtonBgc] = useState('#2B3234');
     const [rightButtonBgc, setRightButtonBgc] = useState('transparent')
+    const [chipDatasDisplay, setChipDatasDisplay] = useState(true);
     const handleClickLeftButton = () => {
         setLeftButtonBgc('#2B3234')
         setRightButtonBgc('transparent')
+        setChipDatasDisplay(true)
     }
     const handleClickRightButton = () => {
         setLeftButtonBgc('transparent')
         setRightButtonBgc('#2B3234')
+        setChipDatasDisplay(false)
     }
 
     const [buyButtonBgc, setBuyButtonBgc] = useState('#2B3234')
@@ -240,6 +242,8 @@ const ChipPage = ({ chipInfo, price, marginTrade }) => {
     margin_trade_array.reverse()
     short_sell_array.reverse()
     total_offset_array.reverse()
+    const marginKeys = ['margin_trade_total', 'short_sell_total']
+    const stackMarginData = d3.stack().keys(marginKeys).offset(d3.stackOffsetDiverging)(marginDatas)
 
     const priceDatas = price.price.slice(-11)
     const displayPrice = []
@@ -248,100 +252,130 @@ const ChipPage = ({ chipInfo, price, marginTrade }) => {
         displayPrice.push(item.Close)
     })
     displayPrice.reverse()
-    console.log(priceDatas)
 
     const chipRef = useRef();
     const chipSvg = d3.select(chipRef.current)
     const width = 620;
     const height = 280;
 
-    const margin = { top: 10, left: 80, bottom: 30, right: 50 }
-    const innerHeight = height - margin.top - margin.bottom
-    const innerWidth = width - margin.left - margin.right
-    const g = chipSvg.append('g').attr('transform', `translate(${margin.left}, ${margin.top})`)
+    useEffect(() => {
 
-    const xScale = d3.scaleBand()
-        .domain(datas.map(d => d.date.split(' ')[0].split('-')[2]))
-        .range([innerWidth, 0])
-        .padding(0.3)
+        const margin = { top: 10, left: 80, bottom: 30, right: 50 }
+        const innerHeight = height - margin.top - margin.bottom
+        const innerWidth = width - margin.left - margin.right
+        const g = chipSvg.append('g').attr('transform', `translate(${margin.left}, ${margin.top})`)
 
-    const yAxisMaxValue = Math.max(Math.abs(d3.min(datas, d => d.total_invest)), d3.max(datas, d => d.total_invest)) * 1.2
-    const yAxisTickvalue = [-yAxisMaxValue, -yAxisMaxValue * 2 / 3, -yAxisMaxValue / 3, 0, yAxisMaxValue / 3, yAxisMaxValue * 2 / 3, yAxisMaxValue]
-    const yScale = d3.scaleLinear()
-        .domain([-yAxisMaxValue, yAxisMaxValue])
-        .range([innerHeight, 0])
-    const yExtentRight = [d3.min(displayPrice) * 0.95, d3.max(displayPrice) * 1.05]
-    const yRightTickvalues = [yExtentRight[0].toFixed(1), (yExtentRight[0] + (yExtentRight[1] - yExtentRight[0]) / 4).toFixed(1), (yExtentRight[0] + (yExtentRight[1] - yExtentRight[0]) / 2).toFixed(1), (yExtentRight[0] + (yExtentRight[1] - yExtentRight[0]) / 4 * 3).toFixed(1), yExtentRight[1].toFixed(1)]
-    const yScaleRight = d3.scaleLinear()
-        .domain(yExtentRight)
-        .range([innerHeight, 0])
+        const xScale = d3.scaleBand()
+            .domain(datas.map(d => d.date.split(' ')[0].split('-')[2]))
+            .range([0, innerWidth])
+            .padding(0.3)
 
-    const xAxis = d3.axisBottom(xScale).tickSize(0)
-    const yAxis = d3.axisLeft(yScale).tickValues(yAxisTickvalue).tickSize(0)
-    const yAxisRight = d3.axisRight(yScaleRight).tickValues(yRightTickvalues).tickSize(0)
-    const xAxisG = g.append('g').attr('class', 'chip-x-axis').call(xAxis).attr('transform', `translate(0, ${innerHeight})`)
-    const yAxisG = g.append('g').call(yAxis).attr('transform', `translate(0, 0)`)
-    const yAxisRightG = g.append('g').call(yAxisRight).attr('transform', `translate(${innerWidth}, 0)`)
+        const yAxisMaxValue = Math.max(Math.abs(d3.min(datas, d => d.total_invest)), d3.max(datas, d => d.total_invest)) * 1.2
+        const yAxisTickvalue = [-yAxisMaxValue, -yAxisMaxValue * 2 / 3, -yAxisMaxValue / 3, 0, yAxisMaxValue / 3, yAxisMaxValue * 2 / 3, yAxisMaxValue]
+        const yScale = d3.scaleLinear()
+            .domain([-yAxisMaxValue, yAxisMaxValue])
+            .range([innerHeight, 0])
+        const yExtentRight = [d3.min(displayPrice) * 0.95, d3.max(displayPrice) * 1.05]
+        const yRightTickvalues = [yExtentRight[0].toFixed(1), (yExtentRight[0] + (yExtentRight[1] - yExtentRight[0]) / 4).toFixed(1), (yExtentRight[0] + (yExtentRight[1] - yExtentRight[0]) / 2).toFixed(1), (yExtentRight[0] + (yExtentRight[1] - yExtentRight[0]) / 4 * 3).toFixed(1), yExtentRight[1].toFixed(1)]
+        const yScaleRight = d3.scaleLinear()
+            .domain(yExtentRight)
+            .range([innerHeight, 0])
 
-    const color = d3.scaleOrdinal()
-        .range(['#1889D0', '#E34E40', '#7B4EA4'])
+        const xAxis = d3.axisBottom(xScale).tickSize(0)
+        const yAxis = d3.axisLeft(yScale).tickValues(yAxisTickvalue).tickSize(0)
+        const yAxisRight = d3.axisRight(yScaleRight).tickValues(yRightTickvalues).tickSize(0)
+        const xAxisG = g.append('g').attr('class', 'chip-x-axis').call(xAxis).attr('transform', `translate(0, ${innerHeight})`)
+        const yAxisG = g.append('g').call(yAxis).attr('class', 'legalPersonDisplay').attr('transform', `translate(0, 0)`)
+        const yAxisRightG = g.append('g').call(yAxisRight).attr('transform', `translate(${innerWidth}, 0)`)
 
-    // background bar
-    g.selectAll('rect').data(datas, d => d.date).enter()
-        .append('rect').attr('class', 'bgc-bar')
-        .attr('x', d => xScale(d.date.split(' ')[0].split('-')[2]))
-        .attr('y', d => yScale(yAxisMaxValue))
-        .attr('width', xScale.bandwidth())
-        .attr('height', innerHeight)
-        .attr('fill', '#171C1D')
+        const color = d3.scaleOrdinal()
+            .range(['#1889D0', '#E34E40', '#7B4EA4'])
 
-    g.selectAll('.stacked-bar').data(stackDatas).enter().append('g').attr('class', 'stacked-bar')
-        .attr('fill', item => { return color(item.key) })
-        .selectAll('.bar-chart').data(layer => layer).enter().append('rect')
-        .attr('x', item => { return xScale(item.data.date.split(' ')[0].split('-')[2]) })
-        .attr('y', item => { return yScale(item[1]) })
-        .attr('width', xScale.bandwidth())
-        .attr('height', item => { return Math.abs(yScale(item[0]) - yScale(item[1])) })
-    // .attr('rx', 12)
-    // .attr('ry', 12)
+        // background bar
+        g.selectAll('rect').data(datas, d => d.date).enter()
+            .append('rect').attr('class', 'bgc-bar')
+            .attr('x', d => xScale(d.date.split(' ')[0].split('-')[2]))
+            .attr('y', d => yScale(yAxisMaxValue))
+            .attr('width', xScale.bandwidth())
+            .attr('height', innerHeight)
+            .attr('fill', '#171C1D')
 
-    // const rx = 12;
-    // const ry = 12;
-    // g.selectAll('.stacked-bar').data(stackDatas).enter().append('g').attr('class', 'stacked-bar')
-    //     .attr('fill', item => { return color(item.key) })
-    //     .selectAll('.bar-chart').data(layer => layer).enter().append('path')
-    //     .attr('d', item => `
-    //         M${xScale(item.data.date.split(' ')[0].split('-')[2])}, ${yScale(item[1]) + ry}
-    //         h${xScale.bandwidth() - rx}
-    //         a${rx}, ${ry} 0 0 1 ${rx}, ${-ry}
-    //         v${innerHeight - yScale(item[1]) - ry}
-    //         a${rx}, ${ry} 0 0 1 ${rx}, ${ry}
-    //         h${-xScale.bandwidth()}Z
-    // `)
-    // Move to bottom left corner => M x,y
-    // Line to bottom of top left arc => L x,y-height+radius
-    // Arc to top of top left arc => A radius,radius,0,0,1,x+radius,y-height
-    // Line to the top of the top right arc => L x+width-r,y-height
-    // Arc to the bottom of the top right arc. => A radius,radius,0,0,1,x+width,y-height+radius
-    // Line to the bottom right corner => L x+width,y
-    // Close path. => Z
+        g.selectAll('.stacked-bar').data(stackDatas).enter().append('g').attr('class', 'stacked-bar legalPersonDisplay')
+            .attr('fill', item => { return color(item.key) })
+            .selectAll('.bar-chart').data(layer => layer).enter().append('rect')
+            .attr('x', item => { return xScale(item.data.date.split(' ')[0].split('-')[2]) })
+            .attr('y', item => { return yScale(item[1]) })
+            .attr('width', xScale.bandwidth())
+            .attr('height', item => { return Math.abs(yScale(item[0]) - yScale(item[1])) })
+        // .attr('rx', 12)
+        // .attr('ry', 12)
 
-    console.log(priceDatas)
-    const pricePath = d3.line()
-        .x(d => xScale(d.Date.split('/')[2]))
-        .y(d => yScaleRight(d.Close))
-    
-    g.append('path').datum(priceDatas)
-        .attr('transform', `translate(${xScale.bandwidth() / 2}, 0)`)
-        .attr('fill', 'none')
-        .attr('stroke', '#F6B305')
-        .attr('stroke-width', 2)
-        .attr('d', pricePath)
+        // const rx = 12;
+        // const ry = 12;
+        // g.selectAll('.stacked-bar').data(stackDatas).enter().append('g').attr('class', 'stacked-bar')
+        //     .attr('fill', item => { return color(item.key) })
+        //     .selectAll('.bar-chart').data(layer => layer).enter().append('path')
+        //     .attr('d', item => `
+        //         M${xScale(item.data.date.split(' ')[0].split('-')[2])}, ${yScale(item[1]) + ry}
+        //         h${xScale.bandwidth() - rx}
+        //         a${rx}, ${ry} 0 0 1 ${rx}, ${-ry}
+        //         v${innerHeight - yScale(item[1]) - ry}
+        //         a${rx}, ${ry} 0 0 1 ${rx}, ${ry}
+        //         h${-xScale.bandwidth()}Z
+        // `)
+        // Move to bottom left corner => M x,y
+        // Line to bottom of top left arc => L x,y-height+radius
+        // Arc to top of top left arc => A radius,radius,0,0,1,x+radius,y-height
+        // Line to the top of the top right arc => L x+width-r,y-height
+        // Arc to the bottom of the top right arc. => A radius,radius,0,0,1,x+width,y-height+radius
+        // Line to the bottom right corner => L x+width,y
+        // Close path. => Z
 
 
-    xAxisG.selectAll('.tick text').attr('transform', `translate(0, 8)`)
-    g.selectAll('.domain').remove()
-    // g.selectAll('.stacked-bar rect').style('border-radius', '12px')
+        const mtYAxisMaxValue = d3.max(stackMarginData[stackMarginData.length - 1], d => d[0] + d[1]) * 1.5
+        const mtYAxisTicks = mtYAxisMaxValue / 3
+        const mtYAxisTickValue = [-mtYAxisMaxValue, -mtYAxisTicks * 2, -mtYAxisTicks, 0, mtYAxisTicks, mtYAxisTicks * 2, mtYAxisMaxValue]
+
+        const mtYScale = d3.scaleLinear()
+            .domain([-mtYAxisMaxValue, mtYAxisMaxValue])
+            .range([innerHeight, 0])
+        const mtYAxis = d3.axisLeft(mtYScale).tickValues(mtYAxisTickValue).tickSize(0)
+        const mtYAxisG = g.append('g').call(mtYAxis).attr('class', 'marginTradeDisplay')
+
+        const mtColor = d3.scaleOrdinal()
+            .range(['#029899', '#84584A'])
+        g.selectAll('.marginTradeRect').data(stackMarginData).enter()
+            .append('g').attr('class', 'stacked-bar marginTradeDisplay')
+            .attr('fill', item => { return mtColor(item.key) })
+            .selectAll('.mt-bar-chart').data(layer => layer).enter().append('rect')
+            .attr('x', item => { return xScale(item.data.date.split('-')[2]) })
+            .attr('y', item => { return mtYScale(item[1]) })
+            .attr('width', xScale.bandwidth())
+            .attr('height', item => { return Math.abs(mtYScale(item[0]) - mtYScale(item[1])) })
+
+
+        const pricePath = d3.line()
+            .x(d => xScale(d.Date.split('/')[2]))
+            .y(d => yScaleRight(d.Close))
+
+        g.append('path').datum(priceDatas)
+            .attr('transform', `translate(${xScale.bandwidth() / 2}, 0)`)
+            .attr('fill', 'none')
+            .attr('stroke', '#F6B305')
+            .attr('stroke-width', 2)
+            .attr('d', pricePath)
+
+
+
+        const legalPersonDisplay = chipSvg.selectAll('.legalPersonDisplay, .legalPersonDisplay text')
+        const marginTradeDisplay = chipSvg.selectAll('.marginTradeDisplay, .marginTradeDisplay text')
+        chipDatasDisplay ? (legalPersonDisplay.style('display', 'block')) : (legalPersonDisplay.style('display', 'none'))
+        chipDatasDisplay ? (marginTradeDisplay.style('display', 'none')) : (marginTradeDisplay.style('display', 'block'))
+
+        xAxisG.selectAll('.tick text').attr('transform', `translate(0, 8)`)
+        g.selectAll('.domain').remove()
+    })
+
 
     return (
         <ChipContainer>
@@ -367,8 +401,8 @@ const ChipPage = ({ chipInfo, price, marginTrade }) => {
                                 <ChipTh color={'#E34E40'}>投信</ChipTh>
                                 <ChipTh color={'#7B4EA4'}>自營商</ChipTh>
                                 <ChipTh>法人合計</ChipTh>
-                                <ChipTh color={'greenyellow'}>融資</ChipTh>
-                                <ChipTh color={'pink'}>融券</ChipTh>
+                                <ChipTh color={'#029899'}>融資</ChipTh>
+                                <ChipTh color={'#84584A'}>融券</ChipTh>
                                 <ChipTh>資券相抵</ChipTh>
                                 <ChipTh color={'#FEB805'}>股價</ChipTh>
                             </ChipHeadTr>

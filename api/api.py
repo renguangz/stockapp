@@ -314,6 +314,7 @@ class MarginTrade(object):
     margin_trade_total = db.Column('margin_trade_total', db.Integer, nullable=True)
     short_sell_total = db.Column('short_sell_total', db.Integer, nullable=True)
     total_offset = db.Column('total_offset', db.Integer, nullable=True)
+    date = db.Column('date', db.String, nullable=False)
 
 def marginTrade_serializer(item):
     return {
@@ -321,6 +322,7 @@ def marginTrade_serializer(item):
         'margin_trade_total': item.margin_trade_total,
         'short_sell_total': item.short_sell_total,
         'total_offset': item.total_offset,
+        'date': item.date,
     }
 
 @app.route('/marginTrade', methods=['POST'])

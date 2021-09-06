@@ -3,6 +3,7 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
+  BrowserRouter,
 } from 'react-router-dom';
 import StockInfoPage from './components/pages/StockInfoPage';
 import StockListPage from './components/pages/StockListPage';
@@ -20,24 +21,26 @@ function App() {
       <Router>
         <div className="App">
           <Switch>
-            <Route exact path={baseUrl + "/homecarousel"}>
-              <HomeCarousel />
-            </Route>
-            <Route exact path={baseUrl + "/book"}>
-              <HomeBook />
-            </Route>
-            <Route exact path={baseUrl + '/'}>
-              <HomePage />
-            </Route>
-            <Route exact path={baseUrl + "/stockinfo/"}>
-              <StockInfoPage />
-            </Route>
-            <Route exact path={baseUrl + "/mylist/"}>
-              <StockListPage />
-            </Route>
-            <Route exact path={baseUrl + "/search/"}>
-              <InfoSearch />
-            </Route>
+            <BrowserRouter basename={process.env.PUBLIC_URL}>
+              <Route exact path={"/homecarousel"}>
+                <HomeCarousel />
+              </Route>
+              <Route exact path={"/book"}>
+                <HomeBook />
+              </Route>
+              <Route exact path={'/'}>
+                <HomePage />
+              </Route>
+              <Route exact path={"/stockinfo/"}>
+                <StockInfoPage />
+              </Route>
+              <Route exact path={"/mylist/"}>
+                <StockListPage />
+              </Route>
+              <Route exact path={"/search/"}>
+                <InfoSearch />
+              </Route>
+            </BrowserRouter>
           </Switch>
         </div>
       </Router>
