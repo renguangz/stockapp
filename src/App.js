@@ -14,7 +14,7 @@ import HomeCarousel from './components/layouts/HomeCarousel';
 import InfoSearch from './components/common/InfoSearch';
 
 function App() {
-  const baseUrl = 'flask-react-stock-web';
+  const baseUrl = process.env.PUBLIC_URL;
   return (
     <Provider store={store}>
       <Router>
