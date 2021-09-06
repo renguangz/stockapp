@@ -14,6 +14,7 @@ import HomeCarousel from './components/layouts/HomeCarousel';
 import InfoSearch from './components/common/InfoSearch';
 
 function App() {
+  const baseUrl = process.env.PUBLIC_URL;
   return (
     <Provider store={store}>
       <Router>
@@ -25,7 +26,7 @@ function App() {
             <Route exact path="/book">
               <HomeBook />
             </Route>
-            <Route exact path='/'>
+            <Route exact path={baseUrl + '/'}>
               <HomePage />
             </Route>
             <Route exact path="/stockinfo">
