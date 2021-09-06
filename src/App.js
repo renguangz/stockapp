@@ -14,7 +14,7 @@ import HomeCarousel from './components/layouts/HomeCarousel';
 import InfoSearch from './components/common/InfoSearch';
 
 function App() {
-  const baseUrl = process.env.PUBLIC_URL;
+  const baseUrl = 'flask-react-stock-web';
   return (
     <Provider store={store}>
       <Router>
@@ -29,13 +29,13 @@ function App() {
             <Route exact path={baseUrl + '/'}>
               <HomePage />
             </Route>
-            <Route exact path={baseUrl + "/stockinfo"}>
+            <Route exact path={baseUrl + "/stockinfo/"}>
               <StockInfoPage />
             </Route>
-            <Route exact path={baseUrl + "/mylist"}>
+            <Route exact path={baseUrl + "/mylist/"}>
               <StockListPage />
             </Route>
-            <Route exact path={baseUrl + "/search"}>
+            <Route exact path={baseUrl + "/search/"}>
               <InfoSearch />
             </Route>
           </Switch>
