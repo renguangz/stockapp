@@ -20,22 +20,22 @@ function App() {
       <Router>
         <div className="App">
           <Switch>
-            <Route exact path="/homecarousel">
+            <Route exact path={baseUrl + "/homecarousel"}>
               <HomeCarousel />
             </Route>
-            <Route exact path="/book">
+            <Route exact path={baseUrl + "/book"}>
               <HomeBook />
             </Route>
             <Route exact path={baseUrl + '/'}>
               <HomePage />
             </Route>
-            <Route exact path="/stockinfo">
+            <Route exact path={baseUrl + "/stockinfo"}>
               <StockInfoPage />
             </Route>
-            <Route exact path="/mylist">
+            <Route exact path={baseUrl + "/mylist"}>
               <StockListPage />
             </Route>
-            <Route exact path="/search">
+            <Route exact path={baseUrl + "/search"}>
               <InfoSearch />
             </Route>
           </Switch>
