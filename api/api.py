@@ -23,7 +23,7 @@ app.config['SQLALCHEMY_BINDS'] = {
 db = SQLAlchemy(app)
 
 @app.route('/')
-def index_():
+def home():
     # return app.send_static_file('index.html')
     return jsonify({'response': 'this is flask react stock app'})
 
