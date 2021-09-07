@@ -2,10 +2,10 @@
 from posixpath import abspath
 from flask import Flask, jsonify, request, json
 from flask_sqlalchemy import SQLAlchemy
-import pandas as pd
+# import pandas as pd
 import os
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='../build', static_url_path='/')
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data/cashFlow_sheet.db'
 app.config['SQLALCHEMY_BINDS'] = {
     'pocket_stock': 'sqlite:///data/pocket_stock.db',
@@ -21,6 +21,10 @@ app.config['SQLALCHEMY_BINDS'] = {
 }
 
 db = SQLAlchemy(app)
+
+@app.route('/')
+def index_():
+    return app.send_static_file('index.html')
 
 
 class StockInfo(object):
@@ -221,16 +225,16 @@ def cashFlow_display():
     read_data = jsonify([*map(cash_serializer, n.query.all())])
     return read_data
 
-@app.route('/price', methods=['POST', 'GET'])
-def price_csv():
-    if request.method == 'POST':
-        request_data = json.loads(request.data)
-        print(request_data['table_name']) # 2330
-        absPath = os.path.dirname(os.path.abspath(__file__))
-        path = os.path.join(absPath, 'data', 'price_data', 'price_' + request_data['table_name'] +  '.csv')
-        csv_file = pd.read_csv(path)
-        print(csv_file)
-    return 'csv_file'
+# @app.route('/price', methods=['POST', 'GET'])
+# def price_csv():
+#     if request.method == 'POST':
+#         request_data = json.loads(request.data)
+#         print(request_data['table_name']) # 2330
+#         absPath = os.path.dirname(os.path.abspath(__file__))
+#         path = os.path.join(absPath, 'data', 'price_data', 'price_' + request_data['table_name'] +  '.csv')
+#         csv_file = pd.read_csv(path)
+#         print(csv_file)
+#     return 'csv_file'
 
 class Price(object):
     __bind_key__ = 'price'
