@@ -5,7 +5,7 @@ from flask_sqlalchemy import SQLAlchemy
 # import pandas as pd
 import os
 
-app = Flask(__name__, static_folder='../build', static_url_path='/')
+app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data/cashFlow_sheet.db'
 app.config['SQLALCHEMY_BINDS'] = {
     'pocket_stock': 'sqlite:///data/pocket_stock.db',
