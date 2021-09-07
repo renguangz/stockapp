@@ -24,8 +24,8 @@ db = SQLAlchemy(app)
 
 @app.route('/')
 def index_():
-    return app.send_static_file('index.html')
-
+    # return app.send_static_file('index.html')
+    return jsonify({'response': 'this is flask react stock app'})
 
 class StockInfo(object):
     __table_args__ = {'extend_existing': True}
