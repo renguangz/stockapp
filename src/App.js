@@ -8,11 +8,11 @@ import {
 import StockInfoPage from './components/pages/StockInfoPage';
 import StockListPage from './components/pages/StockListPage';
 import HomePage from './components/pages/HomePage';
-import { Provider } from 'react-redux';
 import store from './redux/store';
 import HomeBook from './components/pages/HomeBook';
 import HomeCarousel from './components/layouts/HomeCarousel';
 import InfoSearch from './components/common/InfoSearch';
+import { Provider } from 'react-redux';
 
 function App() {
   const baseUrl = process.env.PUBLIC_URL;
