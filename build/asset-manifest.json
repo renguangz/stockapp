@@ -1,19 +1,19 @@
 {
   "files": {
     "main.css": "/flask-react-stock-web/static/css/main.3886f98d.chunk.css",
-    "main.js": "/flask-react-stock-web/static/js/main.d7acd863.chunk.js",
-    "main.js.map": "/flask-react-stock-web/static/js/main.d7acd863.chunk.js.map",
-    "runtime-main.js": "/flask-react-stock-web/static/js/runtime-main.f76892c4.js",
-    "runtime-main.js.map": "/flask-react-stock-web/static/js/runtime-main.f76892c4.js.map",
-    "static/css/2.e060642c.chunk.css": "/flask-react-stock-web/static/css/2.e060642c.chunk.css",
-    "static/js/2.05edcb35.chunk.js": "/flask-react-stock-web/static/js/2.05edcb35.chunk.js",
-    "static/js/2.05edcb35.chunk.js.map": "/flask-react-stock-web/static/js/2.05edcb35.chunk.js.map",
-    "static/js/3.9ec9270c.chunk.js": "/flask-react-stock-web/static/js/3.9ec9270c.chunk.js",
-    "static/js/3.9ec9270c.chunk.js.map": "/flask-react-stock-web/static/js/3.9ec9270c.chunk.js.map",
+    "main.js": "/flask-react-stock-web/static/js/main.7942b470.chunk.js",
+    "main.js.map": "/flask-react-stock-web/static/js/main.7942b470.chunk.js.map",
+    "runtime-main.js": "/flask-react-stock-web/static/js/runtime-main.0770b977.js",
+    "runtime-main.js.map": "/flask-react-stock-web/static/js/runtime-main.0770b977.js.map",
+    "static/css/2.5c89d55b.chunk.css": "/flask-react-stock-web/static/css/2.5c89d55b.chunk.css",
+    "static/js/2.7939e47b.chunk.js": "/flask-react-stock-web/static/js/2.7939e47b.chunk.js",
+    "static/js/2.7939e47b.chunk.js.map": "/flask-react-stock-web/static/js/2.7939e47b.chunk.js.map",
+    "static/js/3.bce4691f.chunk.js": "/flask-react-stock-web/static/js/3.bce4691f.chunk.js",
+    "static/js/3.bce4691f.chunk.js.map": "/flask-react-stock-web/static/js/3.bce4691f.chunk.js.map",
     "index.html": "/flask-react-stock-web/index.html",
-    "static/css/2.e060642c.chunk.css.map": "/flask-react-stock-web/static/css/2.e060642c.chunk.css.map",
+    "static/css/2.5c89d55b.chunk.css.map": "/flask-react-stock-web/static/css/2.5c89d55b.chunk.css.map",
     "static/css/main.3886f98d.chunk.css.map": "/flask-react-stock-web/static/css/main.3886f98d.chunk.css.map",
-    "static/js/2.05edcb35.chunk.js.LICENSE.txt": "/flask-react-stock-web/static/js/2.05edcb35.chunk.js.LICENSE.txt",
+    "static/js/2.7939e47b.chunk.js.LICENSE.txt": "/flask-react-stock-web/static/js/2.7939e47b.chunk.js.LICENSE.txt",
     "static/media/chip.587dc0ae.jpeg": "/flask-react-stock-web/static/media/chip.587dc0ae.jpeg",
     "static/media/chiprighttop1.bfc69870.jpeg": "/flask-react-stock-web/static/media/chiprighttop1.bfc69870.jpeg",
     "static/media/fundstock.c5969996.png": "/flask-react-stock-web/static/media/fundstock.c5969996.png",
@@ -33,10 +33,10 @@
     "static/media/techmid2.958e8545.png": "/flask-react-stock-web/static/media/techmid2.958e8545.png"
   },
   "entrypoints": [
-    "static/js/runtime-main.f76892c4.js",
-    "static/css/2.e060642c.chunk.css",
-    "static/js/2.05edcb35.chunk.js",
+    "static/js/runtime-main.0770b977.js",
+    "static/css/2.5c89d55b.chunk.css",
+    "static/js/2.7939e47b.chunk.js",
     "static/css/main.3886f98d.chunk.css",
-    "static/js/main.d7acd863.chunk.js"
+    "static/js/main.7942b470.chunk.js"
   ]
 }
