@@ -2,10 +2,11 @@
 from posixpath import abspath
 from flask import Flask, jsonify, request, json
 from flask_sqlalchemy import SQLAlchemy
+from flask.helpers import send_from_directory
 # import pandas as pd
 import os
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='../build', static_url_path='')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data/cashFlow_sheet.db'
 app.config['SQLALCHEMY_BINDS'] = {
@@ -23,10 +24,11 @@ app.config['SQLALCHEMY_BINDS'] = {
 
 db = SQLAlchemy(app)
 
+
 @app.route('/')
-def home():
-    # return app.send_static_file('index.html')
-    return jsonify({'response': 'this is flask react stock app'})
+def server():
+    return send_from_directory(app.static_folder, 'index.html')
+
 
 class StockInfo(object):
     __table_args__ = {'extend_existing': True}
@@ -206,6 +208,7 @@ class CashFlow(object):
     amortization_fee = db.Column('攤銷費用', db.Float, nullable=False)
     cashFlow_operating = db.Column('營業活動之淨現金流入（流出）', db.Float, nullable=True)
 
+
 def cash_serializer(cash):
     return {
         'id': cash.id,
@@ -237,6 +240,7 @@ def cashFlow_display():
 #         print(csv_file)
 #     return 'csv_file'
 
+
 class Price(object):
     __bind_key__ = 'price'
     __table_args__ = {'extend_existing': True}
@@ -255,6 +259,7 @@ class Price(object):
     slowk = db.Column('slowk', db.Float, nullable=True)
     slowd = db.Column('slowd', db.Float, nullable=True)
     slowj = db.Column('slowj', db.Float, nullable=True)
+
 
 def price_serializer(price):
     return {
@@ -275,11 +280,13 @@ def price_serializer(price):
         'slowj': price.slowj,
     }
 
+
 @app.route('/stockprice', methods=['POST', 'GET'])
 def price_display():
     if request.method == 'POST':
         request_data = json.loads(request.data)
-        n = type('price_' + request_data.get('table_name'), (Price, db.Model), {'__tablename__': 'price_' + request_data.get('table_name')})
+        n = type('price_' + request_data.get('table_name'), (Price, db.Model),
+                 {'__tablename__': 'price_' + request_data.get('table_name')})
     read_data = jsonify([*map(price_serializer, n.query.all())])
     return read_data
 
@@ -295,6 +302,7 @@ class LegalPerson(object):
     self_employee = db.Column('自營商買賣超股數', db.Integer, nullable=True)
     total_invest = db.Column('三大法人買賣超股數', db.Integer, nullable=True)
 
+
 def legalPerson_serializer(item):
     return {
         # 'stock_id': item.stock_id,
@@ -305,21 +313,26 @@ def legalPerson_serializer(item):
         'total_invest': item.total_invest,
     }
 
+
 @app.route('/legalPerson', methods=['POST'])
 def legalPerson_display():
     request_data = json.loads(request.data)
-    n = type('legalPerson_' + request_data.get('table_name'), (LegalPerson, db.Model), {'__tablename__': 'legalPerson_' + request_data.get('table_name')})
+    n = type('legalPerson_' + request_data.get('table_name'), (LegalPerson, db.Model),
+             {'__tablename__': 'legalPerson_' + request_data.get('table_name')})
     read_data = jsonify([*map(legalPerson_serializer, n.query.all())])
     return read_data
+
 
 class MarginTrade(object):
     __bind_key__ = 'marginTrade'
     __table_args__ = {'extend_existing': True}
     index = db.Column('index', db.Integer, primary_key=True)
-    margin_trade_total = db.Column('margin_trade_total', db.Integer, nullable=True)
+    margin_trade_total = db.Column(
+        'margin_trade_total', db.Integer, nullable=True)
     short_sell_total = db.Column('short_sell_total', db.Integer, nullable=True)
     total_offset = db.Column('total_offset', db.Integer, nullable=True)
     date = db.Column('date', db.String, nullable=False)
+
 
 def marginTrade_serializer(item):
     return {
@@ -330,12 +343,15 @@ def marginTrade_serializer(item):
         'date': item.date,
     }
 
+
 @app.route('/marginTrade', methods=['POST'])
 def marginTrade_display():
     request_data = json.loads(request.data)
-    n = type('marginTrading_' + request_data.get('table_name'), (MarginTrade, db.Model), {'__tablename__': 'marginTrading_' + request_data.get('table_name')})
+    n = type('marginTrading_' + request_data.get('table_name'), (MarginTrade, db.Model),
+             {'__tablename__': 'marginTrading_' + request_data.get('table_name')})
     read_data = jsonify([*map(marginTrade_serializer, n.query.all())])
     return read_data
+
 
 if __name__ == '__main__':
     app.config['JSON_AS_ASCII'] = False

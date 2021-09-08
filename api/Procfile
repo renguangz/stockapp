@@ -1,3 +1,2 @@
 web gunicorn api:app
-worker: python server.py runserver 0.0.0.0:5000
-SQLALCHEMY_TRACK_MODIFICATIONS = False
+web: gunicorn api:app

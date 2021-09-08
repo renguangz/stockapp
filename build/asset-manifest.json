@@ -1,0 +1,42 @@
+{
+  "files": {
+    "main.css": "/flask-react-stock-web/static/css/main.3886f98d.chunk.css",
+    "main.js": "/flask-react-stock-web/static/js/main.d7acd863.chunk.js",
+    "main.js.map": "/flask-react-stock-web/static/js/main.d7acd863.chunk.js.map",
+    "runtime-main.js": "/flask-react-stock-web/static/js/runtime-main.f76892c4.js",
+    "runtime-main.js.map": "/flask-react-stock-web/static/js/runtime-main.f76892c4.js.map",
+    "static/css/2.e060642c.chunk.css": "/flask-react-stock-web/static/css/2.e060642c.chunk.css",
+    "static/js/2.6bd02942.chunk.js": "/flask-react-stock-web/static/js/2.6bd02942.chunk.js",
+    "static/js/2.6bd02942.chunk.js.map": "/flask-react-stock-web/static/js/2.6bd02942.chunk.js.map",
+    "static/js/3.9ec9270c.chunk.js": "/flask-react-stock-web/static/js/3.9ec9270c.chunk.js",
+    "static/js/3.9ec9270c.chunk.js.map": "/flask-react-stock-web/static/js/3.9ec9270c.chunk.js.map",
+    "index.html": "/flask-react-stock-web/index.html",
+    "static/css/2.e060642c.chunk.css.map": "/flask-react-stock-web/static/css/2.e060642c.chunk.css.map",
+    "static/css/main.3886f98d.chunk.css.map": "/flask-react-stock-web/static/css/main.3886f98d.chunk.css.map",
+    "static/js/2.6bd02942.chunk.js.LICENSE.txt": "/flask-react-stock-web/static/js/2.6bd02942.chunk.js.LICENSE.txt",
+    "static/media/chip.587dc0ae.jpeg": "/flask-react-stock-web/static/media/chip.587dc0ae.jpeg",
+    "static/media/chiprighttop1.bfc69870.jpeg": "/flask-react-stock-web/static/media/chiprighttop1.bfc69870.jpeg",
+    "static/media/fundstock.c5969996.png": "/flask-react-stock-web/static/media/fundstock.c5969996.png",
+    "static/media/movingstock1.3f5ee46b.png": "/flask-react-stock-web/static/media/movingstock1.3f5ee46b.png",
+    "static/media/movingstock2.b9425e83.png": "/flask-react-stock-web/static/media/movingstock2.b9425e83.png",
+    "static/media/stock2.29cd1ee3.jpeg": "/flask-react-stock-web/static/media/stock2.29cd1ee3.jpeg",
+    "static/media/stock3.c5d46fc5.jpeg": "/flask-react-stock-web/static/media/stock3.c5d46fc5.jpeg",
+    "static/media/stock4.c7258f33.jpeg": "/flask-react-stock-web/static/media/stock4.c7258f33.jpeg",
+    "static/media/stock5.7fffd5b9.jpeg": "/flask-react-stock-web/static/media/stock5.7fffd5b9.jpeg",
+    "static/media/stock6.50888ed9.jpeg": "/flask-react-stock-web/static/media/stock6.50888ed9.jpeg",
+    "static/media/stockclose.a065225f.png": "/flask-react-stock-web/static/media/stockclose.a065225f.png",
+    "static/media/stockmove.2a1c536f.jpeg": "/flask-react-stock-web/static/media/stockmove.2a1c536f.jpeg",
+    "static/media/stocktrans.2bc5897a.png": "/flask-react-stock-web/static/media/stocktrans.2bc5897a.png",
+    "static/media/taiwan-stock.fa90c68c.jpeg": "/flask-react-stock-web/static/media/taiwan-stock.fa90c68c.jpeg",
+    "static/media/techmid.733b567f.png": "/flask-react-stock-web/static/media/techmid.733b567f.png",
+    "static/media/techmid1.b4d092f0.png": "/flask-react-stock-web/static/media/techmid1.b4d092f0.png",
+    "static/media/techmid2.958e8545.png": "/flask-react-stock-web/static/media/techmid2.958e8545.png"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.f76892c4.js",
+    "static/css/2.e060642c.chunk.css",
+    "static/js/2.6bd02942.chunk.js",
+    "static/css/main.3886f98d.chunk.css",
+    "static/js/main.d7acd863.chunk.js"
+  ]
+}
