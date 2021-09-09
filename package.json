@@ -71,5 +71,5 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "https://flask-react-stock-web.herokuapp.com/"
+  "proxy": "http://127.0.0.1:5000/"
 }
