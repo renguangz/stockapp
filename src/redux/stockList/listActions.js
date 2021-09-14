@@ -69,3 +69,7 @@ export const removeListStock = stockid => dispatch => {
         dispatch(removeStock(data))
     }).catch(err => dispatch(fetchListStockFail(err)))
 }
+
+// export const fetchListInfo = async stockid => dispatch => {
+//     await fetch()
+// }

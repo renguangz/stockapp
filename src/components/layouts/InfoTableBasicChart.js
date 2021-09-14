@@ -322,14 +322,6 @@ const InfoTableBasicChart = ({ basic }) => {
                 },
             }
         })
-
-        d3.select('#receivable_inventory_chart').insert('div', '.chart').attr('class', 'legend')
-            .data(['應收週轉天數', '存貨週轉天數']).enter().append('span')
-            .attr('data-id', (id) => { return id })
-            .html(id => { return id })
-            .each(id => {
-                d3.select(this).style('background-color', chart.color(id))
-            })
         return chart
     }
 

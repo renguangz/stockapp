@@ -1,11 +1,11 @@
 const initialState = {
     loading: true,
-    stockListId: [],
     stockid: [],
-    error: '',
+    stockListId: [],
+    price: [],
     basic: [],
-    cash: '',
-    own: ''
+    listInfo: [],
+    error: '',
 }
 
 const listReducer = (state = initialState, action) => {

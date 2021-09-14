@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from posixpath import abspath
+from typing import Text
 from flask import Flask, jsonify, request, json
 from flask_sqlalchemy import SQLAlchemy
 from flask.helpers import send_from_directory
@@ -27,7 +28,10 @@ db = SQLAlchemy(app)
 
 @app.route('/')
 def server():
-    return send_from_directory(app.static_folder, 'index.html')
+    # return send_from_directory(app.static_folder, 'index.html')
+    return {
+        'hello': '你好'
+    }
 
 
 class StockInfo(object):
@@ -64,43 +68,6 @@ def index():
     read_data = db.session.query(stocks[1]).all()
     print('read_data:', read_data)
     return jsonify([*map(stock_serializer, read_data)])
-
-
-class PocketStock(db.Model):
-    __bind_key__ = 'pocket_stock'
-    __tablename__ = 'stock'
-    stockid = db.Column('stock_id', db.String, primary_key=True)
-
-
-def stockid_serializer(stock):
-    return {
-        'stockid': stock.stockid,
-    }
-
-
-@app.route('/add_pocket_stock', methods=['POST', 'GET'])
-def addStock():
-    if request.method == 'POST':
-        request_data = json.loads(request.data)
-        stock = PocketStock(stockid=request_data['stockid'])
-        db.session.add(stock)
-        db.session.commit()
-        return {
-            '201': 'add stock successfully'
-        }
-    if request.method == 'GET':
-        return jsonify([*map(stockid_serializer, PocketStock.query.all())])
-
-
-@app.route('/remove_pocket_stock', methods=['GET', 'POST', 'DELETE'])
-def removeStock():
-    request_data = json.loads(request.data)
-    PocketStock.query.filter_by(stockid=request_data['stockid']).delete()
-    db.session.commit()
-    return {
-        '204': 'remove stock successfully'
-    }
-
 
 class StockIdName(db.Model):
     __bind_key__ = 'stock_name_id'
@@ -287,8 +254,11 @@ def price_display():
         request_data = json.loads(request.data)
         n = type('price_' + request_data.get('table_name'), (Price, db.Model),
                  {'__tablename__': 'price_' + request_data.get('table_name')})
-    read_data = jsonify([*map(price_serializer, n.query.all())])
-    return read_data
+        read_data = jsonify([*map(price_serializer, n.query.all())])
+        return read_data
+    if request.method == 'GET':
+        print('get')
+        return '200'
 
 
 class LegalPerson(object):
@@ -351,6 +321,93 @@ def marginTrade_display():
              {'__tablename__': 'marginTrading_' + request_data.get('table_name')})
     read_data = jsonify([*map(marginTrade_serializer, n.query.all())])
     return read_data
+
+
+class PocketStock(db.Model):
+    __bind_key__ = 'pocket_stock'
+    __tablename__ = 'stock'
+    stockid = db.Column('stock_id', db.String, primary_key=True)
+
+
+def stockid_serializer(stock):
+    return {
+        'stockid': stock.stockid,
+    }
+
+
+@app.route('/add_pocket_stock', methods=['POST', 'GET'])
+def addStock():
+    if request.method == 'POST':
+        request_data = json.loads(request.data)
+        stock = PocketStock(stockid=request_data['stockid'])
+        db.session.add(stock)
+        db.session.commit()
+        return {
+            '201': 'add stock successfully'
+        }
+    if request.method == 'GET':
+        # [
+        #     {
+        #         stockid: '2330',
+        #         close: 600.00,
+        #         '漲跌': 1.00,
+        #         '幅度': '0.05%',
+        #         'volume': 100M,
+        #         'open':
+        #     },
+        # ]
+        stock_list = [*map(stockid_serializer, PocketStock.query.all())]
+        print('stock_list: ',stock_list[0]['stockid'])
+        stockid_list = []
+        stocks_array = []
+        income_array = []
+        for item in stock_list:
+            item_to_list = item['stockid'].split('\u3000')[0]
+            stockid_list.append(item_to_list)
+        for item in stockid_list:
+            n = type(item.title(), (Price, db.Model), {'__tablename__': 'price_' + item})
+            stocks_array.append(n)
+            n1 = type(item.title(), (Income, db.Model), {'__tablename__': '_' + item})
+            income_array.append(n1)
+
+        # stock_result = []
+        # for stock in stocks_array:
+        #     results = db.session.query(stock).all()
+        #     _id = { 'stockid': '2330' }
+        # return jsonify([*map(price_serializer, results)][-1])
+
+
+        info_arr = []
+        for i in range(0, len(stocks_array)):
+            results = db.session.query(stocks_array[i]).all()
+            _id = { 'stockid': stock_list[i]['stockid'] }
+            lastDay_close = [*map(price_serializer, results)][-2]['Close']
+            lastDay_close_dict = { 'last_close': lastDay_close }
+
+            income_results = db.session.query(income_array[i]).all()
+
+            benefit_total = [*map(income_serializer, income_results)][-1]['benefit_total']
+            dict_benefit = { 'benefit_total': benefit_total }
+            cost_total = [*map(income_serializer, income_results)][-1]['cost_total']
+            grossMargin = int((benefit_total - cost_total) / benefit_total * 100)
+            dict_grossMargin = { 'grossMargin': grossMargin }
+            
+
+            stockinfo = dict([*map(price_serializer, results)][-1], **_id, **lastDay_close_dict, **dict_benefit, **dict_grossMargin)
+            info_arr.append(stockinfo)
+        # return jsonify([*map(stockid_serializer, PocketStock.query.all())])
+        return jsonify(info_arr)
+
+
+
+@app.route('/remove_pocket_stock', methods=['GET', 'POST', 'DELETE'])
+def removeStock():
+    request_data = json.loads(request.data)
+    PocketStock.query.filter_by(stockid=request_data['stockid']).delete()
+    db.session.commit()
+    return {
+        '204': 'remove stock successfully'
+    }
 
 
 if __name__ == '__main__':

@@ -98,6 +98,7 @@ const ChipBodytr = styled.tr`
 
 const ChipTd = styled.td`
     text-align: ${props => props.textalign || 'right'};
+    color: ${props => props.color || 'white'};
 `;
 
 const ChipRight = styled.div`
@@ -248,7 +249,6 @@ const ChipPage = ({ chipInfo, price, marginTrade }) => {
     const priceDatas = price.price.slice(-11)
     const displayPrice = []
     priceDatas.map(item => {
-        console.log(item.Close)
         displayPrice.push(item.Close)
     })
     displayPrice.reverse()
@@ -344,11 +344,10 @@ const ChipPage = ({ chipInfo, price, marginTrade }) => {
 
         const mtColor = d3.scaleOrdinal()
             .range(['#029899', '#84584A'])
-        g.selectAll('.marginTradeRect').data(stackMarginData).enter()
-            .append('g').attr('class', 'stacked-bar marginTradeDisplay')
+        g.selectAll('.stackedMarginTrade').data(stackMarginData).enter().append('g').attr('class', ' stacked-bar marginTradeDisplay')
             .attr('fill', item => { return mtColor(item.key) })
             .selectAll('.mt-bar-chart').data(layer => layer).enter().append('rect')
-            .attr('x', item => { return xScale(item.data.date.split('-')[2]) })
+            .attr('x', item => xScale(item.data.date.split('-')[2]))
             .attr('y', item => { return mtYScale(item[1]) })
             .attr('width', xScale.bandwidth())
             .attr('height', item => { return Math.abs(mtYScale(item[0]) - mtYScale(item[1])) })
@@ -365,12 +364,18 @@ const ChipPage = ({ chipInfo, price, marginTrade }) => {
             .attr('stroke-width', 2)
             .attr('d', pricePath)
 
+        // g.append('circle').datum(priceDatas)
+        //     .attr('cx', d => d.map(item => xScale(item.Date.split('/')[2])))
+        //     .attr('cy', d => d.map(item => yScaleRight(item.Close)))
+        //     .attr('r', 5)
+        //     .attr('fill', 'yellow')
+
 
 
         const legalPersonDisplay = chipSvg.selectAll('.legalPersonDisplay, .legalPersonDisplay text')
         const marginTradeDisplay = chipSvg.selectAll('.marginTradeDisplay, .marginTradeDisplay text')
-        chipDatasDisplay ? (legalPersonDisplay.style('display', 'block')) : (legalPersonDisplay.style('display', 'none'))
-        chipDatasDisplay ? (marginTradeDisplay.style('display', 'none')) : (marginTradeDisplay.style('display', 'block'))
+        chipDatasDisplay ? (legalPersonDisplay.attr('opacity', 1)) : (legalPersonDisplay.attr('opacity', 0))
+        chipDatasDisplay ? (marginTradeDisplay.attr('opacity', 0)) : (marginTradeDisplay.attr('opacity', 1))
 
         xAxisG.selectAll('.tick text').attr('transform', `translate(0, 8)`)
         g.selectAll('.domain').remove()
@@ -414,12 +419,12 @@ const ChipPage = ({ chipInfo, price, marginTrade }) => {
                                     return (
                                         <ChipBodytr key={index}>
                                             <ChipTd textalign={'left'}>{data.date.split(' ')[0]}</ChipTd>
-                                            <ChipTd>{data.foreign_invest}</ChipTd>
-                                            <ChipTd>{data.credit}</ChipTd>
-                                            <ChipTd>{data.self_employee}</ChipTd>
-                                            <ChipTd>{data.total_invest}</ChipTd>
-                                            <ChipTd>{margin_trade_array[index]}</ChipTd>
-                                            <ChipTd>{short_sell_array[index]}</ChipTd>
+                                            <ChipTd color={data.foreign_invest > 0 ? '#FF2627' : data.foreign_invest == 0 ? 'white' : '#1DFF1E'}>{data.foreign_invest}</ChipTd>
+                                            <ChipTd color={data.credit > 0 ? '#FF2627' : data.credit == 0 ? 'white' : '#1DFF1E'}>{data.credit}</ChipTd>
+                                            <ChipTd color={data.self_employee > 0 ? '#FF2627' : data.self_employee == 0 ? 'white' : '#1DFF1E'}>{data.self_employee}</ChipTd>
+                                            <ChipTd color={data.total_invest > 0 ? '#FF2627' : data.total_invest == 0 ? 'white' : '#1DFF1E'}>{data.total_invest}</ChipTd>
+                                            <ChipTd color={margin_trade_array[index] > 0 ? '#FF2627' : margin_trade_array[index] === 0 ? 'white' : '#1DFF1E'}>{margin_trade_array[index]}</ChipTd>
+                                            <ChipTd color={short_sell_array[index] > 0 ? '#FF2627' : short_sell_array[index] == 0 ? 'white' : '#1DFF1E'}>{short_sell_array[index]}</ChipTd>
                                             <ChipTd>{total_offset_array[index]}</ChipTd>
                                             <ChipTd>{displayPrice[index]}</ChipTd>
                                         </ChipBodytr>

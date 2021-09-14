@@ -45,9 +45,9 @@
   "scripts": {
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
-    "start": "react-scripts --max_old_space_size=4096 start",
+    "start": "react-scripts start",
     "start-api": "cd api && venv/bin/flask run --no-debugger",
-    "build": "react-scripts --max_old_space_size=4096 build",
+    "build": "react-scripts build",
     "test": "react-scripts test",
     "test-api": "cd api && flask test",
     "eject": "react-scripts eject",
