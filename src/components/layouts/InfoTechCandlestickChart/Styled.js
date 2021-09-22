@@ -44,8 +44,10 @@ export const TechMainSvg = styled.div`
 `;
 export const Svg = styled.svg`
     /* border: 1px solid red; */
-    width: 990px;
-    height: 275px;
+    /* width: 990px; */
+    /* height: 275px; */
+    width: 100%;
+    height: 100%;
     margin: 0;
 `;
 export const SecondSvg = styled.svg`

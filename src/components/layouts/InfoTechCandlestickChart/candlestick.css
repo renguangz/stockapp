@@ -6,12 +6,26 @@ svg {
     text-align: right;
 }
 
-.tick text {
-    border: 1px solid pink;
-    text-align: right;
-    font-weight: 500;
-    font-size: 16px;
-    color: #999999;
+@media (min-width: 1300px){
+    .tick text {
+        border: 1px solid pink;
+        text-align: right;
+        font-weight: 500;
+        font-size: 16px;
+        color: #999999;
+    }
+}
+
+@media (max-width: 800px) {
+    .tick text {
+        text-align: right;
+        font-weight: 300;
+        font-size: 8px;
+        color: #999999;
+    }
+    g text {
+        font-size: 10px;
+    }
 }
 
 .main-chart {

@@ -22,13 +22,13 @@ function App() {
         <div className="App">
           <Switch>
             <BrowserRouter basename={process.env.PUBLIC_URL}>
-              <Route exact path="/homecarousel">
+              <Route exact path="/">
                 <HomeCarousel />
               </Route>
               <Route exact path="/book">
                 <HomeBook />
               </Route>
-              <Route exact path='/'>
+              <Route exact path='/index'>
                 <HomePage />
               </Route>
               <Route exact path="/stockinfo">

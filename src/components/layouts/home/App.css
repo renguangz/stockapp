@@ -76,10 +76,16 @@ body {
     height: 100%;
     display: flex;
     align-items: center;
+    cursor: pointer;
 }
 
 .bgcBtn {
     background-color: #75AADB;
+    transition: .3s;
+}
+
+.bgcBtn:hover {
+    background-color: transparent;
 }
 
 .btnWord {
@@ -88,8 +94,21 @@ body {
     margin: auto 28px;
 }
 
+.secondBtnBgc {
+    transition: .3s;
+}
+
+.secondBtnBgc:hover {
+    background-color: #75AADB;
+    color: white;
+}
+
 .secondBtn {
     color: #75AADB;
+}
+
+.secondBtn:hover {
+    color: white;
 }
 
 .otherCardsContainer {

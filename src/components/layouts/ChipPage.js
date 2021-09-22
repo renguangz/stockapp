@@ -198,7 +198,7 @@ const ChipSvg = styled.svg`
     width: 620px;
 `;
 
-const ChipPage = ({ chipInfo, price, marginTrade }) => {
+const ChipPage = ({ chipInfo, price, marginTrade, topSellBuy }) => {
 
     const [LeftButtonBgc, setLeftButtonBgc] = useState('#2B3234');
     const [rightButtonBgc, setRightButtonBgc] = useState('transparent')
@@ -216,13 +216,16 @@ const ChipPage = ({ chipInfo, price, marginTrade }) => {
 
     const [buyButtonBgc, setBuyButtonBgc] = useState('#2B3234')
     const [sellButtonBgc, setSellButtonBgc] = useState('transparent')
+    const [topBuyDisplay, setTopBuyDisplay] = useState(true);
     const handleClickBuyButton = () => {
         setBuyButtonBgc('#2B3234')
         setSellButtonBgc('transparent')
+        setTopBuyDisplay(true)
     }
     const handleClickSellButton = () => {
         setBuyButtonBgc('transparent')
         setSellButtonBgc('#2B3234')
+        setTopBuyDisplay(false)
     }
 
     const datas = chipInfo.data.slice(-11)
@@ -463,7 +466,7 @@ const ChipPage = ({ chipInfo, price, marginTrade }) => {
                     </ChipTable>
                 </ChipRightTop>
                 <ChipRightBot>
-                    <ChipTitle margintop={'12'}>15大券商進出</ChipTitle>
+                    <ChipTitle margintop={'12'}>7大券商進出</ChipTitle>
                     <RightBotNav>
                         <DropSelectButton>
                             <DropSelect>
@@ -489,22 +492,33 @@ const ChipPage = ({ chipInfo, price, marginTrade }) => {
                                 <ChipTh>買進</ChipTh>
                                 <ChipTh>賣出</ChipTh>
                                 <ChipTh>買賣超</ChipTh>
-                                <ChipTh>成交比例</ChipTh>
                             </ChipHeadTr>
                         </thead>
                         <tbody>
                             {
-                                chipRightBot.map(data => {
-                                    return (
-                                        <ChipBodytr>
-                                            <ChipTd textalign={'left'}>{data.name}</ChipTd>
-                                            <ChipTd>{data.buy}</ChipTd>
-                                            <ChipTd>{data.sell}</ChipTd>
-                                            <ChipTd>{data.total}</ChipTd>
-                                            <ChipTd>{data.percent}</ChipTd>
-                                        </ChipBodytr>
-                                    )
-                                })
+                                topBuyDisplay ? (
+                                    topSellBuy.topBuy.map((data, index) => {
+                                        const buy_name = data.buy_name.split('').slice(4,)
+                                        return (
+                                            <ChipBodytr key={index}>
+                                                <ChipTd textalign={'left'}>{buy_name}</ChipTd>
+                                                <ChipTd>{(data.top_buy_buy / 1000).toFixed(0)}</ChipTd>
+                                                <ChipTd>{(data.top_buy_sell / 1000).toFixed(0)}</ChipTd>
+                                                <ChipTd color={'#FF2627'}>{(data.top_buy / 1000).toFixed(0)}</ChipTd>
+                                            </ChipBodytr>
+                                        )
+                                    })) : (
+                                    topSellBuy.topSell.map((data, index) => {
+                                        const sell_name = data.sell_name.split('').slice(4,)
+                                        return (
+                                            <ChipBodytr key={index}>
+                                                <ChipTd textalign={'left'}>{sell_name}</ChipTd>
+                                                <ChipTd>{(data.top_sell_buy / 1000).toFixed(0)}</ChipTd>
+                                                <ChipTd>{(data.top_sell_sell / 1000).toFixed(0)}</ChipTd>
+                                                <ChipTd color={'#1DFF1E'}>{(data.top_sell / 1000).toFixed(0)}</ChipTd>
+                                            </ChipBodytr>
+                                        )
+                                    }))
                             }
                         </tbody>
                     </ChipTable>
@@ -519,6 +533,7 @@ const mapStateToProps = state => {
         chipInfo: state.chip,
         price: state.price,
         marginTrade: state.marginTrade,
+        topSellBuy: state.topSellBuy,
     }
 }
 

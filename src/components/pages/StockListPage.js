@@ -7,6 +7,7 @@ import { connect } from 'react-redux';
 import { listStock, addListStock, removeListStock, fetchIdName, fetchBasic, fetchListInfo } from '../../redux';
 import styled from 'styled-components';
 import * as Storage from '../helper/StorageHelper';
+import useResponsive from '../common/useResponsive';
 
 // Mocked
 import { StockListMockedData } from '../common/mocked_data/StockListMockedData';
@@ -81,7 +82,8 @@ const StyledTable = styled.table`
     /* border: 2px solid pink; */
     width: 100%;
     border-collapse: collapse;
-    table-layout: fixed;
+    font-size: ${props => props.fontSize}rem;
+    overflow: hidden;
 `;
 
 const StyledThead = styled.thead`
@@ -112,17 +114,17 @@ const StyledTh = styled.th`
     color: white;
     width: ${props => props.width || '50'}px;
     /* border: 2px solid white; */
-    font-size: 1.1rem;
-    `;
+    /* font-size: 1.1rem; */
+`;
 
 const StyledTd = styled.td`
     color: ${props => props.fontColor || 'white'};
     font-weight: 700;
-    font-size: 1.1rem;
+    /* font-size: 1.1rem; */
     width: ${props => props.width || '50'}px;
     text-align: ${props => props.textAlign || 'center'};
     /* border: 2px solid white; */
-    `;
+`;
 
 const MockedClose = styled.div`
     /* border: 2px solid white; */
@@ -199,7 +201,7 @@ const SearchSpan = styled.span`
     color: black;
 `;
 
-const StockListPage = ({ searchRedux, stockList, listStock, addStock, removeStock, fetchIdName, fetchListInfo }) => {
+const StockListPage = ({ searchRedux, stockList, listStock, addStock, removeStock, fetchIdName, fetchBasic, fetchListInfo }) => {
     useEffect(() => {
         fetchIdName()
         listStock()
@@ -255,27 +257,39 @@ const StockListPage = ({ searchRedux, stockList, listStock, addStock, removeStoc
 
     const handleClickLink = (e) => {
         Storage.setData('stock_id_and_name', e)
+        // fetchBasic(e)
     }
 
-    // stockList.stockListId.map(d => {
-    //     console.log(d)
-    // })
     const ListID = []
-    let listInfo
 
+    // RWD
+    const { windowWidth, screenType } = useResponsive();
+    // console.log(screenType, windowWidth)
+
+    const [tableFontSize, setTableFontSize] = useState(0);
+    const [displayTableCol, setDisplayTableCol] = useState(true)
     useEffect(() => {
-        console.log(ListID)
-        // fetchListInfo(ListID[0])
-    }, [ListID])
+        if (screenType === 'MOBILE') {
+            setTableFontSize(0.8);
+            setDisplayTableCol(false);
+        } else if (screenType === 'TABLET') {
+            setTableFontSize(0.9);
+            setDisplayTableCol(true);
+        } else {
+            setTableFontSize(1.1);
+            setDisplayTableCol(true);
+        }
+    }, [screenType])
+
 
     return (
         <DefaultLayout noSidebar>
             <StyledContainer>
                 <ListCardContainer>
                     <ListCard>台股指數</ListCard>
-                    <ListCard>總報酬</ListCard>
-                    <ListCard></ListCard>
-                    <ListCard></ListCard>
+                    <ListCard>櫃買指數</ListCard>
+                    <ListCard>DOW J</ListCard>
+                    {/* <ListCard></ListCard> */}
                 </ListCardContainer>
                 <TableOrder>
                     <TableSwitch>
@@ -292,13 +306,16 @@ const StockListPage = ({ searchRedux, stockList, listStock, addStock, removeStoc
                 <SearchUl>
                     <DisplayMatches />
                 </SearchUl>
-                <StyledTable>
+                <StyledTable fontSize={tableFontSize}>
                     <StyledThead>
                         <StyledHeadTr>
                             <StyledTh width={20}><EditFilled style={{ fill: 'white' }} /></StyledTh>
                             <StyledTh width={'76'}>商品</StyledTh>
                             <StyledTh>成交價</StyledTh>
-                            <StyledTh width={76}>走勢圖</StyledTh>
+                            {
+                                displayTableCol ? <StyledTh width={76}>走勢圖</StyledTh> : ''
+                            }
+                            {/* <StyledTh width={76}>走勢圖</StyledTh> */}
                             <StyledTh width={48}>漲跌</StyledTh>
                             <StyledTh>幅度</StyledTh>
                             <StyledTh>成交量</StyledTh>
@@ -325,11 +342,13 @@ const StockListPage = ({ searchRedux, stockList, listStock, addStock, removeStoc
                                                 <MenuOutlined style={{ fill: 'white' }} />
                                             </Action>
                                         </StyledTd>
-                                        <StyledTd onClick={() => handleClickLink(d)} textAlign={'right'}>
-                                            <Link style={{ color: '#00AEFF' }} to='/stockinfo'>{splitID}&ensp;{splitName}</Link>
+                                        <StyledTd onClick={() => handleClickLink(d)} textAlign={'center'}>
+                                            <Link style={{ color: '#00AEFF' }} to='/stockinfo'>{splitID}<br />{splitName}</Link>
                                         </StyledTd>
                                         <StyledTd fontColor={data.Close > data.last_close ? '#FF2627' : (data.Close === data.last_close) ? '#E7DC61' : '#1DFF1E'}>{data.Close}</StyledTd>
-                                        <StyledTd>走勢圖</StyledTd>
+                                        {
+                                            displayTableCol ? <StyledTd>走勢圖</StyledTd> : ''
+                                        }
                                         <StyledTd fontColor={data.Close > data.last_close ? '#FF2627' : (data.Close === data.last_close) ? '#E7DC61' : '#1DFF1E'}>
                                             {data.Close === data.last_close ? '' : <CaretUpOutlined rotate={data.Close > data.last_close ? 0 : 180} className={data.Close > data.last_close ? 'redColor' : 'greenColor'} />}
                                             {Math.abs((data.Close - data.last_close)).toFixed(2)}
@@ -346,42 +365,6 @@ const StockListPage = ({ searchRedux, stockList, listStock, addStock, removeStoc
                                 )
                             })
                         }
-                        {/* {
-                            StockListMockedData.map((data, index) => {
-                                return (
-                                    <StyledBodyTr key={index}>
-                                        <StyledTd>
-                                            <Action>
-                                                <CloseSquareFilled />
-                                                <MenuOutlined />
-                                            </Action>
-                                        </StyledTd>
-                                        <StyledTd>{data.stockid}</StyledTd>
-                                        <StyledTd>{data.close}</StyledTd>
-                                        <StyledTd>
-                                            <MockedClose>
-                                                <MockedImg url={data.url} />
-                                            </MockedClose>
-                                        </StyledTd>
-                                        <StyledTd>
-                                            {
-                                                data.increase ? (
-                                                    <MockedAdvanced bgc={'#E41E63'}>
-                                                        <Advanced>{data.advance}</Advanced>
-                                                    </MockedAdvanced>
-                                                ) : (
-                                                    <MockedAdvanced bgc={'#38C28E'}>
-                                                        <Advanced>{data.advance}</Advanced>
-                                                    </MockedAdvanced>
-                                                )
-                                            }
-                                        </StyledTd>
-                                        <StyledTd>{data.vol}</StyledTd>
-                                        <StyledTd>{data.hold} 張</StyledTd>
-                                    </StyledBodyTr>
-                                )
-                            })
-                        } */}
                     </StyledTbody>
                 </StyledTable>
             </StyledContainer>
@@ -402,8 +385,8 @@ const mapDispatchToProps = dispatch => {
         addStock: (stockid) => dispatch(addListStock(stockid)),
         removeStock: (stockid) => dispatch(removeListStock(stockid)),
         fetchIdName: () => dispatch(fetchIdName()),
-        // fetchBasic: stockid => dispatch(fetchBasic(stockid)),
         fetchListInfo: (stockid) => dispatch(fetchListInfo(stockid)),
+        // fetchBasic: (stockid) => dispatch(fetchBasic(stockid)),
     }
 }
 

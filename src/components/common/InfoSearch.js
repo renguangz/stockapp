@@ -3,7 +3,7 @@ import DefaultLayout from '../layouts/DefaultLayout';
 import styled from 'styled-components';
 import { SearchOutlined } from '@ant-design/icons';
 import { connect } from 'react-redux';
-import { clickSearch, fetchIdName } from '../../redux';
+import { clickSearch, fetchBasic, fetchIdName } from '../../redux';
 import * as Storage from '../helper/StorageHelper';
 import { Link } from 'react-router-dom';
 
@@ -142,6 +142,7 @@ const InfoSearch = ({ searchRedux, fetchIdName }) => {
         Storage.setData('stock_id_and_name', m)
         Storage.setData('notSearch', false)
         clickSearch(m)
+
     }
     const DisplayMatches = () => {
         const matchArray = filtered(searchList, search)
@@ -168,7 +169,6 @@ const InfoSearch = ({ searchRedux, fetchIdName }) => {
     const [clickSearchButton, setClickSearchButton] = useState(false)
     const handleSearchClick = (e) => {
         e.preventDefault()
-        // console.log('click search button')
         setClickSearchButton(true)
     }
 
@@ -216,6 +216,7 @@ const mapDispatchToProps = dispatch => {
     return {
         clickSearch: (s) => dispatch(clickSearch(s)),
         fetchIdName: () => dispatch(fetchIdName()),
+        // fetchBasic: (stockid) => dispatch(fetchBasic(stockid)),
     }
 }
 

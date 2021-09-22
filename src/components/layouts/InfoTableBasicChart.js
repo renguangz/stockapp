@@ -1,11 +1,10 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import * as d3 from 'd3';
 import c3 from 'c3';
 import { connect } from 'react-redux';
-// import InfoTableChart from '../charts/InfoTableChart';
-import { fetchBasic } from '../../redux';
 import './InfoTableBasicChart.css';
+import useResponsive from '../common/useResponsive';
 
 const FundImgContainer = styled.div`
     /* border: 2px solid yellow; */
@@ -21,10 +20,14 @@ const FundImgBorder = styled.div`
     background-color: #2C2C2C;
     box-shadow: 0px 0px 4px grey;
     border-radius: 2px;
+    width: ${props => props.width}%;
     width: 46.4%;
     height: 30%;
+    margin: ${props => props.margin};
     margin: 12px;
     padding-top: 4px;
+    visibility: ${props => props.visibility};
+    fill: ${props => props.fill};
 `;
 
 const InfoTableBasicChart = ({ basic }) => {
@@ -35,9 +38,8 @@ const InfoTableBasicChart = ({ basic }) => {
     console.log(incomeDisplay, balanceDisplay, cashFlowDisplay)
 
     const incomeGrossMarginChart = () => {
-        // 營業收入: benefit_total, 毛利率: (benefit_total - cost_total) / benefit_total * 100
-        const grossMargin = ['毛利率'] // 毛利率array
-        const operating_income = ['營業收入'] // 營業收入 array
+        const grossMargin = ['毛利率']
+        const operating_income = ['營業收入']
         incomeDisplay.map(data => {
             operating_income.push(parseInt((data.benefit_total / 1000000).toFixed(0)))
             grossMargin.push(parseInt(((data.benefit_total - data.cost_total) / data.benefit_total * 100).toFixed(0)))
@@ -222,8 +224,6 @@ const InfoTableBasicChart = ({ basic }) => {
     }
 
     const receivableInventoryChart = () => {
-        // receivable = 365 / income.benefit_total / balance.accounts_receivable
-        // inventory = 365 / income.cost_total / balance.inventory
         const receivable = ['應收週轉天數']
         const inventory = ['存貨週轉天數']
         const benefit_total = []
@@ -326,8 +326,6 @@ const InfoTableBasicChart = ({ basic }) => {
     }
 
     const operatingDebtratioChart = () => {
-        // operatingCashflow = cashFlow.cashFlow_operating / income.net_income
-        // debtRatio = balance.total_liabilities / balance.total_assets
         const operatingCashflow = ['營運現金流']
         const debtRatio = ['負債比']
         const cashflowOperating = []
@@ -361,7 +359,7 @@ const InfoTableBasicChart = ({ basic }) => {
                 }
             },
             color: {
-                pattern: ['yellow', 'blue']
+                pattern: ['#8E4F4F', '#78C4D4']
             },
             legend: {
                 show: true,
@@ -431,25 +429,55 @@ const InfoTableBasicChart = ({ basic }) => {
 
     const chartRef = useRef();
 
+    // chart reponsive
+    const { screenType } = useResponsive();
+    const [leftChartDisplay, setLeftChartDisplay] = useState('visible')
+    const [leftChartFill, setLeftChartFill] = useState()
+    const [chartWidth, setChartWidth] = useState(46.6);
+    const [chartMargin, setChartMargin] = useState();
+    // const 
+    useEffect(() => {
+        if (screenType === 'DESKTOP') {
+            setChartWidth(46.6)
+            setChartMargin('12px')
+            // setLeftChartDisplay('visible')
+            // set
+        } else if (screenType === 'TABLET') {
+            // d3.select('#capitalExpenture_depreciation_chart').attr('opacity', 0)
+            setChartWidth(80)
+            setChartMargin('12px auto')
+            // setLeftChartDisplay('hidden')
+            // setLeftChartFill('none')
+
+        } else {
+            // d3.select('#capitalExpenture_depreciation_chart').attr('opacity', 0)
+            // d3.select('#operatingCashFlow_debtRatio_chart').attr('opacity', 0)
+            setChartWidth(80)
+            setChartMargin('12px auto')
+            // setLeftChartDisplay('hidden')
+            // setLeftChartFill('none')
+        }
+    }, [screenType])
+
     return (
         <FundImgContainer>
-            <FundImgBorder id='operatingIncome_grossMargin_chart' ref={chartRef} className='svgWhite'>
+            <FundImgBorder id='operatingIncome_grossMargin_chart' ref={chartRef} className='svgWhite' width={chartWidth} margin={chartMargin} visibility={leftChartDisplay}>
                 {/* 營業收入與毛利率 */}
             </FundImgBorder>
-            <FundImgBorder id='eps_nonIndustryRatio_chart' ref={chartRef} className='svgWhite'>
+            <FundImgBorder id='eps_nonIndustryRatio_chart' ref={chartRef} className='svgWhite' width={chartWidth} margin={chartMargin}>
                 {/* 每股盈餘與業外比率 */}
                 {/* <InfoTableChart /> */}
             </FundImgBorder>
-            <FundImgBorder id='receivable_inventory_chart' ref={chartRef} className='svgWhite'>
+            <FundImgBorder id='receivable_inventory_chart' ref={chartRef} className='svgWhite' width={chartWidth} margin={chartMargin} visibility={leftChartDisplay}>
                 {/* 應收週轉天數與存貨週轉天數 */}
             </FundImgBorder>
-            <FundImgBorder>
+            <FundImgBorder id='capitalExpenture_depreciation_chart'>
                 資本支出與折舊率
             </FundImgBorder>
-            <FundImgBorder id='operatingCashFlow_debtRatio_chart' ref={chartRef} className='svgWhite'>
+            <FundImgBorder id='operatingCashFlow_debtRatio_chart' ref={chartRef} className='svgWhite' width={chartWidth} margin={chartMargin} visibility={leftChartDisplay}>
                 {/* 營運現金流與負債比 */}
             </FundImgBorder>
-            <FundImgBorder>
+            <FundImgBorder id='chart1'>
                 營運現金流 / 本期損益
             </FundImgBorder>
         </FundImgContainer>
@@ -459,11 +487,5 @@ const InfoTableBasicChart = ({ basic }) => {
 const mapStateToProps = state => ({
         basic: state.basic
 })
-
-// const mapDispatchToProps = dispatch => {
-//     return {
-//         fetchBasic: (stockid) => dispatch(fetchBasic(stockid)),
-//     }
-// }
 
 export default connect(mapStateToProps,)(InfoTableBasicChart);

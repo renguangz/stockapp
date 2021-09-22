@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
-import { fetchBasic } from '../../redux';
-import { MockedInfo } from '../common/mocked_data/StockInfoTableMocked';
+import useResponsive from '../common/useResponsive';
 
 const TableContainer = styled.table`
     /* border: 1px solid white; */
@@ -34,7 +33,6 @@ const Tbody = styled.tbody`
 `;
 
 const BodyTr = styled.tr`
-    ${props => props.display}
     width: 100%;
     &:nth-child(odd) {
         background-color: #F88200;
@@ -60,7 +58,7 @@ const TableTitleContainer = styled.div`
 
 const TableTitle = styled.h2`
     color: white;
-    font-size: 20px;
+    font-size: ${props => props.fontSize}px;
     margin: auto;
 `;
 
@@ -72,7 +70,8 @@ const ButtonContainer = styled.div`
 
 const RightTableButton = styled.div`
     background-color: #2C3235;
-    font-size: 16px;
+    font-size: ${props => props.fontSize}px;
+    /* font-size: 16px; */
     font-weight: 600;
     padding: 0 12px;
     cursor: pointer;
@@ -81,14 +80,15 @@ const RightTableButton = styled.div`
 const LeftTableButton = styled.div`
     /* border: 1px solid red; */
     border-radius: 4px;
-    font-size: 16px;
+    /* font-size: 16px; */
+    font-size: ${props => props.fontSize}px;
     font-weight: 600;
     padding: 0 16px;
     cursor: pointer;
     background-color: ${props => props.bgc};
 `;
 
-const StockInfoTable = ({ basic, fetchBasic }) => {
+const StockInfoTable = ({ basic }) => {
 
     const tableTitle = [
         '營業收入', '營業成本', '營業利益', '業外損益', '稅前淨利', '應收帳款', '應付帳款',
@@ -122,29 +122,66 @@ const StockInfoTable = ({ basic, fetchBasic }) => {
     const eps = []
     const net_income = []
     const common_stock = []
+    const total_assets = []
+    const accounts_payable = []
+    const cost_total = []
+
+    // ROE
+    const roe = []
+    const total_equity = []
+    // ROA
+    const roa = []
+    // 付款天數
+    const prepaid = []
+
+    console.log(incomeDisplay, balanceDisplay)
     incomeDisplay.map(data => {
         net_income.push(data.net_income)
+        cost_total.push(data.cost_total)
     })
     balanceDisplay.map(data => {
         common_stock.push(data.common_stock)
+        total_assets.push(data.total_assets)
+        total_equity.push(data.common_stock + data.capital_reserve + data.re)
+        accounts_payable.push(data.accounts_payable)
     })
     net_income.map((num, idx) => {
         eps.push(parseFloat((num / common_stock[idx]).toFixed(2)))
+        roa.push((num / total_assets[idx] * 100).toFixed(1))
+        roe.push((num / total_equity[idx] * 100).toFixed(1))
+
+        prepaid.push(365 / cost_total[idx] / accounts_payable[idx])
     })
 
+    const { screenType } = useResponsive();
+
+    const [titleFontSize, setTitleFontSize] = useState();
+    const [fontSize, setFontSize] = useState();
+    useEffect(() => {
+        if (screenType === 'DESKTOP') {
+            setTitleFontSize(20)
+            setFontSize(16)
+        } else if (screenType === 'TABLET') {
+            setTitleFontSize(14)
+            setFontSize(14)
+        } else {
+            setTitleFontSize(12)
+            setFontSize(12)
+        }
+    }, [screenType])
 
     return (
         <>
             <TableButtonContainer>
                 <TableTitleContainer>
-                    <TableTitle>109年</TableTitle>
+                    <TableTitle fontSize={titleFontSize}>109年</TableTitle>
                 </TableTitleContainer>
                 <ButtonContainer>
-                    <LeftTableButton bgc={financeFocus} onClick={clickLeftTableButtonReport}>報表</LeftTableButton>
-                    <LeftTableButton bgc={indicateFocus} onClick={clickLeftTableButtonIndicate}>指標</LeftTableButton>
+                    <LeftTableButton fontSize={fontSize} bgc={financeFocus} onClick={clickLeftTableButtonReport}>報表</LeftTableButton>
+                    <LeftTableButton fontSize={fontSize} bgc={indicateFocus} onClick={clickLeftTableButtonIndicate}>指標</LeftTableButton>
                 </ButtonContainer>
-                <RightTableButton>＜上一年</RightTableButton>
-                <RightTableButton>下一年＞</RightTableButton>
+                {/* <RightTableButton fontSize={fontSize}>＜上一年</RightTableButton>
+                <RightTableButton fontSize={fontSize}>下一年＞</RightTableButton> */}
             </TableButtonContainer>
             <TableContainer>
                 <Thead>
@@ -342,6 +379,36 @@ const StockInfoTable = ({ basic, fetchBasic }) => {
                                     })
                                 }
                             </BodyTr>
+                            <BodyTr>
+                                <Td start>{indicateTableTitle[4]}</Td>
+                                {
+                                    roe.map((data, index) => {
+                                        return (
+                                            <Td key={index}>{data}%</Td>
+                                        )
+                                    })
+                                }
+                            </BodyTr>
+                            <BodyTr>
+                                <Td start>{indicateTableTitle[5]}</Td>
+                                {
+                                    roa.map((data, index) => {
+                                        return (
+                                            <Td key={index}>{data}%</Td>
+                                        )
+                                    })
+                                }
+                            </BodyTr>
+                            <BodyTr>
+                                <Td start>{indicateTableTitle[6]}</Td>
+                                {
+                                    roa.map((data, index) => {
+                                        return (
+                                            <Td key={index}>{data}%</Td>
+                                        )
+                                    })
+                                }
+                            </BodyTr>
                             {
                                 indicateTableTitle.map(data => {
                                     return (
@@ -366,10 +433,4 @@ const mapStateToProps = state => {
     }
 }
 
-const mapDispatchToProps = dispatch => {
-    return {
-        fetchBasic: (stockid) => dispatch(fetchBasic(stockid))
-    }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(StockInfoTable);
+export default connect(mapStateToProps,)(StockInfoTable);

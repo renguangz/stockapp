@@ -3,6 +3,7 @@ import * as d3 from 'd3';
 import './InfoTableChart.css';
 import { connect } from 'react-redux';
 import { fetchBasic } from '../../redux';
+import useResponsive from '../common/useResponsive';
 
 const InfoTableChart = ({ basic }) => {
     const d3Chart = useRef();
@@ -191,6 +192,8 @@ const InfoTableChart = ({ basic }) => {
             .attr('stroke-width', 2)
             .attr('d', line)
     }
+
+    const { windowWidth, screenType } = useResponsive();
 
     return (
         <div id='d3chart'>

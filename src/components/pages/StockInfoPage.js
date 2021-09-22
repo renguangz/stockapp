@@ -20,12 +20,12 @@ import InfoTableChart from '../charts/InfoTableChart';
 import InfoTableBasicChart from '../layouts/InfoTableBasicChart';
 import CandleStickChart from '../layouts/InfoTechCandlestickChart/CandlestickChart';
 import ChipPage from '../layouts/ChipPage';
+import useResponsive from '../common/useResponsive';
 
 const StyledInfoContainer = styled.section`
     /* border: 1px solid blue; */
     width: 100%;
     height: 90vh;
-    
     color: white;
     display: flex;
     padding-top: 20px;
@@ -153,7 +153,8 @@ const RightBot = styled.div`
 
 const FundTableContainer = styled.div`
     /* border: 2px solid orange; */
-    width: 36%;
+    width: ${props => props.width}%;
+    margin-right: ${props => props.marginRight}px;
 `;
 
 const TechContainer = styled.div`
@@ -396,9 +397,25 @@ const StockInfoPage = ({ searchRedux, clickSearch, fetchBasic }) => {
     const searchStockIdName = Storage.getData('stock_id_and_name')
     const searchStock = searchStockIdName.split('　')[0]
 
+    const { windowWidth, screenType } = useResponsive();
+
+    const [tableWidth, setTableWidth] = useState(36);
+    const [tableMarginRight, setTableMarginRight] = useState(0);
+    useEffect(() => {
+        if (screenType === 'DESKTOP') {
+            setTableWidth(36)
+            setTableMarginRight(0)
+        } else if (screenType === 'TABLET') {
+            setTableWidth(48)
+            setTableMarginRight(12)
+        } else {
+            setTableWidth(48)
+            setTableMarginRight(12)
+        }
+    }, [screenType])
+
     return (
         <>
-
             <SidebarLayout>
                 <StyledInfoContainer id='move'>
                     <MovingContainer>
@@ -411,7 +428,7 @@ const StockInfoPage = ({ searchRedux, clickSearch, fetchBasic }) => {
                                     {
                                         row1.map((data, index) => {
                                             return (
-                                                <BotItem>
+                                                <BotItem key={index}>
                                                     <BotItemTitle>{data.title}</BotItemTitle>
                                                     <BotItemNum fall={data.fall}>{data.num}</BotItemNum>
                                                 </BotItem>
@@ -423,7 +440,7 @@ const StockInfoPage = ({ searchRedux, clickSearch, fetchBasic }) => {
                                     {
                                         row2.map((data, index) => {
                                             return (
-                                                <BotItem>
+                                                <BotItem key={index}>
                                                     <BotItemTitle>{data.title}</BotItemTitle>
                                                     <BotItemNum fall={data.fall}>{data.num}</BotItemNum>
                                                 </BotItem>
@@ -435,7 +452,7 @@ const StockInfoPage = ({ searchRedux, clickSearch, fetchBasic }) => {
                                     {
                                         row3.map((data, index) => {
                                             return (
-                                                <BotItem>
+                                                <BotItem key={index}>
                                                     <BotItemTitle>{data.title}</BotItemTitle>
                                                     <BotItemNum fall={data.fall}>{data.num}</BotItemNum>
                                                 </BotItem>
@@ -451,7 +468,7 @@ const StockInfoPage = ({ searchRedux, clickSearch, fetchBasic }) => {
                                     {
                                         mockedRightRow1.map((data, index) => {
                                             return (
-                                                <ColNum>{data}</ColNum>
+                                                <ColNum key={index}>{data}</ColNum>
                                             )
                                         })
                                     }
@@ -460,7 +477,7 @@ const StockInfoPage = ({ searchRedux, clickSearch, fetchBasic }) => {
                                     {
                                         mockedRightRow2.map((data, index) => {
                                             return (
-                                                <ColNum>{data}</ColNum>
+                                                <ColNum key={index}>{data}</ColNum>
                                             )
                                         })
                                     }
@@ -469,7 +486,7 @@ const StockInfoPage = ({ searchRedux, clickSearch, fetchBasic }) => {
                                     {
                                         mockedRightRow3.map((data, index) => {
                                             return (
-                                                <ColNum>{data}</ColNum>
+                                                <ColNum key={index}>{data}</ColNum>
                                             )
                                         })
                                     }
@@ -478,7 +495,7 @@ const StockInfoPage = ({ searchRedux, clickSearch, fetchBasic }) => {
                                     {
                                         mockedRightRow4.map((data, index) => {
                                             return (
-                                                <ColNum>{data}</ColNum>
+                                                <ColNum key={index}>{data}</ColNum>
                                             )
                                         })
                                     }
@@ -497,7 +514,7 @@ const StockInfoPage = ({ searchRedux, clickSearch, fetchBasic }) => {
                 </StyledInfoContainer >
                 <StyledInfoContainer id='basic'>
                     <InfoTableBasicChart />
-                    <FundTableContainer>
+                    <FundTableContainer width={tableWidth} marginRight={tableMarginRight}>
                         <StockInfoTable />
                     </FundTableContainer>
                 </StyledInfoContainer>
@@ -507,31 +524,6 @@ const StockInfoPage = ({ searchRedux, clickSearch, fetchBasic }) => {
                 <StyledInfoContainer id='chip'>
                     <ChipPage />
                 </StyledInfoContainer>
-                {/* <StyledInfoContainer id='news'>
-                    <NewsContainer>
-                        <NewsSection translate={'50px, -68px'}>
-                            <NewsTitle>Ipsum mollit id nostrud deserunt deserunt Lorem fugiat ad Lorem.    <NewsDate>2021/6/25</NewsDate></NewsTitle>
-                            <News>Excepteur voluptate elit reprehenderit minim velit laborum ullamco Lorem est. Elit proident occaecat cupidatat reprehenderit id excepteur labore anim eu ex sit enim eiusmod elit. Nulla elit irure reprehenderit cupidatat nisi nulla exercitation aliquip. Pariatur sunt tempor tempor exercitation duis et veniam minim fugiat. Non reprehenderit dolor consectetur mollit voluptate. Voluptate ea quis magna ex exercitation nulla.</News>
-                            <NewsTitle>Ipsum mollit id nostrud deserunt deserunt Lorem fugiat ad Lorem.    <NewsDate>2021/6/25</NewsDate></NewsTitle>
-                            <News>Excepteur voluptate elit reprehenderit minim velit laborum ullamco Lorem est. Elit proident occaecat cupidatat reprehenderit id excepteur labore anim eu ex sit enim eiusmod elit. Nulla elit irure reprehenderit cupidatat nisi nulla exercitation aliquip. Pariatur sunt tempor tempor exercitation duis et veniam minim fugiat. Non reprehenderit dolor consectetur mollit voluptate. Voluptate ea quis magna ex exercitation nulla.</News>
-                            <NewsTitle>Ipsum mollit id nostrud deserunt deserunt Lorem fugiat ad Lorem.    <NewsDate>2021/6/25</NewsDate></NewsTitle>
-                            <News>Excepteur voluptate elit reprehenderit minim velit laborum ullamco Lorem est. Elit proident occaecat cupidatat reprehenderit id excepteur labore anim eu ex sit enim eiusmod elit. Nulla elit irure reprehenderit cupidatat nisi nulla exercitation aliquip. Pariatur sunt tempor tempor exercitation duis et veniam minim fugiat. Non reprehenderit dolor consectetur mollit voluptate. Voluptate ea quis magna ex exercitation nulla.</News>
-                            <NewsTitle>Ipsum mollit id nostrud deserunt deserunt Lorem fugiat ad Lorem.    <NewsDate>2021/6/25</NewsDate></NewsTitle>
-                            <News>Excepteur voluptate elit reprehenderit minim velit laborum ullamco Lorem est. Elit proident occaecat cupidatat reprehenderit id excepteur labore anim eu ex sit enim eiusmod elit. Nulla elit irure reprehenderit cupidatat nisi nulla exercitation aliquip. Pariatur sunt tempor tempor exercitation duis et veniam minim fugiat. Non reprehenderit dolor consectetur mollit voluptate. Voluptate ea quis magna ex exercitation nulla.</News>
-                        </NewsSection>
-                        <NewsSection translate={'-36px, 68px'}>
-                            <NewsTitle>Ipsum mollit id nostrud deserunt deserunt Lorem fugiat ad Lorem.    <NewsDate>2021/6/25</NewsDate></NewsTitle>
-                            <News>Excepteur voluptate elit reprehenderit minim velit laborum ullamco Lorem est. Elit proident occaecat cupidatat reprehenderit id excepteur labore anim eu ex sit enim eiusmod elit. Nulla elit irure reprehenderit cupidatat nisi nulla exercitation aliquip. Pariatur sunt tempor tempor exercitation duis et veniam minim fugiat. Non reprehenderit dolor consectetur mollit voluptate. Voluptate ea quis magna ex exercitation nulla.</News>
-                            <NewsTitle>Ipsum mollit id nostrud deserunt deserunt Lorem fugiat ad Lorem.    <NewsDate>2021/6/25</NewsDate></NewsTitle>
-                            <News>Excepteur voluptate elit reprehenderit minim velit laborum ullamco Lorem est. Elit proident occaecat cupidatat reprehenderit id excepteur labore anim eu ex sit enim eiusmod elit. Nulla elit irure reprehenderit cupidatat nisi nulla exercitation aliquip. Pariatur sunt tempor tempor exercitation duis et veniam minim fugiat. Non reprehenderit dolor consectetur mollit voluptate. Voluptate ea quis magna ex exercitation nulla.</News>
-                            <NewsTitle>Ipsum mollit id nostrud deserunt deserunt Lorem fugiat ad Lorem.    <NewsDate>2021/6/25</NewsDate></NewsTitle>
-                            <News>Excepteur voluptate elit reprehenderit minim velit laborum ullamco Lorem est. Elit proident occaecat cupidatat reprehenderit id excepteur labore anim eu ex sit enim eiusmod elit. Nulla elit irure reprehenderit cupidatat nisi nulla exercitation aliquip. Pariatur sunt tempor tempor exercitation duis et veniam minim fugiat. Non reprehenderit dolor consectetur mollit voluptate. Voluptate ea quis magna ex exercitation nulla.</News>
-                            <NewsTitle>Ipsum mollit id nostrud deserunt deserunt Lorem fugiat ad Lorem.    <NewsDate>2021/6/25</NewsDate></NewsTitle>
-                            <News>Excepteur voluptate elit reprehenderit minim velit laborum ullamco Lorem est. Elit proident occaecat cupidatat reprehenderit id excepteur labore anim eu ex sit enim eiusmod elit. Nulla elit irure reprehenderit cupidatat nisi nulla exercitation aliquip. Pariatur sunt tempor tempor exercitation duis et veniam minim fugiat. Non reprehenderit dolor consectetur mollit voluptate. Voluptate ea quis magna ex exercitation nulla.</News>
-                        </NewsSection>
-                    </NewsContainer>
-                </StyledInfoContainer> */}
-                {/* this is stock info page */}
             </SidebarLayout >
         </>
     )

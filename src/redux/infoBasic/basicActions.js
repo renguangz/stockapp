@@ -28,6 +28,7 @@ export const fetchBasicIncome = stockid => dispatch => {
 
 export const fetchBasic = stockid => {
     return async (dispatch) => {
+        dispatch(fetchBasicRequest)
         const fetchBalance = await fetch('/balance', {
             method: 'POST',
             body: JSON.stringify({
@@ -54,6 +55,6 @@ export const fetchBasic = stockid => {
         }).then(res => res.json()).then(data => {
             return data
         }).catch(err => dispatch(fetchBasicError(err)))
-        dispatch({ type: 'FETCH_BASIC_SUCCESS', payload: { income: fetchIncome, balance: fetchBalance, cashFlow: fetchCashFlow } })
+         await dispatch({ type: 'FETCH_BASIC_SUCCESS', payload: { income: fetchIncome, balance: fetchBalance, cashFlow: fetchCashFlow } })
     }
 }

@@ -1,11 +1,12 @@
 import React from 'react';
 import './App.css';
 import { Html, Reflector } from '@react-three/drei';
-import { CaretUpFilled } from '@ant-design/icons';
+import { CaretUpOutlined } from '@ant-design/icons';
 import { Section } from './section';
 import * as THREE from 'three';
 import { useLoader } from '@react-three/fiber';
 import taiwan_stock from '../../images/mocked/taiwan-stock.jpeg';
+import { Link } from 'react-router-dom';
 
 // (5)
 const Card = () => {
@@ -51,17 +52,20 @@ const Section1 = ({ position, domContent }) => {
                             <h2 className='stockinfo'>17847.52</h2>
                         </div>
                         <div className='numContainer'>
-                            <h3 className='stockrise'><CaretUpFilled />33.19(0.19%)</h3>
+                            <h3 className='stockrise'><CaretUpOutlined style={{ fill: 'red' }} />33.19(0.19%)</h3>
                         </div>
-                        {/* <div className='infoContainer'>
-                            <h2 className='stockinfo'>change to table</h2>
-                        </div> */}
                         <div className='btnContainer'>
                             <div className='btn bgcBtn'>
-                                <h2 className='btnWord firstBtn'>進入股票清單</h2>
+                                <h2 className='btnWord firstBtn'>
+                                    {/* <Link to='/mylist'> */}
+                                        進入股票清單
+                                    {/* </Link> */}
+                                </h2>
                             </div>
-                            <div className='btn'>
-                                <h2 className='btnWord secondBtn'>查詢個股資訊</h2>
+                            <div className='btn secondBtnBgc'>
+                                {/* <Link to='search'> */}
+                                    <h2 className='btnWord secondBtn'>查詢個股資訊</h2>
+                                {/* </Link> */}
                             </div>
                         </div>
                     </div>
@@ -70,14 +74,42 @@ const Section1 = ({ position, domContent }) => {
                             <div className='cardTitleContainer'>
                                 <h2 className='cardTitle'>台股指數</h2>
                                 <h2 className='cardNum'>17847.52</h2>
-                                <h2 className='cardNum'><CaretUpFilled />33.19(0.19%)</h2>
+                                <h2 className='cardNum'><CaretUpOutlined style={{ fill: 'red' }} />33.19(0.19%)</h2>
                             </div>
                             <div className='cardImg'></div>
                         </div>
-                        <div className='cardOutter'></div>
-                        <div className='cardOutter'></div>
-                        <div className='cardOutter'></div>
-                        <div className='cardOutter'></div>
+                        <div className='cardOutter'>
+                            <div className='cardTitleContainer'>
+                                <h2 className='cardTitle'>美股指數</h2>
+                                <h2 className='cardNum'>17847.52</h2>
+                                <h2 className='cardNum'><CaretUpOutlined style={{ fill: 'red' }} />33.19(0.19%)</h2>
+                            </div>
+                            <div className='cardImg'></div>
+                        </div>
+                        <div className='cardOutter'>
+                            <div className='cardTitleContainer'>
+                                <h2 className='cardTitle'>台股指數</h2>
+                                <h2 className='cardNum'>17847.52</h2>
+                                <h2 className='cardNum'><CaretUpOutlined style={{ fill: 'red' }} />33.19(0.19%)</h2>
+                            </div>
+                            <div className='cardImg'></div>
+                        </div>
+                        <div className='cardOutter'>
+                            <div className='cardTitleContainer'>
+                                <h2 className='cardTitle'>台股指數</h2>
+                                <h2 className='cardNum'>17847.52</h2>
+                                <h2 className='cardNum'><CaretUpOutlined style={{ fill: 'red' }} />33.19(0.19%)</h2>
+                            </div>
+                            <div className='cardImg'></div>
+                        </div>
+                        <div className='cardOutter'>
+                            <div className='cardTitleContainer'>
+                                <h2 className='cardTitle'>台股指數</h2>
+                                <h2 className='cardNum'>17847.52</h2>
+                                <h2 className='cardNum'><CaretUpOutlined style={{ fill: 'red' }} />33.19(0.19%)</h2>
+                            </div>
+                            <div className='cardImg'></div>
+                        </div>
                     </div>
                 </Html>
             </group>

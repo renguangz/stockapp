@@ -8,6 +8,7 @@ import mouseEventReducer from './mouseEvent/mouseReducer';
 import chipReducer from './stockChip/chipReducer';
 import marginTradeReducer from './marginTrade/marginTradeReducer';
 import listInfoReducer from './listInfo/listInfoReducer';
+import topSellBuyReducer from './topSellBuy/topSellBuyReducer';
 
 const rootReducer = combineReducers({
     stockInfo: stockReducer,
@@ -19,6 +20,7 @@ const rootReducer = combineReducers({
     chip: chipReducer,
     marginTrade: marginTradeReducer,
     listInfo: listInfoReducer,
+    topSellBuy: topSellBuyReducer,
 });
 
 export default rootReducer;

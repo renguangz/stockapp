@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Header from './Header';
 import SideBar from '../common/sidebar/SideBar';
 import ClearFix from '../common/ClearFix';
+import useResponsive from '../common/useResponsive';
 
 const PageHeader = styled.div`
     position: fixed;
@@ -14,13 +15,13 @@ const PageSidebar = styled.div`
 `;
 
 const StyledSection = styled.section`
-    margin-left: 20vw;
+    margin-left: ${props => props.marginLeft}vw;
 `;
 
 const SectionContainer = styled.div`
-    /* border: 1px solid olivedrab; */
-    width: 96.875%;
-    margin-left: 1.5vw;
+    border: 1px solid olivedrab;
+    width: ${props => props.width}%;
+    margin-left: ${props => props.marginLeft}vw;
 `;
 
 const StyledSectionContainer = styled.div`
@@ -37,6 +38,31 @@ const StyledFixedHeader = styled.div`
 `;
 
 const SidebarLayout = ({ children }) => {
+    const { windowWidth, screenType } = useResponsive();
+
+    const [sidebarDisplay, setSidebarDisplay] = useState(true);
+    const [marginLeft, setMarginLeft] = useState(20);
+    const [sectionContainerWidth, setSectionContainerWidth] = useState();
+    const [sectionContainerMarginLeft, setSectionContainerMarginLeft] = useState();
+    useEffect(() => {
+        if (screenType === 'DESKTOP') {
+            setSidebarDisplay(true)
+            setMarginLeft(20)
+            setSectionContainerWidth(96.875)
+            setSectionContainerMarginLeft(1.5)
+        } else if (screenType === 'TABLET') {
+            setSidebarDisplay(false)
+            setMarginLeft(0)
+            setSectionContainerWidth(100)
+            setSectionContainerMarginLeft(0)
+        } else {
+            setSidebarDisplay(false)
+            setMarginLeft(0)
+            setSectionContainerWidth(100)
+            setSectionContainerMarginLeft(0)
+        }
+    }, [screenType])
+
     return (
         <div>
             <StyledFixedHeader>
@@ -46,11 +72,17 @@ const SidebarLayout = ({ children }) => {
                 <ClearFix height="8vh" />
             </StyledFixedHeader>
             <StyledBody>
-                <PageSidebar>
-                    <SideBar />
-                </PageSidebar>
-                <StyledSection>
-                    <SectionContainer>
+                {
+                    sidebarDisplay ? (
+                        <PageSidebar>
+                            <SideBar />
+                        </PageSidebar>
+                    ) : (
+                        ''
+                    )
+                }
+                <StyledSection marginLeft={marginLeft}>
+                    <SectionContainer width={sectionContainerWidth} marginLeft={sectionContainerMarginLeft}>
                         {children}
                     </SectionContainer>
                 </StyledSection>

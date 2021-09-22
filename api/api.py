@@ -21,6 +21,8 @@ app.config['SQLALCHEMY_BINDS'] = {
     'legalPerson': 'sqlite:///data/legalPerson.db',
     'price': 'sqlite:///data/price.db',
     'marginTrade': 'sqlite:///data/marginTrading.db',
+    'top_sell': 'sqlite:///data/top_sell.db',
+    'top_buy': 'sqlite:///data/top_buy.db',
 }
 
 db = SQLAlchemy(app)
@@ -69,6 +71,7 @@ def index():
     print('read_data:', read_data)
     return jsonify([*map(stock_serializer, read_data)])
 
+
 class StockIdName(db.Model):
     __bind_key__ = 'stock_name_id'
     __tablename__ = 'stock_name'
@@ -83,8 +86,10 @@ def id_and_name_serializer(stock):
 
 @app.route('/search', methods=['GET'])
 def search_stock():
-    read_data = jsonify(
-        [*map(id_and_name_serializer, StockIdName.query.all())])
+    data = [*map(id_and_name_serializer, StockIdName.query.all())]
+    del(data[651])
+    data = data[1:952]
+    read_data = jsonify(data)
     return read_data
 
 
@@ -101,6 +106,9 @@ class Balance(object):
     stock_holders_equity = db.Column('權益總額', db.Float, nullable=True)
     common_stock = db.Column('普通股股本', db.Float, nullable=True)
     inventory = db.Column('存貨', db.Float, nullable=True)
+    # stocks_total = db.Column('股本合計', db.Float, nullable=True)
+    capital_reserve = db.Column('資本公積合計', db.Float, nullable=True)
+    re = db.Column('保留盈餘合計', db.Float, nullable=True)
 
 
 def balance_serializer(balance):
@@ -115,6 +123,9 @@ def balance_serializer(balance):
         'stock_holders_equity': balance.stock_holders_equity,
         'common_stock': balance.common_stock,
         'inventory': balance.inventory,
+        # 'stocks_total': balance.stocks_total,
+        'capital_reserve': balance.capital_reserve,
+        're': balance.re,
     }
 
 
@@ -357,7 +368,7 @@ def addStock():
         #     },
         # ]
         stock_list = [*map(stockid_serializer, PocketStock.query.all())]
-        print('stock_list: ',stock_list[0]['stockid'])
+        print('stock_list: ', stock_list[0]['stockid'])
         stockid_list = []
         stocks_array = []
         income_array = []
@@ -365,9 +376,11 @@ def addStock():
             item_to_list = item['stockid'].split('\u3000')[0]
             stockid_list.append(item_to_list)
         for item in stockid_list:
-            n = type(item.title(), (Price, db.Model), {'__tablename__': 'price_' + item})
+            n = type(item.title(), (Price, db.Model), {
+                     '__tablename__': 'price_' + item})
             stocks_array.append(n)
-            n1 = type(item.title(), (Income, db.Model), {'__tablename__': '_' + item})
+            n1 = type(item.title(), (Income, db.Model),
+                      {'__tablename__': '_' + item})
             income_array.append(n1)
 
         # stock_result = []
@@ -376,28 +389,29 @@ def addStock():
         #     _id = { 'stockid': '2330' }
         # return jsonify([*map(price_serializer, results)][-1])
 
-
         info_arr = []
         for i in range(0, len(stocks_array)):
             results = db.session.query(stocks_array[i]).all()
-            _id = { 'stockid': stock_list[i]['stockid'] }
+            _id = {'stockid': stock_list[i]['stockid']}
             lastDay_close = [*map(price_serializer, results)][-2]['Close']
-            lastDay_close_dict = { 'last_close': lastDay_close }
+            lastDay_close_dict = {'last_close': lastDay_close}
 
             income_results = db.session.query(income_array[i]).all()
 
-            benefit_total = [*map(income_serializer, income_results)][-1]['benefit_total']
-            dict_benefit = { 'benefit_total': benefit_total }
-            cost_total = [*map(income_serializer, income_results)][-1]['cost_total']
-            grossMargin = int((benefit_total - cost_total) / benefit_total * 100)
-            dict_grossMargin = { 'grossMargin': grossMargin }
-            
+            benefit_total = [
+                *map(income_serializer, income_results)][-1]['benefit_total']
+            dict_benefit = {'benefit_total': benefit_total}
+            cost_total = [
+                *map(income_serializer, income_results)][-1]['cost_total']
+            grossMargin = int(
+                (benefit_total - cost_total) / benefit_total * 100)
+            dict_grossMargin = {'grossMargin': grossMargin}
 
-            stockinfo = dict([*map(price_serializer, results)][-1], **_id, **lastDay_close_dict, **dict_benefit, **dict_grossMargin)
+            stockinfo = dict([*map(price_serializer, results)][-1], **_id,
+                             **lastDay_close_dict, **dict_benefit, **dict_grossMargin)
             info_arr.append(stockinfo)
         # return jsonify([*map(stockid_serializer, PocketStock.query.all())])
         return jsonify(info_arr)
-
 
 
 @app.route('/remove_pocket_stock', methods=['GET', 'POST', 'DELETE'])
@@ -408,6 +422,60 @@ def removeStock():
     return {
         '204': 'remove stock successfully'
     }
+
+
+class TopBuy(object):
+    __bind_key__ = 'top_buy'
+    __table_args__ = {'extend_existing': True}
+    buy_name = db.Column('券商', db.String, primary_key=True)
+    top_buy = db.Column('top_buy', db.Integer, nullable=False)
+    top_buy_buy = db.Column('top_buy_buy', db.Integer, nullable=False)
+    top_buy_sell = db.Column('top_buy_sell', db.Integer, nullable=False)
+
+
+def topBuy_serializer(item):
+    return {
+        'buy_name': item.buy_name,
+        'top_buy': item.top_buy,
+        'top_buy_buy': item.top_buy_buy,
+        'top_buy_sell': item.top_buy_sell
+    }
+
+
+@app.route('/topBuy', methods=['POST'])
+def topBuy_display():
+    request_data = json.loads(request.data)
+    n = type('buy_' + request_data.get('table_name'), (TopBuy, db.Model),
+             {'__tablename__': 'buy_' + request_data.get('table_name')})
+    read_data = jsonify([*map(topBuy_serializer, n.query.all())])
+    return read_data
+
+
+class TopSell(object):
+    __bind_key__ = 'top_sell'
+    __table_args__ = {'extend_existing': True}
+    sell_name = db.Column('券商', db.String, primary_key=True)
+    top_sell = db.Column('top_sell', db.Integer, nullable=False)
+    top_sell_buy = db.Column('top_sell_buy', db.Integer, nullable=False)
+    top_sell_sell = db.Column('top_sell_sell', db.Integer, nullable=False)
+
+
+def topSell_serializer(item):
+    return {
+        'sell_name': item.sell_name,
+        'top_sell': item.top_sell,
+        'top_sell_buy': item.top_sell_buy,
+        'top_sell_sell': item.top_sell_sell
+    }
+
+
+@app.route('/topSell', methods=['POST'])
+def topSell_display():
+    request_data = json.loads(request.data)
+    n = type('sell_' + request_data.get('table_name'), (TopSell, db.Model),
+             {'__tablename__': 'sell_' + request_data.get('table_name')})
+    read_data = jsonify([*map(topSell_serializer, n.query.all())])
+    return read_data
 
 
 if __name__ == '__main__':

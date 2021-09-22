@@ -1,9 +1,9 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { SideBarData, addStockToList } from './SideBarData';
 import './sideBar.css';
 import { connect } from 'react-redux';
-import { fetchIdName, fetchBasicIncome, fetchBasic, addListStock, removeListStock, fetchChip, fetchMarginTrade } from '../../../redux';
+import { fetchIdName, fetchBasicIncome, fetchBasic, addListStock, removeListStock, fetchChip, fetchMarginTrade, fetchSellBuy } from '../../../redux';
 import * as Storage from '../../helper/StorageHelper';
 import { CaretUpOutlined, CaretDownOutlined } from '@ant-design/icons';
 
@@ -65,9 +65,7 @@ const Flex = styled.div`
 
 const addToList = addStockToList
 
-function SideBar({ price, fetchBasicIncome, fetchBasic, basic, addStock, removeStock, addStockToList, fetchChip, fetchMarginTrade }) {
-
-    // const [addToList, setAddToList] = useState(true)
+function SideBar({ price, fetchBasicIncome, fetchBasic, addStockToList, fetchChip, fetchMarginTrade, fetchSellBuy }) {
 
     const scrollToAnchor = (anchorName) => {
         if (!!anchorName) {
@@ -121,12 +119,8 @@ function SideBar({ price, fetchBasicIncome, fetchBasic, basic, addStock, removeS
         fetchBasic(searchStock)
         fetchChip(searchStock)
         fetchMarginTrade(searchStock)
+        fetchSellBuy(searchStock)
     }, [searchStock])
-
-    const [newBasic, setNewBasic] = useState([])
-    useEffect(() => {
-        setNewBasic(basic)
-    }, [basic])
 
     const datas = price.price.slice(-80)
     const stockPrice = datas.slice(-1)
@@ -183,7 +177,8 @@ const mapDispatchToProps = dispatch => {
         addStock: (stockid) => dispatch(addListStock(stockid)),
         removeStock: (stockid) => dispatch(removeListStock(stockid)),
         fetchChip: stockid => dispatch(fetchChip(stockid)),
-        fetchMarginTrade: stockid => dispatch(fetchMarginTrade(stockid))
+        fetchMarginTrade: stockid => dispatch(fetchMarginTrade(stockid)),
+        fetchSellBuy: stockid => dispatch(fetchSellBuy(stockid))
     }
 };
 
