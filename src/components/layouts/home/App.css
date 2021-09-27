@@ -5,8 +5,9 @@ body {
 }
 
 .canvas {
-    height: 100vh;
-    width: 100vw;
+    /* border: 1px solid green; */
+    height: 100%;
+    width: 100%;
 }
 
 .scrollArea {
@@ -19,7 +20,7 @@ body {
 }
 
 .container {
-    /* border: 1px solid yellow; */
+    border: 1px solid yellow;
     position: absolute;
     top: 0;
     left: 2%;
@@ -112,7 +113,7 @@ body {
 }
 
 .otherCardsContainer {
-    /* border: 1px solid yellow; */
+    border: 1px solid yellow;
     height: 100%;
     width: 18%;
     position: absolute;
@@ -165,4 +166,9 @@ body {
     background-image: url('../../images/mocked/stockwalk.png');
     background-size: cover;
     background-position: center;
+}
+
+.imgContainer {
+    border: 1px solid white;
+    position: absolute;
 }

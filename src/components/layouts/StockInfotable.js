@@ -88,7 +88,7 @@ const LeftTableButton = styled.div`
     background-color: ${props => props.bgc};
 `;
 
-const StockInfoTable = ({ basic }) => {
+const StockInfoTable = ({ basic, incomeDisplay1, balanceDisplay1, cashFlowDisplay1 }) => {
 
     const tableTitle = [
         '營業收入', '營業成本', '營業利益', '業外損益', '稅前淨利', '應收帳款', '應付帳款',
@@ -114,9 +114,12 @@ const StockInfoTable = ({ basic }) => {
         setFinanceFocus('transparent')
     }
 
-    const incomeDisplay = basic && basic.income && basic.income.slice(-4)
-    const balanceDisplay = basic && basic.balance && basic.balance.slice(-4)
-    const cashFlowDisplay = basic && basic.cashFlow && basic.cashFlow.slice(-4)
+    // const incomeDisplay = basic && basic.income && basic.income.slice(-4)
+    // const balanceDisplay = basic && basic.balance && basic.balance.slice(-4)
+    // const cashFlowDisplay = basic && basic.cashFlow && basic.cashFlow.slice(-4)
+    const incomeDisplay = incomeDisplay1.slice(-4)
+    const balanceDisplay = balanceDisplay1.slice(-4)
+    const cashFlowDisplay = cashFlowDisplay1.slice(-4)
 
     // eps
     const eps = []
@@ -429,7 +432,10 @@ const StockInfoTable = ({ basic }) => {
 
 const mapStateToProps = state => {
     return {
-        basic: state.basic
+        basic: state.basic,
+        incomeDisplay1: state.basic.income,//.slice(-4),
+        balanceDisplay1: state.basic.balance,//.slice(-4),
+        cashFlowDisplay1: state.basic.cashFlow,//.slice(-4),
     }
 }
 

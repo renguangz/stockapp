@@ -14,7 +14,6 @@ const Card = () => {
     return (
         <>
             <boxBufferGeometry attach='geometry' args={[6, 4.5, 0]} />
-            {/* <meshStandardMaterial attach='material' color='white' /> */}
             <meshStandardMaterial attach='material' map={mapCard} />
         </>
     )
@@ -55,16 +54,16 @@ const Section1 = ({ position, domContent }) => {
                             <h3 className='stockrise'><CaretUpOutlined style={{ fill: 'red' }} />33.19(0.19%)</h3>
                         </div>
                         <div className='btnContainer'>
-                            <div className='btn bgcBtn'>
-                                <h2 className='btnWord firstBtn'>
-                                    {/* <Link to='/mylist'> */}
+                            {/* <Link to='/mylist'> */}
+                                <div className='btn bgcBtn'>
+                                    <h2 className='btnWord firstBtn'>
                                         進入股票清單
-                                    {/* </Link> */}
-                                </h2>
-                            </div>
+                                    </h2>
+                                </div>
+                            {/* </Link> */}
                             <div className='btn secondBtnBgc'>
                                 {/* <Link to='search'> */}
-                                    <h2 className='btnWord secondBtn'>查詢個股資訊</h2>
+                                <h2 className='btnWord secondBtn'>查詢個股資訊</h2>
                                 {/* </Link> */}
                             </div>
                         </div>
@@ -80,7 +79,7 @@ const Section1 = ({ position, domContent }) => {
                         </div>
                         <div className='cardOutter'>
                             <div className='cardTitleContainer'>
-                                <h2 className='cardTitle'>美股指數</h2>
+                                <h2 className='cardTitle'>櫃買指數</h2>
                                 <h2 className='cardNum'>17847.52</h2>
                                 <h2 className='cardNum'><CaretUpOutlined style={{ fill: 'red' }} />33.19(0.19%)</h2>
                             </div>
@@ -88,7 +87,7 @@ const Section1 = ({ position, domContent }) => {
                         </div>
                         <div className='cardOutter'>
                             <div className='cardTitleContainer'>
-                                <h2 className='cardTitle'>台股指數</h2>
+                                <h2 className='cardTitle'>美股指數</h2>
                                 <h2 className='cardNum'>17847.52</h2>
                                 <h2 className='cardNum'><CaretUpOutlined style={{ fill: 'red' }} />33.19(0.19%)</h2>
                             </div>

@@ -55,6 +55,6 @@ export const fetchBasic = stockid => {
         }).then(res => res.json()).then(data => {
             return data
         }).catch(err => dispatch(fetchBasicError(err)))
-         await dispatch({ type: 'FETCH_BASIC_SUCCESS', payload: { income: fetchIncome, balance: fetchBalance, cashFlow: fetchCashFlow } })
+        dispatch({ type: 'FETCH_BASIC_SUCCESS', payload: { income: fetchIncome, balance: fetchBalance, cashFlow: fetchCashFlow } })
     }
 }

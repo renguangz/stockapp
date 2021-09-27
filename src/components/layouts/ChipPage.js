@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, Suspense } from 'react';
 import styled from 'styled-components';
 import * as d3 from 'd3';
 import { chipRightTop, chipRightBot } from '../common/mocked_data/ChipRight';
@@ -198,7 +198,7 @@ const ChipSvg = styled.svg`
     width: 620px;
 `;
 
-const ChipPage = ({ chipInfo, price, marginTrade, topSellBuy }) => {
+const ChipPage = ({ chipInfo, price, marginTrade, topSellBuy, topSell, topBuy }) => {
 
     const [LeftButtonBgc, setLeftButtonBgc] = useState('#2B3234');
     const [rightButtonBgc, setRightButtonBgc] = useState('transparent')
@@ -232,6 +232,7 @@ const ChipPage = ({ chipInfo, price, marginTrade, topSellBuy }) => {
     const reverseData = chipInfo.data.slice(-11).reverse();
     const keys = ['foreign_invest', 'credit', 'self_employee']
     const stackDatas = d3.stack().keys(keys).offset(d3.stackOffsetDiverging)(datas)
+    console.log('datas: ', datas)
 
     const marginDatas = marginTrade.data.slice(-11)
 
@@ -356,6 +357,7 @@ const ChipPage = ({ chipInfo, price, marginTrade, topSellBuy }) => {
             .attr('height', item => { return Math.abs(mtYScale(item[0]) - mtYScale(item[1])) })
 
 
+        console.log('priceDatas: ', priceDatas)
         const pricePath = d3.line()
             .x(d => xScale(d.Date.split('/')[2]))
             .y(d => yScaleRight(d.Close))
@@ -418,7 +420,6 @@ const ChipPage = ({ chipInfo, price, marginTrade, topSellBuy }) => {
                         <tbody>
                             {
                                 reverseData.map((data, index) => {
-                                    console.log(index)
                                     return (
                                         <ChipBodytr key={index}>
                                             <ChipTd textalign={'left'}>{data.date.split(' ')[0]}</ChipTd>
@@ -495,9 +496,10 @@ const ChipPage = ({ chipInfo, price, marginTrade, topSellBuy }) => {
                             </ChipHeadTr>
                         </thead>
                         <tbody>
+                            <Suspense fallback={null}>
                             {
                                 topBuyDisplay ? (
-                                    topSellBuy.topBuy.map((data, index) => {
+                                    topBuy && topBuy.map((data, index) => {
                                         const buy_name = data.buy_name.split('').slice(4,)
                                         return (
                                             <ChipBodytr key={index}>
@@ -508,7 +510,7 @@ const ChipPage = ({ chipInfo, price, marginTrade, topSellBuy }) => {
                                             </ChipBodytr>
                                         )
                                     })) : (
-                                    topSellBuy.topSell.map((data, index) => {
+                                    topSell && topSell.map((data, index) => {
                                         const sell_name = data.sell_name.split('').slice(4,)
                                         return (
                                             <ChipBodytr key={index}>
@@ -520,6 +522,7 @@ const ChipPage = ({ chipInfo, price, marginTrade, topSellBuy }) => {
                                         )
                                     }))
                             }
+                            </Suspense>
                         </tbody>
                     </ChipTable>
                 </ChipRightBot>
@@ -534,6 +537,8 @@ const mapStateToProps = state => {
         price: state.price,
         marginTrade: state.marginTrade,
         topSellBuy: state.topSellBuy,
+        topBuy: state.topSellBuy.topBuy,
+        topSell: state.topSellBuy.topSell,
     }
 }
 

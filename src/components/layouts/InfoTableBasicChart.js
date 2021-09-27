@@ -30,10 +30,13 @@ const FundImgBorder = styled.div`
     fill: ${props => props.fill};
 `;
 
-const InfoTableBasicChart = ({ basic }) => {
-    const incomeDisplay = basic && basic.income && basic.income.slice(-4) // 損益表
-    const balanceDisplay = basic && basic.balance && basic.balance.slice(-4) // 資產負債表
-    const cashFlowDisplay = basic && basic.cashFlow && basic.cashFlow.slice(-4) // 現金流量表
+const InfoTableBasicChart = ({ basic, incomeDisplay1, balanceDisplay1, cashFlowDisplay1 }) => {
+    // const incomeDisplay = basic && basic.income && basic.income.slice(-4) // 損益表
+    // const balanceDisplay = basic && basic.balance && basic.balance.slice(-4) // 資產負債表
+    // const cashFlowDisplay = basic && basic.cashFlow && basic.cashFlow.slice(-4) // 現金流量表
+    const incomeDisplay = incomeDisplay1.slice(-4)
+    const balanceDisplay = balanceDisplay1.slice(-4)
+    const cashFlowDisplay = cashFlowDisplay1.slice(-4)
 
     console.log(incomeDisplay, balanceDisplay, cashFlowDisplay)
 
@@ -485,7 +488,10 @@ const InfoTableBasicChart = ({ basic }) => {
 };
 
 const mapStateToProps = state => ({
-        basic: state.basic
+    basic: state.basic,
+    incomeDisplay1: state.basic.income,//.slice(-4),
+    balanceDisplay1: state.basic.balance,//.slice(-4),
+    cashFlowDisplay1: state.basic.cashFlow,//.slice(-4),
 })
 
 export default connect(mapStateToProps,)(InfoTableBasicChart);

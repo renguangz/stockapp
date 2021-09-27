@@ -18,7 +18,7 @@ function HomeCarousel() {
     const domContent = useRef();
     const scrollArea = useRef();
     const onScroll = (e) => (state.top.current = e.target.scrollTop)
-    useEffect(() => void onScroll({ target: scrollArea.current }), [])
+    // useEffect(() => void onScroll({ target: scrollArea.current }), [])
 
     return (
         <div className='canvas'>
@@ -30,14 +30,14 @@ function HomeCarousel() {
                 {/* (7) */}
                 <Suspense fallback={null}>
                     <Section1 domContent={domContent} position={[0, 0, 0]} />
-                    <Section2 domContent={domContent} position={[0, 0, 0]} />
+                    {/* <Section2 domContent={domContent} position={[0, 0, 0]} /> */}
                 </Suspense>
             </Canvas>
             {/* (11) scroll area */}
-            <div className='scrollArea' ref={scrollArea} onScroll={onScroll}>
+            {/* <div className='scrollArea' ref={scrollArea} onScroll={onScroll}>
                 <div style={{ position: 'sticky', top: 0 }} ref={domContent}></div>
                 <div style={{ height: `${state.sections * 100}vh` }}></div>
-            </div>
+            </div> */}
         </div>
     )
 };

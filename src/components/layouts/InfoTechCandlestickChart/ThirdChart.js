@@ -52,6 +52,7 @@ const ThirdChart = ({ price }) => {
             .attr('stroke-width', 1.5)
             .attr('d', lineGenerator)
     }
+    console.log(datas, 'datas')
     renderPath('steelblue', k)
     renderPath('#FF9800', d)
 

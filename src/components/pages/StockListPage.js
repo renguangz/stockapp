@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import DefaultLayout from '../layouts/DefaultLayout';
 import Container from '../common/Container';
 import { MenuOutlined, MinusSquareOutlined, EditFilled, CloseSquareFilled, CaretUpOutlined } from '@ant-design/icons';
@@ -8,10 +8,16 @@ import { listStock, addListStock, removeListStock, fetchIdName, fetchBasic, fetc
 import styled from 'styled-components';
 import * as Storage from '../helper/StorageHelper';
 import useResponsive from '../common/useResponsive';
+import Taiwan_index from '../../data/taiwan_index.json';
+import Dowj from '../../data/DOWJ.json';
+import Spx from '../../data/SPX.json';
+import Japan from '../../data/japan.json';
+import * as d3 from 'd3';
 
 // Mocked
 import { StockListMockedData } from '../common/mocked_data/StockListMockedData';
 import { Link } from 'react-router-dom';
+import { drawSmallChart } from '../common/drawSmallChart';
 
 const StyledContainer = styled(Container)`
     /* border: 1px solid greenyellow; */
@@ -22,18 +28,28 @@ const StyledContainer = styled(Container)`
 
 const ListCardContainer = styled.div`
     /* border: 2px solid orangered; */
-    height: 180px;
     display: flex;
     justify-content: space-between;
     transform: translateY(36px);
 `;
 
 const ListCard = styled.div`
-    border: 2px solid yellow;
-    display: flex;
+    border: 2px solid #999999;
+    /* display: flex; */
     width: 20%;
+    /* margin: 10%; */
     border-radius: 8px;
-    color: white;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #808080;
+    text-align: left;
+    margin-bottom: -10px;
+    padding: 4px;
+`;
+
+const ListCardChart = styled.div`
+    /* border: 1px solid white; */
+    display: flex;
 `;
 
 const TableOrder = styled.div`
@@ -72,9 +88,7 @@ const AddStock = styled.form`
     align-items: center;
 `;
 
-const AddStockInput = styled.input`
-
-`;
+const AddStockInput = styled.input``;
 
 const AddStockButton = styled.button``;
 
@@ -86,12 +100,9 @@ const StyledTable = styled.table`
     overflow: hidden;
 `;
 
-const StyledThead = styled.thead`
-`;
+const StyledThead = styled.thead``;
 
-const StyledTbody = styled.tbody`
-
-`;
+const StyledTbody = styled.tbody``;
 
 const StyledHeadTr = styled.tr`
     /* border: 2px solid white; */
@@ -124,54 +135,6 @@ const StyledTd = styled.td`
     width: ${props => props.width || '50'}px;
     text-align: ${props => props.textAlign || 'center'};
     /* border: 2px solid white; */
-`;
-
-const MockedClose = styled.div`
-    /* border: 2px solid white; */
-    width: 72%;
-    /* height: 70%; */
-    height: 60px;
-    margin: auto;
-    display: flex;
-    border-radius: 8px;
-`;
-
-const MockedPrice = styled.div`
-    /* border: 2px solid yellow; */
-    width: 30%;
-    height: 98%;
-    margin: auto 0;
-    display: flex;
-    justify-content: center;
-`;
-
-const Price = styled.h3`
-    color: white;
-    margin: auto;
-`;
-
-const MockedImg = styled.div`
-    /* border: 2px solid orange; */
-    width: 100%;
-    height: 100%;
-    margin: auto 0;
-    margin-left: 2%;
-    background-image: ${props => `url(${props.url})`};
-    background-size: cover;
-    background-position: center;
-`;
-
-const MockedAdvanced = styled.div`
-    width: 100%;
-    border-radius: 4px;
-    background-color: ${props => props.bgc};
-    display: flex;
-    flex-wrap: nowrap;
-`;
-
-const Advanced = styled.h3`
-    margin: auto;
-    color: white;
 `;
 
 const Action = styled.div`
@@ -239,6 +202,40 @@ const StockListPage = ({ searchRedux, stockList, listStock, addStock, removeStoc
         )
     }
 
+    // draw chart
+
+    const taiwanDatas = Taiwan_index.slice(-80)
+    const dowDatas = Dowj.slice(-80)
+    const spxDatas = Spx.slice(-80)
+    const japanDatas = Japan.slice(-80)
+
+    const cardChartRef = useRef();
+    const taiwanRef = useRef();
+    const dowRef = useRef();
+    const spxRef = useRef();
+    const japanRef = useRef();
+    useEffect(() => {
+        const width = cardChartRef.current.offsetWidth
+        const height = cardChartRef.current.offsetHeight
+
+        drawSmallChart(height, width, taiwanRef, taiwanDatas, 'steelblue', 'steelblue', 'steelblue', 'areaGradient')
+        drawSmallChart(height, width, dowRef, dowDatas, '#EDBB56', '#EDBB56', '#EDBB56', 'areaGradient1')
+        drawSmallChart(height, width, spxRef, spxDatas, '#74C5A6', '#74C5A6', '#74C5A6', 'areaGradient2')
+        drawSmallChart(height, width, japanRef, japanDatas, '#9D6ABC', '#9D6ABC', '#9D6ABC', 'areaGradient3')
+        d3.selectAll('svg .domain').remove()
+        // d3.select(taiwanRef.current).attr('transform', `translate(0, 10)`)
+
+        d3.select(taiwanRef.current).append('text').text(`台灣指數`).attr('transform', `translate(0, 20)`).attr('fill', '#808080')
+        d3.select(taiwanRef.current).append('text').text(`${taiwanDatas[79].close}`).attr('transform', `translate(0, 45)`).attr('class', `${taiwanDatas[79].close > taiwanDatas[78].close ? 'redColor' : 'greenColor'}`)
+        d3.select(dowRef.current).append('text').text(`道瓊指數`).attr('transform', `translate(0, 20)`).attr('fill', '#808080')
+        d3.select(dowRef.current).append('text').text(`${dowDatas[79].close}`).attr('transform', `translate(0, 45)`).attr('class', `${dowDatas[79].close > dowDatas[78].close ? 'redColor' : 'greenColor'}`)
+        d3.select(spxRef.current).append('text').text(`標普500`).attr('transform', `translate(0, 20)`).attr('fill', '#808080')
+        d3.select(spxRef.current).append('text').text(`${spxDatas[79].close}`).attr('transform', `translate(0, 45)`).attr('class', `${spxDatas[79].close > spxDatas[78].close ? 'redColor' : 'greenColor'}`)
+        d3.select(japanRef.current).append('text').text(`日經指數`).attr('transform', `translate(0, 20)`).attr('fill', '#808080')
+        d3.select(japanRef.current).append('text').text(`${japanDatas[79].close}`).attr('transform', `translate(0, 45)`).attr('class', `${japanDatas[79].close > japanDatas[78].close ? 'redColor' : 'greenColor'}`)
+        // d3.select(taiwanRef.current).append('text').text(`${taiwanDatas[79].close}`).attr('transform', `translate(0, 65)`).attr('class', `${taiwanDatas[79].close > taiwanDatas[78].close ? 'redColor' : 'greenColor'}`)
+    }, [])
+
     const [search, setSearch] = useState('')
     const inputSearch = (input) => {
         setSearch(input.target.value)
@@ -264,7 +261,6 @@ const StockListPage = ({ searchRedux, stockList, listStock, addStock, removeStoc
 
     // RWD
     const { windowWidth, screenType } = useResponsive();
-    // console.log(screenType, windowWidth)
 
     const [tableFontSize, setTableFontSize] = useState(0);
     const [displayTableCol, setDisplayTableCol] = useState(true)
@@ -286,10 +282,26 @@ const StockListPage = ({ searchRedux, stockList, listStock, addStock, removeStoc
         <DefaultLayout noSidebar>
             <StyledContainer>
                 <ListCardContainer>
-                    <ListCard>台股指數</ListCard>
-                    <ListCard>櫃買指數</ListCard>
-                    <ListCard>DOW J</ListCard>
-                    {/* <ListCard></ListCard> */}
+                    <ListCard >
+                        <ListCardChart ref={cardChartRef}>
+                        <svg ref={taiwanRef} />
+                        </ListCardChart>
+                    </ListCard>
+                    <ListCard >
+                        <ListCardChart ref={cardChartRef}>
+                            <svg ref={dowRef} />
+                        </ListCardChart>
+                    </ListCard>
+                    <ListCard >
+                        <ListCardChart ref={cardChartRef}>
+                            <svg ref={spxRef} />
+                        </ListCardChart>
+                    </ListCard>
+                    <ListCard >
+                        <ListCardChart ref={cardChartRef}>
+                            <svg ref={japanRef} />
+                        </ListCardChart>
+                    </ListCard>
                 </ListCardContainer>
                 <TableOrder>
                     <TableSwitch>
@@ -315,7 +327,6 @@ const StockListPage = ({ searchRedux, stockList, listStock, addStock, removeStoc
                             {
                                 displayTableCol ? <StyledTh width={76}>走勢圖</StyledTh> : ''
                             }
-                            {/* <StyledTh width={76}>走勢圖</StyledTh> */}
                             <StyledTh width={48}>漲跌</StyledTh>
                             <StyledTh>幅度</StyledTh>
                             <StyledTh>成交量</StyledTh>

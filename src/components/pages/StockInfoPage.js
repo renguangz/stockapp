@@ -21,6 +21,7 @@ import InfoTableBasicChart from '../layouts/InfoTableBasicChart';
 import CandleStickChart from '../layouts/InfoTechCandlestickChart/CandlestickChart';
 import ChipPage from '../layouts/ChipPage';
 import useResponsive from '../common/useResponsive';
+import StockMove from '../layouts/stockMove';
 
 const StyledInfoContainer = styled.section`
     /* border: 1px solid blue; */
@@ -418,99 +419,7 @@ const StockInfoPage = ({ searchRedux, clickSearch, fetchBasic }) => {
         <>
             <SidebarLayout>
                 <StyledInfoContainer id='move'>
-                    <MovingContainer>
-                        <MovingLeft>
-                            <LeftTop>
-                                <ChipImg url={movingstock1} height={'100'} width={'100'} />
-                            </LeftTop>
-                            <LeftBot>
-                                <BotRow>
-                                    {
-                                        row1.map((data, index) => {
-                                            return (
-                                                <BotItem key={index}>
-                                                    <BotItemTitle>{data.title}</BotItemTitle>
-                                                    <BotItemNum fall={data.fall}>{data.num}</BotItemNum>
-                                                </BotItem>
-                                            )
-                                        })
-                                    }
-                                </BotRow>
-                                <BotRow>
-                                    {
-                                        row2.map((data, index) => {
-                                            return (
-                                                <BotItem key={index}>
-                                                    <BotItemTitle>{data.title}</BotItemTitle>
-                                                    <BotItemNum fall={data.fall}>{data.num}</BotItemNum>
-                                                </BotItem>
-                                            )
-                                        })
-                                    }
-                                </BotRow>
-                                <BotRow>
-                                    {
-                                        row3.map((data, index) => {
-                                            return (
-                                                <BotItem key={index}>
-                                                    <BotItemTitle>{data.title}</BotItemTitle>
-                                                    <BotItemNum fall={data.fall}>{data.num}</BotItemNum>
-                                                </BotItem>
-                                            )
-                                        })
-                                    }
-                                </BotRow>
-                            </LeftBot>
-                        </MovingLeft >
-                        <MovingRight>
-                            <RightTop>
-                                <TopCol textalign={'right'}>
-                                    {
-                                        mockedRightRow1.map((data, index) => {
-                                            return (
-                                                <ColNum key={index}>{data}</ColNum>
-                                            )
-                                        })
-                                    }
-                                </TopCol>
-                                <TopCol textalign={'right'}>
-                                    {
-                                        mockedRightRow2.map((data, index) => {
-                                            return (
-                                                <ColNum key={index}>{data}</ColNum>
-                                            )
-                                        })
-                                    }
-                                </TopCol>
-                                <TopCol textalign={'left'}>
-                                    {
-                                        mockedRightRow3.map((data, index) => {
-                                            return (
-                                                <ColNum key={index}>{data}</ColNum>
-                                            )
-                                        })
-                                    }
-                                </TopCol>
-                                <TopCol textalign={'left'}>
-                                    {
-                                        mockedRightRow4.map((data, index) => {
-                                            return (
-                                                <ColNum key={index}>{data}</ColNum>
-                                            )
-                                        })
-                                    }
-                                </TopCol>
-                                <RightTopTotal>
-                                    <ColNum>63.03</ColNum>
-                                    <ChipImg url={mockedmoving} height={'100'} />
-                                    <ColNum>31.16</ColNum>
-                                </RightTopTotal>
-                            </RightTop>
-                            <RightBot>
-                                <ChipImg url={movingstock2} height={'100'} width={'100'} />
-                            </RightBot>
-                        </MovingRight>
-                    </MovingContainer >
+                    <StockMove />
                 </StyledInfoContainer >
                 <StyledInfoContainer id='basic'>
                     <InfoTableBasicChart />

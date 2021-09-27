@@ -61,9 +61,9 @@ const CandlestickMain = ({ price, fetchPrice }) => {
 
     const searchStockIdName = Storage.getData('stock_id_and_name')
     const searchStock = searchStockIdName.split('　')[0]
-    useEffect(() => {
-        fetchPrice(searchStock)
-    }, [])
+    // useEffect(() => {
+    //     fetchPrice(searchStock)
+    // }, [])
 
     const [newPrice, setNewPrice] = useState([])
     useEffect(() => {

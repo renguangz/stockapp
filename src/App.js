@@ -13,6 +13,8 @@ import HomeBook from './components/pages/HomeBook';
 import HomeCarousel from './components/layouts/HomeCarousel';
 import InfoSearch from './components/common/InfoSearch';
 import { Provider } from 'react-redux';
+import HomeCarousel2D from './components/layouts/HomeCarousel2D';
+import HomePageLayout from './components/layouts/homePageLayout';
 
 function App() {
   const baseUrl = process.env.PUBLIC_URL;
@@ -22,14 +24,14 @@ function App() {
         <div className="App">
           <Switch>
             <BrowserRouter basename={process.env.PUBLIC_URL}>
-              <Route exact path="/">
+              <Route exact path="/index">
                 <HomeCarousel />
               </Route>
               <Route exact path="/book">
-                <HomeBook />
+                <HomeCarousel2D />
               </Route>
-              <Route exact path='/index'>
-                <HomePage />
+              <Route exact path='/'>
+                <HomePageLayout />
               </Route>
               <Route exact path="/stockinfo">
                 <StockInfoPage />
