@@ -356,8 +356,6 @@ const ChipPage = ({ chipInfo, price, marginTrade, topSellBuy, topSell, topBuy })
             .attr('width', xScale.bandwidth())
             .attr('height', item => { return Math.abs(mtYScale(item[0]) - mtYScale(item[1])) })
 
-
-        console.log('priceDatas: ', priceDatas)
         const pricePath = d3.line()
             .x(d => xScale(d.Date.split('/')[2]))
             .y(d => yScaleRight(d.Close))
@@ -386,6 +384,7 @@ const ChipPage = ({ chipInfo, price, marginTrade, topSellBuy, topSell, topBuy })
         g.selectAll('.domain').remove()
     })
 
+    console.log('topBuy: ', topBuy)
 
     return (
         <ChipContainer>
@@ -496,7 +495,6 @@ const ChipPage = ({ chipInfo, price, marginTrade, topSellBuy, topSell, topBuy })
                             </ChipHeadTr>
                         </thead>
                         <tbody>
-                            <Suspense fallback={null}>
                             {
                                 topBuyDisplay ? (
                                     topBuy && topBuy.map((data, index) => {
@@ -522,7 +520,7 @@ const ChipPage = ({ chipInfo, price, marginTrade, topSellBuy, topSell, topBuy })
                                         )
                                     }))
                             }
-                            </Suspense>
+                            {/* </Suspense> */}
                         </tbody>
                     </ChipTable>
                 </ChipRightBot>

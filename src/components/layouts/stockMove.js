@@ -1,8 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import Move_2330 from '../../data/move_2330.json';
+import Move_bid from '../../data/move_bid.json';
 import * as d3 from 'd3';
 import { connect } from 'react-redux';
+import './stockMove.css';
 
 import { row1, row2, row3 } from '../common/mocked_data/StockInfoMoving';
 import { mockedRightRow1, mockedRightRow2, mockedRightRow3, mockedRightRow4 } from '../common/mocked_data/StockinfoRightTop';
@@ -31,6 +33,7 @@ const MovingLeft = styled.div`
     height: 100%;
     width: 64%;
     margin-right: 12px;
+    margin-right: 2%;
 `;
 
 const LeftTop = styled.div`
@@ -82,13 +85,13 @@ const BotItemNum = styled.h2`
 `;
 
 const MovingRight = styled.div`
-    /* border: 1px solid orange; */
+    border: 1px solid orange;
     height: 100%;
-    width: 36%;
+    width: 34%;
 `;
 
 const RightTop = styled.div`
-    /* border: 1px solid pink; */
+    border: 1px solid pink;
     width: 100%;
     height: 40%;
     margin-top: 4px;
@@ -99,7 +102,7 @@ const RightTop = styled.div`
 `;
 
 const TopCol = styled.div`
-    /* border: 1px solid greenyellow; */
+    border: 1px solid greenyellow;
     /* height: 80%; */
     width: 24%;
     padding: 0 12px;
@@ -109,19 +112,19 @@ const TopCol = styled.div`
 `;
 
 const ColNum = styled.h3`
+    border: 1px solid white;
     color: white;
     vertical-align: center;
     /* font-size: 1.16rem; */
-    /* border: 1px solid white; */
 `;
 
 const RightTopTotal = styled.div`
-    /* border: 1px solid red; */
+    border: 1px solid red;
     width: 100%;
     height: 16%;
     display: flex;
-    justify-content: center;
-    align-items: center;
+    /* justify-content: center; */
+    /* align-items: center; */
 `;
 
 const RightBot = styled.div`
@@ -134,48 +137,20 @@ const StockMove = ({ price }) => {
 
     const leftChartRef = useRef();
     const leftChartContainer = useRef();
-    // var lastClose
-    // price.price.map(item => {
-    //     if (item.Date === '110/09/17') {
-    //         // console.log(item.Close)
-    //         lastClose = item.Close
-    //         return lastClose
-    //     } 
-    // })
-    // const lastData = price.price.slice(-2)
-    // const lastClose = lastData[0].Close
-    // console.log('lastClose: ', lastClose)
-    // const yAxisValues = [lastClose * 0.9, lastClose * 0.95, lastClose, lastClose * 1.05, lastClose * 1.1]
 
     useEffect(() => {
 
-        // price.price.map(item => {
-        //     if (item.Date === '110/09/17') {
-        //         lastClose = item.Close
-        //         console.log('item:',item)
-        //         return lastClose
-        //     }
-        // })
-        // const lastClose = price.price.filter(d => { return d.time ===  })
         const lastData = price.price.slice(-2)[0]
         const lastClose = lastData
-        console.log(lastClose)
 
-
-        // const width = parseInt(d3.select('#leftChart').style('width'))
-        // const height = parseInt(d3.select('#leftChart').style('height'))
         const width = leftChartContainer.current.offsetWidth
         const height = leftChartContainer.current.offsetHeight
         const svg = d3.select(leftChartRef.current).attr('width', width).attr('height', height)
-
-        console.log('width: ', width, 'height: ', height)
 
         const margin = { top: 10, left: 10, bottom: 30, right: 55 }
         const innerWidth = width - margin.right - margin.left
         const innerHeight = height - margin.top - margin.bottom
         const g = svg.append('g').attr('transform', `translate(${margin.top}, ${margin.left})`)
-
-        console.log('innerWidth: ', innerWidth, 'innerHeight: ', innerHeight)
 
         const xScale = d3.scaleBand()
             .domain(Move_2330.map(item => item.time.split(' ')[1].split(':').slice(0, 2).join(':')))
@@ -192,18 +167,7 @@ const StockMove = ({ price }) => {
 
         const line = d3.line()
             .x(d => xScale(d.time.split(' ')[1].split(':').slice(0, 2).join(':')))
-            // .x(Move_2330.map(d => xScale(d.time.split(' ')[1].split(':').slice(0, 2).join(':'))))
             .y(d => yScale(d.close))
-            // .y(Move_2330.map(d => yScale(d.close)))
-        const renderPath = (strokeColor, lineGenerator) => {
-            g.append('path')
-                .datum(Move_2330)
-                .attr('transform', `translate(${xScale.bandwidth() / 2}, 0)`)
-                .attr('fill', 'white')
-                .attr('stroke', strokeColor)
-                .attr('stroke-width', 2)
-                .attr('d', lineGenerator)
-        }
         g.append('path')
             .datum(Move_2330)
             .attr('transform', `translate(${xScale.bandwidth() / 2}, 0)`)
@@ -211,16 +175,53 @@ const StockMove = ({ price }) => {
             .attr('stroke', 'red')
             .attr('stroke-width', 1.5)
             .attr('d', d => line(d))
-        // renderPath('steelBlue', line)
-        console.log('lastClose1: ', lastClose)
-        console.log('price: ', price.price)
     }, [])
-    // console.log('move_2330: ', Move_2330)
+    const searchStockId = '2330'
+    const strongWeakChartData = [Move_bid[searchStockId].best_bid_volume.reduce((curr, next) => curr + next), Move_bid[searchStockId].best_ask_volume.reduce((curr, next) => curr + next)]
+    const diskContainerRef = useRef();
 
-    // Move_2330.map(item => {
-    // // console.log(item.time.split(' ')[1].split(':').slice(0,2).join(':'))
-    // console.log(item.close)
-    // })
+    useEffect(() => {
+        d3.selectAll('.diskSvg').remove()
+        // const width = diskContainerRef.current.offsetWidth
+        const width = 367;
+        const height = diskContainerRef.current.offsetHeight 
+        const box = d3.select(diskContainerRef.current)
+
+        const svg = box.append('svg').attr('class', 'diskSvg').attr('height', height).attr('width', width)
+
+        const margin = { top: 10, left: 20, bottom: 10, right: 20 }
+        const innerWidth = width - margin.left - margin.right
+        const innerHeight = height - margin.top - margin.bottom
+        const g = svg.append('g')//.attr('class', 'strong-weak-chart')
+            // .attr('width', innerWidth)
+            // .attr('height', innerHeight)
+            .attr('transform', `translate(0, ${margin.top})`)
+
+        // border
+        // g.append('rect').attr('width', width + 20).attr('height', height).attr('fill', 'white')//.attr('transform', `translate(20, 20)`)
+
+        let percent_now = 0
+        const color = d3.scaleOrdinal()
+            .range(['#1DFF1E', '#FF2627'])
+        g.selectAll('.stacked-single-barchart').data(strongWeakChartData).enter()
+            .append('rect')
+            .attr('width', d => { return (d / (strongWeakChartData[0] + strongWeakChartData[1]) * 100) + '%' })
+            .attr('height', innerHeight)
+            .attr('x', d => {
+                var prev_percent = percent_now
+                const this_percent = 100 * (d / (strongWeakChartData[0] + strongWeakChartData[1]))
+                percent_now = percent_now + this_percent
+                console.log('prev_percent: ', prev_percent, 'percent_now: ', percent_now)
+                return prev_percent + '%'
+            })
+            .attr('fill', d => color(d))
+        g.selectAll('.stacked-single-text').data(strongWeakChartData).enter()
+            .append('text')
+            .text(`%`)
+            .attr('fill', 'white')
+            .attr('transform', `translate(0, ${height / 2})`)
+    }, [])
+
     return (
         <MovingContainer>
             <MovingLeft>
@@ -269,47 +270,52 @@ const StockMove = ({ price }) => {
             </MovingLeft >
             <MovingRight>
                 <RightTop>
-                    <TopCol textalign={'right'}>
-                        {
-                            mockedRightRow1.map((data, index) => {
-                                return (
-                                    <ColNum key={index}>{data}</ColNum>
-                                )
-                            })
-                        }
-                    </TopCol>
-                    <TopCol textalign={'right'}>
-                        {
-                            mockedRightRow2.map((data, index) => {
-                                return (
-                                    <ColNum key={index}>{data}</ColNum>
-                                )
-                            })
-                        }
-                    </TopCol>
-                    <TopCol textalign={'left'}>
-                        {
-                            mockedRightRow3.map((data, index) => {
-                                return (
-                                    <ColNum key={index}>{data}</ColNum>
-                                )
-                            })
-                        }
-                    </TopCol>
-                    <TopCol textalign={'left'}>
-                        {
-                            mockedRightRow4.map((data, index) => {
-                                return (
-                                    <ColNum key={index}>{data}</ColNum>
-                                )
-                            })
-                        }
-                    </TopCol>
-                    <RightTopTotal>
-                        <ColNum>63.03</ColNum>
+                    <RightTopTotal ref={diskContainerRef}>
+                        {/* <ColNum>63.03</ColNum>
                         <ChipImg url={mockedmoving} height={'100'} />
-                        <ColNum>31.16</ColNum>
+                        <ColNum>31.16</ColNum> */}
+                        <svg className='diskSvg'></svg>
                     </RightTopTotal>
+                    <TopCol textalign={'right'}>
+                        <ColNum>{Move_bid[searchStockId].best_bid_volume.reduce((curr, next) => curr + next)}</ColNum>
+                        {
+                            Move_bid[searchStockId].best_bid_volume.map((data, index) => {
+                                return (
+                                    <ColNum key={index}>{data}</ColNum>
+                                )
+                            })
+                        }
+                    </TopCol>
+                    <TopCol textalign={'right'}>
+                        <ColNum>委買價</ColNum>
+                        {
+                            Move_bid[searchStockId].best_bid_price.map((data, index) => {
+                                return (
+                                    <ColNum key={index}>{data}</ColNum>
+                                )
+                            })
+                        }
+                    </TopCol>
+                    <TopCol textalign={'left'}>
+                        <ColNum>委賣價</ColNum>
+                        {
+                            Move_bid[searchStockId].best_ask_price.map((data, index) => {
+                                return (
+                                    <ColNum key={index}>{data}</ColNum>
+                                )
+                            })
+                        }
+                    </TopCol>
+                    <TopCol textalign={'left'}>
+                        <ColNum>{Move_bid[searchStockId].best_ask_volume.reduce((curr, next) => curr + next)}</ColNum>
+                        {
+                            Move_bid[searchStockId].best_ask_volume.map((data, index) => {
+                                return (
+                                    <ColNum key={index}>{data}</ColNum>
+                                )
+                            })
+                        }
+                    </TopCol>
                 </RightTop>
                 <RightBot>
                     <ChipImg url={movingstock2} height={'100'} width={'100'} />

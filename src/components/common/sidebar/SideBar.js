@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { SideBarData, addStockToList } from './SideBarData';
 import './sideBar.css';
 import { connect } from 'react-redux';
-import { fetchIdName, fetchBasicIncome, fetchBasic, addListStock, removeListStock, fetchChip, fetchMarginTrade, fetchSellBuy, fetchPrice } from '../../../redux';
+import { fetchIdName, fetchBasic, addListStock, removeListStock, fetchChip, fetchMarginTrade, fetchSellBuy, fetchPrice } from '../../../redux';
 import * as Storage from '../../helper/StorageHelper';
 import { CaretUpOutlined, CaretDownOutlined } from '@ant-design/icons';
 
@@ -65,7 +65,7 @@ const Flex = styled.div`
 
 const addToList = addStockToList
 
-function SideBar({ price, fetchBasicIncome, fetchBasic, addStockToList, fetchChip, fetchMarginTrade, fetchSellBuy, fetchPrice }) {
+function SideBar({ price, fetchBasic, addStockToList, fetchChip, fetchMarginTrade, fetchSellBuy, fetchPrice }) {
 
     const scrollToAnchor = (anchorName) => {
         if (!!anchorName) {
@@ -115,7 +115,7 @@ function SideBar({ price, fetchBasicIncome, fetchBasic, addStockToList, fetchChi
     const searchStockIdName = Storage.getData('stock_id_and_name')
     const searchStock = searchStockIdName.split('　')[0]
     useEffect(() => {
-        fetchBasicIncome(searchStock)
+        // fetchBasicIncome(searchStock)
         fetchBasic(searchStock)
         fetchChip(searchStock)
         fetchMarginTrade(searchStock)
@@ -173,7 +173,6 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         fetchIdName: () => dispatch(fetchIdName()),
-        fetchBasicIncome: (stockid) => dispatch(fetchBasicIncome(stockid)),
         fetchBasic: (stockid) => dispatch(fetchBasic(stockid)),
         addStock: (stockid) => dispatch(addListStock(stockid)),
         removeStock: (stockid) => dispatch(removeListStock(stockid)),

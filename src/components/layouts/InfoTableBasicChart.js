@@ -34,11 +34,17 @@ const InfoTableBasicChart = ({ basic, incomeDisplay1, balanceDisplay1, cashFlowD
     // const incomeDisplay = basic && basic.income && basic.income.slice(-4) // 損益表
     // const balanceDisplay = basic && basic.balance && basic.balance.slice(-4) // 資產負債表
     // const cashFlowDisplay = basic && basic.cashFlow && basic.cashFlow.slice(-4) // 現金流量表
-    const incomeDisplay = incomeDisplay1.slice(-4)
-    const balanceDisplay = balanceDisplay1.slice(-4)
-    const cashFlowDisplay = cashFlowDisplay1.slice(-4)
-
-    console.log(incomeDisplay, balanceDisplay, cashFlowDisplay)
+    // const incomeDisplay = incomeDisplay1.slice(-4)
+    // const balanceDisplay = balanceDisplay1.slice(-4)
+    // const cashFlowDisplay = cashFlowDisplay1.slice(-4)
+    const [incomeDisplay, setIncomeDisplay] = useState([])
+    const [balanceDisplay, setBalanceDisplay] = useState([])
+    const [cashFlowDisplay, setCashFlowDisplay] = useState([])
+    useEffect(() => {
+        setIncomeDisplay(incomeDisplay1.slice(-4))
+        setBalanceDisplay(balanceDisplay1.slice(-4))
+        setCashFlowDisplay(cashFlowDisplay1.slice(-4))
+    }, [basic])
 
     const incomeGrossMarginChart = () => {
         const grossMargin = ['毛利率']
