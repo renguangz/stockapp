@@ -85,13 +85,13 @@ const BotItemNum = styled.h2`
 `;
 
 const MovingRight = styled.div`
-    border: 1px solid orange;
+    /* border: 1px solid orange; */
     height: 100%;
     width: 34%;
 `;
 
 const RightTop = styled.div`
-    border: 1px solid pink;
+    /* border: 1px solid pink; */
     width: 100%;
     height: 40%;
     margin-top: 4px;
@@ -102,7 +102,7 @@ const RightTop = styled.div`
 `;
 
 const TopCol = styled.div`
-    border: 1px solid greenyellow;
+    /* border: 1px solid greenyellow; */
     /* height: 80%; */
     width: 24%;
     padding: 0 12px;
@@ -112,14 +112,14 @@ const TopCol = styled.div`
 `;
 
 const ColNum = styled.h3`
-    border: 1px solid white;
+    /* border: 1px solid white; */
     color: white;
     vertical-align: center;
     /* font-size: 1.16rem; */
 `;
 
 const RightTopTotal = styled.div`
-    border: 1px solid red;
+    /* border: 1px solid red; */
     width: 100%;
     height: 16%;
     display: flex;
@@ -137,20 +137,22 @@ const StockMove = ({ price }) => {
 
     const leftChartRef = useRef();
     const leftChartContainer = useRef();
+    const lastData = price.price.slice(-2)[0]
+    console.log('lastData1: ', lastData)
+    const lastClose = lastData && lastData.Close
 
     useEffect(() => {
-
-        const lastData = price.price.slice(-2)[0]
-        const lastClose = lastData
+        console.log('lastData: ',lastData, lastClose)
+        d3.select('.leftMovingChart').remove()
 
         const width = leftChartContainer.current.offsetWidth
         const height = leftChartContainer.current.offsetHeight
-        const svg = d3.select(leftChartRef.current).attr('width', width).attr('height', height)
+        const svg = d3.select(leftChartContainer.current).append('svg').attr('class', 'leftMovingChart').attr('width', width).attr('height', height)
 
-        const margin = { top: 10, left: 10, bottom: 30, right: 55 }
+        const margin = { top: 10, left: 45, bottom: 30, right: 10 }
         const innerWidth = width - margin.right - margin.left
         const innerHeight = height - margin.top - margin.bottom
-        const g = svg.append('g').attr('transform', `translate(${margin.top}, ${margin.left})`)
+        const g = svg.append('g').attr('transform', `translate(${margin.left}, ${margin.top})`)
 
         const xScale = d3.scaleBand()
             .domain(Move_2330.map(item => item.time.split(' ')[1].split(':').slice(0, 2).join(':')))
@@ -161,29 +163,62 @@ const StockMove = ({ price }) => {
 
         const yAxisValues = [lastClose * 0.9, lastClose * 0.95, lastClose, lastClose * 1.05, lastClose * 1.1]
         const xAxis = d3.axisBottom(xScale).tickValues(xScale.domain().filter((d, i) => { return !((i + 1) % 68) })).tickSize(-innerHeight).tickFormat(d => { return '上午' + d.split(':')[0] + '時' })
-        const yAxis = d3.axisRight(yScale).tickValues(yAxisValues).tickSize(-innerWidth)
+        const yAxis = d3.axisLeft(yScale).tickValues(yAxisValues).tickSize(-innerWidth)
         const xAxisG = g.append('g').call(xAxis).attr('transform', `translate(0, ${innerHeight})`)
-        const yAxisG = g.append('g').call(yAxis).attr('transform', `translate(${innerWidth}, 0)`)
+        const yAxisG = g.append('g').call(yAxis).attr('transform', `translate(0, 0)`)
 
         const line = d3.line()
             .x(d => xScale(d.time.split(' ')[1].split(':').slice(0, 2).join(':')))
             .y(d => yScale(d.close))
+        const area = d3.area()
+            .x(d => xScale(d.time.split(' ')[1].split(':').slice(0, 2).join(':')))
+            .y0(yScale(lastClose))
+            .y1(d => yScale(d.close))
+
+        const areaGradient = g.append('defs')
+            .append('linearGradient')
+            .attr('id', 'areaGradientMovingchart')
+            .attr('x1', '0%')
+            .attr('x2', '0%')
+            .attr('y1', '0%')
+            .attr('y2', '100%')
+        areaGradient.append('stop')
+            .attr('offset', '0%')
+            .attr('stop-color', 'red')
+            .attr('stop-opacity', 0.8)
+        areaGradient.append('stop')
+            .attr('offset', '100%')
+            .attr('stop-color', 'red')
+            .attr('stop-opacity', 0.2)
+
         g.append('path')
             .datum(Move_2330)
             .attr('transform', `translate(${xScale.bandwidth() / 2}, 0)`)
-            .attr('fill', 'white')
-            .attr('stroke', 'red')
-            .attr('stroke-width', 1.5)
+            .attr('stroke', d => {
+                if (d.close > lastClose) {
+                    return '#BA0001'
+                } else if (d.Close === lastClose) {
+                    return 'yellow'
+                } else {
+                    return '#00B000'
+                }
+            })
+            .attr('stroke-width', 2)
             .attr('d', d => line(d))
-    }, [])
+        g.append('path')
+            .datum(Move_2330)
+            .style('fill', `#areaGradientMovingChart`)
+            .attr('d', area)
+    }, [lastData])
     const searchStockId = '2330'
     const strongWeakChartData = [Move_bid[searchStockId].best_bid_volume.reduce((curr, next) => curr + next), Move_bid[searchStockId].best_ask_volume.reduce((curr, next) => curr + next)]
     const diskContainerRef = useRef();
 
     useEffect(() => {
         d3.selectAll('.diskSvg').remove()
-        // const width = diskContainerRef.current.offsetWidth
-        const width = 367;
+        const width = diskContainerRef.current.offsetWidth
+        // const width = + d3.select('.diskContainer').style('width')
+        // const width = 367;
         const height = diskContainerRef.current.offsetHeight 
         const box = d3.select(diskContainerRef.current)
 
@@ -192,10 +227,10 @@ const StockMove = ({ price }) => {
         const margin = { top: 10, left: 20, bottom: 10, right: 20 }
         const innerWidth = width - margin.left - margin.right
         const innerHeight = height - margin.top - margin.bottom
-        const g = svg.append('g')//.attr('class', 'strong-weak-chart')
-            // .attr('width', innerWidth)
-            // .attr('height', innerHeight)
-            .attr('transform', `translate(0, ${margin.top})`)
+        const g = svg.append('g').attr('class', 'strong-weak-chart')
+            // .attr('width', 327)
+            // .attr('height', 24)
+            .attr('transform', `translate(${margin.left}, ${margin.top})`)
 
         // border
         // g.append('rect').attr('width', width + 20).attr('height', height).attr('fill', 'white')//.attr('transform', `translate(20, 20)`)
@@ -215,18 +250,20 @@ const StockMove = ({ price }) => {
                 return prev_percent + '%'
             })
             .attr('fill', d => color(d))
+            .attr('rx', 12)
+            .attr('ry', 12)
         g.selectAll('.stacked-single-text').data(strongWeakChartData).enter()
             .append('text')
             .text(`%`)
             .attr('fill', 'white')
             .attr('transform', `translate(0, ${height / 2})`)
-    }, [])
+    }, [searchStockId])
 
     return (
         <MovingContainer>
             <MovingLeft>
                 <LeftTop id='leftChart' ref={leftChartContainer}>
-                    <svg ref={leftChartRef}></svg>
+                    <svg ref={leftChartRef} className='leftMovingChart'></svg>
                     {/* <ChipImg url={movingstock1} height={'100'} width={'100'} /> */}
                 </LeftTop>
                 <LeftBot>
@@ -270,7 +307,7 @@ const StockMove = ({ price }) => {
             </MovingLeft >
             <MovingRight>
                 <RightTop>
-                    <RightTopTotal ref={diskContainerRef}>
+                    <RightTopTotal ref={diskContainerRef} className='diskContainer'>
                         {/* <ColNum>63.03</ColNum>
                         <ChipImg url={mockedmoving} height={'100'} />
                         <ColNum>31.16</ColNum> */}

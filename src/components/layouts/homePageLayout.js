@@ -16,7 +16,7 @@ const StyledBackground = styled.div`
 `;
 
 const StyledContainer = styled.div`
-    /* border: 1px solid white; */
+    border: 1px solid white;
     width: 96vw;
     height: 96vh;
     margin: auto;
@@ -25,9 +25,13 @@ const StyledContainer = styled.div`
 `;
 
 const LeftContainer = styled.div`
-    /* border: 1px solid red; */
+    border: 1px solid red;
     height: 100%;
     width: 30%;
+    @media screen and (max-width: 415px) {
+        display: flex;
+        
+    }
 `;
 
 const LeftTitleContainer = styled.div`
@@ -39,6 +43,11 @@ const LeftTitle = styled.h1`
     font-size: 4rem;
     font-weight: 700;
     text-align: left;
+    @media screen and (max-width: 415px) {
+        /* display: none; */
+        font-size: 12px;
+
+    }
 `;
 
 const InfoContainer = styled.div`
@@ -57,6 +66,10 @@ const StockRise = styled.h3`
     color: ${props => props.color};
     font-size: 2.2rem;
     text-align: left;
+    @media screen and (max-width: 415px) {
+        /* display: none; */
+        font-size: 12px;
+    }
 `;
 
 const BtnContainer = styled.div`
@@ -91,6 +104,10 @@ const BtnWord = styled.h2`
     color: white;
     font-size: 1.4rem;
     margin: auto 28px;
+    @media screen and (max-width: 415px) {
+        /* display: none; */
+        font-size: 12px;
+    }
 `;
 
 const SecondBtn = styled(FirstBtn)`
@@ -102,27 +119,36 @@ const SecondBtn = styled(FirstBtn)`
 `;
 
 const ImgContainer = styled.div`
-    /* border: 1px solid white; */
+    border: 1px solid white;
     height: 60%;
     width: 50%;
     margin: auto;
+    @media screen and (max-width: 415px) {
+        display: none;
+    }
 `;
 
 const CardContainer = styled.div`
-    /* border: 1px solid yellow; */
+    border: 1px solid yellow;
     height: 100%;
     width: 18%;
     padding: 60px 0;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    @media screen and (max-width: 415px) {
+        /* height: 100%; */
+        display: none;
+        /* position: fixed; */
+        /* width: 100%; */
+    }
 `;
 
 const CardOutter = styled.div`
     border: 1px solid grey;
     /* width: 64%; 固定比例 */
     /* margin-left: 36%; */
-    width: 100%;
+    /* width: 100%; */
     /* margin-left: 20%; */
     /* height: 20%; */
     border-radius: 8px;
@@ -133,6 +159,10 @@ const CardOutter = styled.div`
     cursor: pointer;
     &:hover {
         box-shadow: 0 0 15px #fffd;
+    }
+    @media screen and (max-width: 415px) {
+        /* display: none; */
+        /* width: 50%; */
     }
 `;
 

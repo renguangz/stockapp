@@ -1,6 +1,6 @@
 [
     {
-        "close": null,
+        "close": 600,
         "index": 0,
         "time": "2021-09-22 09:00:00",
         "timestamp": 1632272400
@@ -1596,19 +1596,19 @@
         "timestamp": 1632288300
     },
     {
-        "close": null,
+        "close": 586,
         "index": 266,
         "time": "2021-09-22 13:26:00",
         "timestamp": 1632288360
     },
     {
-        "close": null,
+        "close": 586,
         "index": 267,
         "time": "2021-09-22 13:27:00",
         "timestamp": 1632288420
     },
     {
-        "close": null,
+        "close": 586,
         "index": 268,
         "time": "2021-09-22 13:28:00",
         "timestamp": 1632288480

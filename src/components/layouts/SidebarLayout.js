@@ -19,18 +19,13 @@ const StyledSection = styled.section`
 `;
 
 const SectionContainer = styled.div`
-    border: 1px solid olivedrab;
+    /* border: 1px solid olivedrab; */
     width: ${props => props.width}%;
     margin-left: ${props => props.marginLeft}vw;
 `;
 
-const StyledSectionContainer = styled.div`
-    background-color: black;
-`;
-
 const StyledBody = styled.div`
     background: black;
-    /* z-index: 1; */
 `;
 
 const StyledFixedHeader = styled.div`
@@ -38,7 +33,7 @@ const StyledFixedHeader = styled.div`
 `;
 
 const SidebarLayout = ({ children }) => {
-    const { windowWidth, screenType } = useResponsive();
+    const { screenType } = useResponsive();
 
     const [sidebarDisplay, setSidebarDisplay] = useState(true);
     const [marginLeft, setMarginLeft] = useState(20);

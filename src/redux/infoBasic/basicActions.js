@@ -23,9 +23,9 @@ export const fetchBasicError = error => {
 }
 
 export const fetchBasic = stockid => {
-    return (dispatch) => {
+    return async (dispatch) => {
         // dispatch(fetchBasicRequest)
-        Promise.all(
+        await Promise.all(
             [
                 fetch('/income', {
                     method: 'POST',

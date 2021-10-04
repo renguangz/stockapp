@@ -1,10 +1,8 @@
-import React, { useState, useRef, useEffect, Suspense } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
 import * as d3 from 'd3';
-import { chipRightTop, chipRightBot } from '../common/mocked_data/ChipRight';
-import { chipbot } from '../common/mocked_data/ChipBot';
+import { chipRightTop } from '../common/mocked_data/ChipRight';
 import chiprighttop from '../images/mocked/chiprighttop1.jpeg';
-import chip from '../images/mocked/chip.jpeg';
 import { connect } from 'react-redux';
 import { fetchChip } from '../../redux';
 import './chipPage.css';
@@ -192,13 +190,14 @@ const DropSelect = styled.select`
     width: 100px;
 `;
 
-const ChipSvg = styled.svg`
+const ChipSvgContainer = styled.div`
     /* border: 1px solid red; */
-    height: 280px;
-    width: 620px;
+    width: 100%;
+    height: 84%;
+
 `;
 
-const ChipPage = ({ chipInfo, price, marginTrade, topSellBuy, topSell, topBuy }) => {
+const ChipPage = ({ chipInfo, price, marginTrade, topSell, topBuy }) => {
 
     const [LeftButtonBgc, setLeftButtonBgc] = useState('#2B3234');
     const [rightButtonBgc, setRightButtonBgc] = useState('transparent')
@@ -232,7 +231,6 @@ const ChipPage = ({ chipInfo, price, marginTrade, topSellBuy, topSell, topBuy })
     const reverseData = chipInfo.data.slice(-11).reverse();
     const keys = ['foreign_invest', 'credit', 'self_employee']
     const stackDatas = d3.stack().keys(keys).offset(d3.stackOffsetDiverging)(datas)
-    console.log('datas: ', datas)
 
     const marginDatas = marginTrade.data.slice(-11)
 
@@ -257,12 +255,17 @@ const ChipPage = ({ chipInfo, price, marginTrade, topSellBuy, topSell, topBuy })
     })
     displayPrice.reverse()
 
-    const chipRef = useRef();
-    const chipSvg = d3.select(chipRef.current)
-    const width = 620;
-    const height = 280;
+    const chipContainerRef = useRef();
 
     useEffect(() => {
+        d3.select('.chipSvg').remove()
+        // const width = 620;
+        // const height = 280;
+        const width = chipContainerRef.current.offsetWidth;
+        const height = chipContainerRef.current.offsetHeight;
+        const box = d3.select(chipContainerRef.current)
+
+        const chipSvg = box.append('svg').attr('class', 'chipSvg').attr('width', width).attr('height', height)
 
         const margin = { top: 10, left: 80, bottom: 30, right: 50 }
         const innerHeight = height - margin.top - margin.bottom
@@ -384,8 +387,6 @@ const ChipPage = ({ chipInfo, price, marginTrade, topSellBuy, topSell, topBuy })
         g.selectAll('.domain').remove()
     })
 
-    console.log('topBuy: ', topBuy)
-
     return (
         <ChipContainer>
             <ChipLeft>
@@ -399,7 +400,9 @@ const ChipPage = ({ chipInfo, price, marginTrade, topSellBuy, topSell, topBuy })
                             <ButtonTitle>融資融券</ButtonTitle>
                         </ButtonChange>
                     </ButtonContainer>
-                    <ChipSvg ref={chipRef} />
+                    <ChipSvgContainer ref={chipContainerRef}>
+                        <svg className='chipSvg'></svg>
+                    </ChipSvgContainer>
                 </ChipLeftTop>
                 <ChipLeftBot>
                     <ChipTable height={'0'}>

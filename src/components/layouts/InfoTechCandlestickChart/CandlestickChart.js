@@ -323,33 +323,6 @@ const CandleStickChart = ({ price, fetchPrice }) => {
             <CandlestickMain />
             <SecondChart />
             <ThirdChart />
-            {/* <TechMainContainer>
-                <TechMainLeft>
-                    <TechMainTitleContainer>
-                        <TechMainTitle>KDJ</TechMainTitle>
-                        <TechMainH4>MA5: 26.01</TechMainH4>
-                        <TechMainH4>MA100: 26.01</TechMainH4>
-                        <TechMainH4>MA: 26.01</TechMainH4>
-                    </TechMainTitleContainer>
-                </TechMainLeft>
-                <TechMainMid>
-                    <ChipImg url={techmid2} width={'100'} height={'100'} />
-                </TechMainMid>
-                <TechMainRight height={'100'}>
-                    <TechMainH4 textAlign={'right'}>
-                        35.55
-                    </TechMainH4>
-                    <TechMainH4 textAlign={'right'}>
-                        35.55
-                    </TechMainH4>
-                    <TechMainH4 textAlign={'right'}>
-                        35.55
-                    </TechMainH4>
-                    <TechMainH4 textAlign={'right'}>
-                        35.55
-                    </TechMainH4>
-                </TechMainRight>
-            </TechMainContainer> */}
         </TechContainer>
     )
 };

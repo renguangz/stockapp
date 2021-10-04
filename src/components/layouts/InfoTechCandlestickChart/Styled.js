@@ -1,6 +1,4 @@
-import React, { useState } from 'react';
 import styled from 'styled-components';
-import * as d3 from 'd3';
 
 export const TechMainContainer = styled.div`
     /* border: 2px solid pink; */

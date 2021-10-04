@@ -45,7 +45,7 @@ export const drawSmallChart = (height, width, svgRef, data, stopColor, stopColor
     areaGradient.append("stop")
         .attr("offset", "80%")
         .attr("stop-color", stopColor2)
-        .attr("stop-opacity", 0.5);
+        .attr("stop-opacity", 0.2);
 
     smallG.append('path')
         .datum(data)
