@@ -32,7 +32,7 @@ const StyledFixedHeader = styled.div`
 
 const DefaultLayout = ({ headerNotFixed, noSidebar, children }) => {
     return (
-        <div>
+        <>
             {
                 headerNotFixed ? (
                     <Header headerBgc={'#111111'} />
@@ -62,7 +62,7 @@ const DefaultLayout = ({ headerNotFixed, noSidebar, children }) => {
                 )
             }
             {/* <Footer /> */}
-        </div>
+        </>
     )
 };
 

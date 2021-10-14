@@ -16,26 +16,43 @@ const StyledBackground = styled.div`
 `;
 
 const StyledContainer = styled.div`
-    border: 1px solid white;
+    /* border: 1px solid white; */
     width: 96vw;
     height: 96vh;
     margin: auto;
     display: flex;
     justify-content: space-between;
+    @media screen and (max-width: 540px) {
+        /* border: 1px solid white; */
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        margin: 0;
+    }
 `;
 
 const LeftContainer = styled.div`
-    border: 1px solid red;
+    /* border: 1px solid red; */
     height: 100%;
     width: 30%;
-    @media screen and (max-width: 415px) {
+    @media screen and (max-width: 540px) {
         display: flex;
-        
+        width: 100%;
+        height: 30%;
     }
 `;
 
 const LeftTitleContainer = styled.div`
     margin-top: 28%;
+    @media screen and (max-width: 540px) {
+        /* display: none; */
+        /* border: 1px solid yellow; */
+        position: absolute;
+        top: 5%;
+        left: 50%;
+        transform: translate(-50%, 0);
+        margin-top: 0;
+    }
 `;
 
 const LeftTitle = styled.h1`
@@ -43,32 +60,54 @@ const LeftTitle = styled.h1`
     font-size: 4rem;
     font-weight: 700;
     text-align: left;
-    @media screen and (max-width: 415px) {
-        /* display: none; */
-        font-size: 12px;
+    @media screen and (max-width: 540px) {
+        font-size: 1.5rem;
+    }
+`;
 
+const InfoNumContainer = styled.div`
+    /* border: 1px solid white; */
+    @media screen and (max-width: 540px) {
+        /* border: 1px solid green; */
+        display: flex;
+        width: 100%;
+        /* margin-top: 28%; */
+        justify-content: center;
+        position: absolute;
+        top: 12%;
     }
 `;
 
 const InfoContainer = styled.div`
-    height: 10%;
+    /* height: 10%; */
+    @media screen and (max-width: 540px) {
+        /* border: 1px solid orange; */
+        margin-right: 4px;
+    }
 `;
 
 const StockInfo = styled.h2`
     color: ${props => props.color};
     font-size: 3.4rem;
     text-align: left;
+    @media screen and (max-width: 540px) {
+        font-size: 20px;
+    }
 `;
 
-const NumContainer = styled.div``;
+const NumContainer = styled.div`
+    @media screen and (max-width: 540px) {
+        /* border: 1px solid red; */
+        margin-left: 4px;
+    }
+`;
 
 const StockRise = styled.h3`
     color: ${props => props.color};
     font-size: 2.2rem;
     text-align: left;
-    @media screen and (max-width: 415px) {
-        /* display: none; */
-        font-size: 12px;
+    @media screen and (max-width: 540px) {
+        font-size: 20px;
     }
 `;
 
@@ -81,6 +120,17 @@ const BtnContainer = styled.div`
     justify-content: space-between;
     margin-top: 16%;
     /* padding: 8px 0; */
+    @media screen and (max-width: 540px) {
+        /* display: none; */
+        /* border: 1px solid orangered; */
+        /* width: 72%; */
+        position: absolute;
+        top: 20%;
+        left: 50%;
+        transform: translate(-50%, 0);
+        margin-top: 0;
+        justify-content: center;
+    }
 `;
 
 const FirstBtn = styled.div`
@@ -98,13 +148,17 @@ const FirstBtn = styled.div`
     &:hover {
         background-color: transparent;
     }
+    @media screen and (max-width: 540px) {
+        /* border: 1px solid yellow; */
+        margin: 8px;
+    }
 `;
 
 const BtnWord = styled.h2`
     color: white;
     font-size: 1.4rem;
     margin: auto 28px;
-    @media screen and (max-width: 415px) {
+    @media screen and (max-width: 540px) {
         /* display: none; */
         font-size: 12px;
     }
@@ -119,28 +173,41 @@ const SecondBtn = styled(FirstBtn)`
 `;
 
 const ImgContainer = styled.div`
-    border: 1px solid white;
+    /* border: 1px solid white; */
     height: 60%;
     width: 50%;
     margin: auto;
-    @media screen and (max-width: 415px) {
-        display: none;
+    @media screen and (max-width: 540px) {
+        /* border: 1px solid white; */
+        width: 100%;
+        height: 40%;
+        position: absolute;
+        top: 32%;
     }
 `;
 
 const CardContainer = styled.div`
-    border: 1px solid yellow;
+    /* border: 1px solid yellow; */
     height: 100%;
     width: 18%;
     padding: 60px 0;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    @media screen and (max-width: 415px) {
-        /* height: 100%; */
-        display: none;
-        /* position: fixed; */
-        /* width: 100%; */
+    @media screen and (max-width: 540px) {
+        border: 1px solid red;
+        width: 100%;
+        height: 24%;
+        display: flex;
+        position: absolute;
+        top: 76%;
+        padding: 0;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        overflow: scroll;
+        &::-webkit-scrollbar {
+            display: none;
+        }
     }
 `;
 
@@ -152,7 +219,7 @@ const CardOutter = styled.div`
     /* margin-left: 20%; */
     /* height: 20%; */
     border-radius: 8px;
-    padding: 12px;
+    padding: 8px;
     margin: 6px;
     display: flex;
     justify-content: space-between;
@@ -160,32 +227,51 @@ const CardOutter = styled.div`
     &:hover {
         box-shadow: 0 0 15px #fffd;
     }
-    @media screen and (max-width: 415px) {
-        /* display: none; */
-        /* width: 50%; */
+    @media screen and (max-width: 540px) {
+        /* height: 100%; */
+        margin-top: 20px;
+        margin-bottom: 16px;
+        padding: 8px;
     }
 `;
 
 const CardTitleContainer = styled.div`
     /* border: 1px solid pink; */
     padding: 0 auto;
+    @media screen and (max-width: 540px) {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+    }
 `;
 
 const SmallChartContainer = styled.div`
     /* border: 1px solid white; */
     width: 48%;
     padding: 0;
+    @media screen and (max-width: 540px) {
+        /* border: 1px solid green; */
+        width: 104px;
+        padding: 1px;
+    }
 `;
 
 const CardTitle = styled.h2`
     color: grey;
     text-align: left;
+    @media screen and (max-width: 540px) {
+        font-size: 12px;
+    }
 `;
 
 const CardNum = styled.h2`
-    color: red;
-    font-size: 13px;
+    font-size: 8px;
     text-align: left;
+    /* display: flex; */
+    flex-wrap: nowrap;
+    @media screen and (max-width: 540px) {
+        /* font-size: 8px; */
+    }
 `;
 
 const HomePageLayout = () => {
@@ -195,6 +281,7 @@ const HomePageLayout = () => {
     const dowRef = useRef();
     const spxRef = useRef();
     const japanRef = useRef();
+    const smallChartRef = useRef();
 
     const taiwanDatas = Taiwan_index.slice(-80)
     const dowDatas = Dowj.slice(-80)
@@ -277,21 +364,24 @@ const HomePageLayout = () => {
     }
 
     useEffect(() => {
-        drawMidChart(drawData)
+        // drawMidChart(drawData)
+        d3.select(window).on('resize', drawMidChart(drawData))
     }, [drawData])
 
     useEffect(() => {
+        const width = d3.selectAll('.smallChartContainer').node().getBoundingClientRect().width
+        const height = d3.selectAll('.smallChartContainer').node().getBoundingClientRect().height
         drawSmallChart(88, 104, taiwanRef, taiwanDatas, 'steelblue', 'steelblue', 'steelblue', 'areaGradient')
         drawSmallChart(88, 104, dowRef, dowDatas, '#EDBB56', '#EDBB56', '#EDBB56', 'areaGradient1')
         drawSmallChart(88, 104, spxRef, spxDatas, '#74C5A6', '#74C5A6', '#74C5A6', 'areaGradient2')
         drawSmallChart(88, 104, japanRef, japanDatas, '#9D6ABC', '#9D6ABC', '#9D6ABC', 'areaGradient3')
     }, [])
 
-    const {screenType} = useResponsive();
+    const { screenType } = useResponsive();
 
     useEffect(() => {
-        if (screenType === 'DESKTOP') {
-
+        if (screenType === 'MOBILE') {
+            // d3.select('.midChart').style('font-size', '20px')
         } else if (screenType === 'TABLET') {
 
         } else {
@@ -306,12 +396,14 @@ const HomePageLayout = () => {
                     <LeftTitleContainer>
                         <LeftTitle>{leftTitle}</LeftTitle>
                     </LeftTitleContainer>
-                    <InfoContainer>
-                        <StockInfo className={(drawData[79].close > drawData[78].close) ? 'redColor' : 'greenColor'}>{drawData[79].close}</StockInfo>
-                    </InfoContainer>
-                    <NumContainer>
-                        <StockRise className={(drawData[79].close > drawData[78].close) ? 'redColor' : 'greenColor'}><CaretUpOutlined rotate={(drawData[79].close > drawData[78].close) ? 0 : 180} />{(Math.abs(drawData[79].close - drawData[78].close).toFixed(2))}({(Math.abs(drawData[79].close - drawData[78].close) / drawData[79].close * 100).toFixed(2)}%)</StockRise>
-                    </NumContainer>
+                    <InfoNumContainer>
+                        <InfoContainer>
+                            <StockInfo className={(drawData[79].close > drawData[78].close) ? 'redColor' : 'greenColor'}>{drawData[79].close}</StockInfo>
+                        </InfoContainer>
+                        <NumContainer>
+                            <StockRise className={(drawData[79].close > drawData[78].close) ? 'redColor' : 'greenColor'}><CaretUpOutlined rotate={(drawData[79].close > drawData[78].close) ? 0 : 180} />{(Math.abs(drawData[79].close - drawData[78].close).toFixed(2))}({(Math.abs(drawData[79].close - drawData[78].close) / drawData[79].close * 100).toFixed(2)}%)</StockRise>
+                        </NumContainer>
+                    </InfoNumContainer>
                     <BtnContainer>
                         <FirstBtn>
                             <Link to='/mylist'>
@@ -335,7 +427,7 @@ const HomePageLayout = () => {
                             <CardNum className={(taiwanDatas[79].close > taiwanDatas[78].close) ? 'redColor' : 'greenColor'}>{taiwanDatas[79].close}</CardNum>
                             <CardNum className={(taiwanDatas[79].close > taiwanDatas[78].close) ? 'redColor' : 'greenColor'}><CaretUpOutlined />{(Math.abs(taiwanDatas[79].close - taiwanDatas[78].close).toFixed(2))} ({(Math.abs(taiwanDatas[79].close - taiwanDatas[78].close) / taiwanDatas[79].close * 100).toFixed(2)}%)</CardNum>
                         </CardTitleContainer>
-                        <SmallChartContainer>
+                        <SmallChartContainer ref={smallChartRef} className='smallChartContainer'>
                             <svg ref={taiwanRef}></svg>
                         </SmallChartContainer>
                     </CardOutter>

@@ -37,7 +37,7 @@ const MovingLeft = styled.div`
 `;
 
 const LeftTop = styled.div`
-    border: 1px solid pink;
+    /* border: 1px solid pink; */
     width: 98%;
     height: 68%;
     /* margin: 4px auto; */

@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import DefaultLayout from '../layouts/DefaultLayout';
 import Container from '../common/Container';
-import { MenuOutlined, MinusSquareOutlined, EditFilled, CloseSquareFilled, CaretUpOutlined } from '@ant-design/icons';
+import { MenuOutlined, EditFilled, CloseSquareFilled, CaretUpOutlined } from '@ant-design/icons';
 import { sortableHandle } from 'react-sortable-hoc';
 import { connect } from 'react-redux';
 import { listStock, addListStock, removeListStock, fetchIdName, fetchBasic, fetchListInfo } from '../../redux';
@@ -13,9 +13,6 @@ import Dowj from '../../data/DOWJ.json';
 import Spx from '../../data/SPX.json';
 import Japan from '../../data/japan.json';
 import * as d3 from 'd3';
-
-// Mocked
-import { StockListMockedData } from '../common/mocked_data/StockListMockedData';
 import { Link } from 'react-router-dom';
 import { drawSmallChart } from '../common/drawSmallChart';
 
@@ -24,6 +21,13 @@ const StyledContainer = styled(Container)`
     height: 89vh;
     width: 90%;
     margin: auto;
+    @media screen and (max-width: 540px) {
+        border: 1px solid yellow;
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 96%;
+    }
 `;
 
 const ListCardContainer = styled.div`
@@ -31,6 +35,9 @@ const ListCardContainer = styled.div`
     display: flex;
     justify-content: space-between;
     transform: translateY(36px);
+    @media screen and (max-width: 540px) {
+        /* display: none; */
+    }
 `;
 
 const ListCard = styled.div`
@@ -60,12 +67,18 @@ const TableOrder = styled.div`
     justify-content: space-between;
     border-bottom: 2px solid grey;
     margin-bottom: -15px;
+    @media screen and (max-width: 540px) {
+        /* display: none; */
+    }
 `;
 
 const TableSwitch = styled.div`
     /* border: 2px solid green; */
     height: 100%;
     display: flex;
+    @media screen and (max-width: 540px) {
+        /* border: 1px solid red; */
+    }
 `;
 
 const TableSwitchButton = styled.h3`
@@ -92,12 +105,29 @@ const AddStockInput = styled.input``;
 
 const AddStockButton = styled.button``;
 
+const TableContainer = styled.div`
+    /* border: 1px solid greenyellow; */
+    @media screen and (max-width: 540px) {
+        border: 1px solid yellow;
+        /* overflow: scroll; */
+        display: block;
+        overflow-x: scroll;
+        &::-webkit-scrollbar {
+            display: none;
+        }
+    }
+`;
+
 const StyledTable = styled.table`
     /* border: 2px solid pink; */
     width: 100%;
     border-collapse: collapse;
     font-size: ${props => props.fontSize}rem;
     overflow: hidden;
+    @media screen and (max-width: 540px) {
+        /* display: none; */
+        border: 1px solid white;
+    }
 `;
 
 const StyledThead = styled.thead``;
@@ -123,18 +153,53 @@ const StyledBodyTr = styled.tr`
 
 const StyledTh = styled.th`
     color: white;
-    width: ${props => props.width || '50'}px;
-    /* border: 2px solid white; */
-    /* font-size: 1.1rem; */
+    /* width: ${props => props.width || '50'}px; */
+    @media screen and (max-width: 540px) {
+        /* border: 1px solid red; */
+    }
+`;
+
+const StickyStyledTh = styled(StyledTh)`
+    @media screen and (max-width: 540px) {
+        border: 1px solid pink;
+        position: sticky;
+        /* position: absolute; */
+        left: 0;
+    }
 `;
 
 const StyledTd = styled.td`
     color: ${props => props.fontColor || 'white'};
     font-weight: 700;
-    /* font-size: 1.1rem; */
-    width: ${props => props.width || '50'}px;
+    font-size: 1.1rem;
+    /* width: ${props => props.width || '50'}px; */
     text-align: ${props => props.textAlign || 'center'};
     /* border: 2px solid white; */
+    white-space: nowrap;
+    @media screen and (max-width: 540px) {
+        /* border: 1px solid blue; */
+        /* width: 100px; */
+        font-size: 16px;
+        padding: 0 8px;
+    }
+`;
+
+const StickyStyledTd = styled(StyledTd)`
+    @media screen and (max-width: 540px) {
+        border: 1px solid red;
+        position: sticky;
+        position: -webkit-sticky;
+        &:first-child {
+            left: 0;
+            z-index: 1;
+            /* width: 70px; */
+        }
+        &:nth-child(2) {
+            left: 0;
+            /* left: 70px; */
+            /* width: 70px; */
+        }
+    }
 `;
 
 const Action = styled.div`
@@ -284,7 +349,7 @@ const StockListPage = ({ searchRedux, stockList, listStock, addStock, removeStoc
                 <ListCardContainer>
                     <ListCard >
                         <ListCardChart ref={cardChartRef}>
-                        <svg ref={taiwanRef} />
+                            <svg ref={taiwanRef} />
                         </ListCardChart>
                     </ListCard>
                     <ListCard >
@@ -318,66 +383,70 @@ const StockListPage = ({ searchRedux, stockList, listStock, addStock, removeStoc
                 <SearchUl>
                     <DisplayMatches />
                 </SearchUl>
-                <StyledTable fontSize={tableFontSize}>
-                    <StyledThead>
-                        <StyledHeadTr>
-                            <StyledTh width={20}><EditFilled style={{ fill: 'white' }} /></StyledTh>
-                            <StyledTh width={'76'}>商品</StyledTh>
-                            <StyledTh>成交價</StyledTh>
+                <TableContainer>
+                    <StyledTable>
+                        <StyledThead>
+                            <StyledHeadTr>
+                                <StickyStyledTh width={20}><EditFilled style={{ fill: 'white' }} /></StickyStyledTh>
+                                <StickyStyledTh width={76}>商品</StickyStyledTh>
+                                <StyledTh>成交價</StyledTh>
+                                {
+                                    displayTableCol ? <StyledTh width={76}>走勢圖</StyledTh> : ''
+                                }
+                                <StyledTh width={48}>漲跌</StyledTh>
+                                <StyledTh>幅度</StyledTh>
+                                <StyledTh>成交量</StyledTh>
+                                <StyledTh>開盤價</StyledTh>
+                                <StyledTh>最高價</StyledTh>
+                                <StyledTh>最低價</StyledTh>
+                                <StyledTh>昨收</StyledTh>
+                                <StyledTh>營收</StyledTh>
+                                <StyledTh>毛利率</StyledTh>
+                            </StyledHeadTr>
+                        </StyledThead>
+                        <StyledTbody>
                             {
-                                displayTableCol ? <StyledTh width={76}>走勢圖</StyledTh> : ''
+                                stockList.stockListId.map((data, index) => {
+                                    const d = data.stockid
+                                    const splitID = d.split('　')[0]
+                                    const splitName = d.split('　')[1]
+                                    ListID.push(splitID)
+                                    return (
+                                        <StyledBodyTr key={index}>
+                                            <StyledTd textAlign={'left'}>
+                                                <Action>
+                                                    <CloseSquareFilled style={{ fill: 'white' }} onClick={() => handleClickRemove(d)} />
+                                                    <MenuOutlined style={{ fill: 'white' }} />
+                                                </Action>
+                                            </StyledTd>
+                                            <StickyStyledTd onClick={() => handleClickLink(d)} textAlign={'center'}>
+                                                <Link style={{ color: '#00AEFF' }} to='/stockinfo'>{splitID}<br />{splitName}</Link>
+                                            </StickyStyledTd>
+                                            <StyledTd fontColor={data.Close > data.last_close ? '#FF2627' : (data.Close === data.last_close) ? '#E7DC61' : '#1DFF1E'}>{data.Close}</StyledTd>
+                                            {
+                                                displayTableCol ? <StyledTd>走勢圖</StyledTd> : ''
+                                            }
+                                            <StyledTd fontColor={data.Close > data.last_close ? '#FF2627' : (data.Close === data.last_close) ? '#E7DC61' : '#1DFF1E'}>
+                                                {/* <TdFlex> */}
+                                                    {data.Close === data.last_close ? '' : <CaretUpOutlined rotate={data.Close > data.last_close ? 0 : 180} className={data.Close > data.last_close ? 'redColor' : 'greenColor'} />}
+                                                    {Math.abs((data.Close - data.last_close)).toFixed(2)}
+                                                {/* </TdFlex> */}
+                                            </StyledTd>
+                                            <StyledTd fontColor={data.Close > data.last_close ? '#FF2627' : (data.Close === data.last_close) ? '#E7DC61' : '#1DFF1E'}>{(Math.abs(data.Close - data.last_close) / data.Close * 100).toFixed(2)}%</StyledTd>
+                                            <StyledTd fontColor={'#E7DC61'}>{data.Volume.toFixed(0)}</StyledTd>
+                                            <StyledTd fontColor={data.Open > data.last_close ? '#FF2627' : (data.Open === data.last_close) ? '#E7DC61' : '#1DFF1E'}>{data.Open}</StyledTd>
+                                            <StyledTd fontColor={data.High > data.last_close ? '#FF2627' : (data.High === data.last_close) ? '#E7DC61' : '#1DFF1E'}>{data.High}</StyledTd>
+                                            <StyledTd fontColor={data.Low > data.last_close ? '#FF2627' : (data.Low === data.last_close) ? '#E7DC61' : '#1DFF1E'}>{data.Low}</StyledTd>
+                                            <StyledTd fontColor={'#E7DC61'}>{data.last_close}</StyledTd>
+                                            <StyledTd fontColor={'#808080'}>{(data.benefit_total / 1000000).toFixed(1)}M</StyledTd>
+                                            <StyledTd fontColor={'#808080'}>{data.grossMargin}%</StyledTd>
+                                        </StyledBodyTr>
+                                    )
+                                })
                             }
-                            <StyledTh width={48}>漲跌</StyledTh>
-                            <StyledTh>幅度</StyledTh>
-                            <StyledTh>成交量</StyledTh>
-                            <StyledTh>開盤價</StyledTh>
-                            <StyledTh>最高價</StyledTh>
-                            <StyledTh>最低價</StyledTh>
-                            <StyledTh>昨收</StyledTh>
-                            <StyledTh>營收</StyledTh>
-                            <StyledTh>毛利率</StyledTh>
-                        </StyledHeadTr>
-                    </StyledThead>
-                    <StyledTbody>
-                        {
-                            stockList.stockListId.map((data, index) => {
-                                const d = data.stockid
-                                const splitID = d.split('　')[0]
-                                const splitName = d.split('　')[1]
-                                ListID.push(splitID)
-                                return (
-                                    <StyledBodyTr key={index}>
-                                        <StyledTd>
-                                            <Action>
-                                                <CloseSquareFilled style={{ fill: 'white' }} onClick={() => handleClickRemove(d)} />
-                                                <MenuOutlined style={{ fill: 'white' }} />
-                                            </Action>
-                                        </StyledTd>
-                                        <StyledTd onClick={() => handleClickLink(d)} textAlign={'center'}>
-                                            <Link style={{ color: '#00AEFF' }} to='/stockinfo'>{splitID}<br />{splitName}</Link>
-                                        </StyledTd>
-                                        <StyledTd fontColor={data.Close > data.last_close ? '#FF2627' : (data.Close === data.last_close) ? '#E7DC61' : '#1DFF1E'}>{data.Close}</StyledTd>
-                                        {
-                                            displayTableCol ? <StyledTd>走勢圖</StyledTd> : ''
-                                        }
-                                        <StyledTd fontColor={data.Close > data.last_close ? '#FF2627' : (data.Close === data.last_close) ? '#E7DC61' : '#1DFF1E'}>
-                                            {data.Close === data.last_close ? '' : <CaretUpOutlined rotate={data.Close > data.last_close ? 0 : 180} className={data.Close > data.last_close ? 'redColor' : 'greenColor'} />}
-                                            {Math.abs((data.Close - data.last_close)).toFixed(2)}
-                                        </StyledTd>
-                                        <StyledTd fontColor={data.Close > data.last_close ? '#FF2627' : (data.Close === data.last_close) ? '#E7DC61' : '#1DFF1E'}>{(Math.abs(data.Close - data.last_close) / data.Close * 100).toFixed(2)}%</StyledTd>
-                                        <StyledTd fontColor={'#E7DC61'}>{data.Volume.toFixed(0)}</StyledTd>
-                                        <StyledTd fontColor={data.Open > data.last_close ? '#FF2627' : (data.Open === data.last_close) ? '#E7DC61' : '#1DFF1E'}>{data.Open}</StyledTd>
-                                        <StyledTd fontColor={data.High > data.last_close ? '#FF2627' : (data.High === data.last_close) ? '#E7DC61' : '#1DFF1E'}>{data.High}</StyledTd>
-                                        <StyledTd fontColor={data.Low > data.last_close ? '#FF2627' : (data.Low === data.last_close) ? '#E7DC61' : '#1DFF1E'}>{data.Low}</StyledTd>
-                                        <StyledTd fontColor={'#E7DC61'}>{data.last_close}</StyledTd>
-                                        <StyledTd fontColor={'#808080'}>{(data.benefit_total / 1000000).toFixed(1)}M</StyledTd>
-                                        <StyledTd fontColor={'#808080'}>{data.grossMargin}%</StyledTd>
-                                    </StyledBodyTr>
-                                )
-                            })
-                        }
-                    </StyledTbody>
-                </StyledTable>
+                        </StyledTbody>
+                    </StyledTable>
+                </TableContainer>
             </StyledContainer>
         </DefaultLayout>
     )

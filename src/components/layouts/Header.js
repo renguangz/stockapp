@@ -9,12 +9,23 @@ const StyledHeader = styled.header`
     /* background-color: transparent; */
     width: 100vw;
     height: 8vh;
+    @media screen and (max-width: 540px) {
+        /* display: none; */
+        margin: 0;
+        padding: 0;
+    }
 `;
 
 const StyledHeaderContainer = styled(Container)`
     /* border: 1px solid white; */
     display: flex;
     justify-content: space-between;
+    @media screen and (max-width: 540px) {
+        /* display: none; */
+        border: 1px solid blue;
+        margin: 0;
+        width: 100%;
+    }
 `;
 
 const StyledHeaderSection = styled.div`

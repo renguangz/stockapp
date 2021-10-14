@@ -3,6 +3,7 @@ import * as d3 from 'd3';
 export const drawSmallChart = (height, width, svgRef, data, stopColor, stopColor2, strokeColor, areaGradientChart) => {
 
     const smallSvg = d3.select(svgRef.current).attr('height', height).attr('width', width)
+    // const smallSvg = d3.select(svgRef.current).attr('class', 'homeSmallSvg').attr('viewbox', `0 0 ${height} ${width}`)
 
     const margin = { top: 0, left: 0, bottom: 0, right: 0 }
     const innerWidth = width - margin.left - margin.right
@@ -62,4 +63,6 @@ export const drawSmallChart = (height, width, svgRef, data, stopColor, stopColor
         // .attr('fill', '#E8F0FB')
         // .attr('opacity', 1)
         .attr('d', area)
+
+    smallG.selectAll('.tick').remove()
 }
