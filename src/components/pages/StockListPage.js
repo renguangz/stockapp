@@ -15,6 +15,7 @@ import Japan from '../../data/japan.json';
 import * as d3 from 'd3';
 import { Link } from 'react-router-dom';
 import { drawSmallChart } from '../common/drawSmallChart';
+import stock_name from '../../data/stock_name.json';
 
 const StyledContainer = styled(Container)`
     /* border: 1px solid greenyellow; */
@@ -230,6 +231,10 @@ const SearchSpan = styled.span`
 `;
 
 const StockListPage = ({ searchRedux, stockList, listStock, addStock, removeStock, fetchIdName, fetchBasic, fetchListInfo }) => {
+    const stock_searchlist = []
+    stock_name.forEach(item => {
+        stock_searchlist.push(item['有價證券代號及名稱'])
+    })
     useEffect(() => {
         fetchIdName()
         listStock()
@@ -249,7 +254,7 @@ const StockListPage = ({ searchRedux, stockList, listStock, addStock, removeStoc
         listStock()
     }
     const DisplayMatches = () => {
-        const matchArray = filtered(searchList, search)
+        const matchArray = filtered(stock_searchlist, search)
         if (search === '') {
             return null
         } else return (
