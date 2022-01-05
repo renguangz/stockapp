@@ -1,3 +1,6 @@
+
+const { apiUrl, headers } = require('../../components/common/api');
+
 const fetchListinfoRequest = () => {
     return {
         type: 'FETCH_LISTINFO_REQUEST'
@@ -21,7 +24,7 @@ const fetchListinfoFail = (error) => {
     }
 }
 
-const fetchListInfo = stockid => {
+export const fetchListInfo = stockid => {
     return async dispatch => {
         const fetchPrice = await fetch('/', {
             method: 'POST',
@@ -32,8 +35,9 @@ const fetchListInfo = stockid => {
             return data
         }).catch(err => dispatch(fetchListinfoFail(err)))
 
-        const fetchBasic = await fetch('/balance', {
+        const fetchBasic = await fetch(`${apiUrl}/balance`, {
             method: 'POST',
+            headers: headers,
             body: JSON.stringify({
                 'table_name': stockid
             })

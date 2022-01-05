@@ -1,10 +1,9 @@
 # -*- coding: utf-8 -*-
-from posixpath import abspath
-from typing import Text
 from flask import Flask, jsonify, request, json
 from flask_sqlalchemy import SQLAlchemy
-from flask.helpers import send_from_directory
+# from flask.helpers import send_from_directory
 # import pandas as pd
+
 import os
 
 app = Flask(__name__, static_folder='../build', static_url_path='')
@@ -481,3 +480,4 @@ def topSell_display():
 if __name__ == '__main__':
     app.config['JSON_AS_ASCII'] = False
     app.run(debug=True)
+    # debug=True

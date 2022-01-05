@@ -1,3 +1,5 @@
+const { apiUrl, headers } = require('../../components/common/api');
+
 export const fetchBasicRequest = () => {
     return {
         type: 'FETCH_BASIC_REQUEST'
@@ -27,20 +29,23 @@ export const fetchBasic = stockid => {
         // dispatch(fetchBasicRequest)
         await Promise.all(
             [
-                fetch('/income', {
+                fetch(`${apiUrl}/income`, {
                     method: 'POST',
+                    headers: headers,
                     body: JSON.stringify({
                         'table_name': stockid
                     })
                 }).then(res => res.json()),
-                fetch('/balance', {
+                fetch(`${apiUrl}/balance`, {
                     method: 'POST',
+                    headers: headers,
                     body: JSON.stringify({
                         'table_name': stockid
                     })
                 }).then(res => res.json()),
-                fetch('/cashFlow', {
+                fetch(`${apiUrl}/cashFlow`, {
                     method: 'POST',
+                    headers: headers,
                     body: JSON.stringify({
                         'table_name': stockid
                     })

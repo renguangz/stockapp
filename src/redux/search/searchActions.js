@@ -1,3 +1,5 @@
+const { apiUrl } = require('../../components/common/api');
+
 export const fetchIdNameRequest = () => {
     return {
         type: 'FETCH_ID_NAME_REQUEST',
@@ -20,7 +22,7 @@ export const fetchIdNameError = error => {
 
 export const fetchIdName = () => dispatch => {
     dispatch(fetchIdNameRequest)
-    fetch('/search', {
+    fetch(`${apiUrl}/search`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',

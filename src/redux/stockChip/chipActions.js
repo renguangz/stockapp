@@ -1,3 +1,5 @@
+const { apiUrl, headers } = require('../../components/common/api');
+
 export const fetchChipRequest = () => {
     return {
         type: 'FETCH_CHIP_REQUEST'
@@ -20,8 +22,9 @@ export const fetchChipError = error => {
 
 export const fetchChip = stockid => dispatch => {
     dispatch(fetchChipRequest)
-    fetch('/legalPerson', {
+    fetch(`${apiUrl}/legalPerson`, {
         method: 'POST',
+        headers: headers,
         body: JSON.stringify({
             'table_name': stockid
         })

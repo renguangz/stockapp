@@ -1,3 +1,5 @@
+const { apiUrl } = require('../../components/common/api');
+
 export const fetchStockRequest = () => {
     return {
         type: 'FETCH_STOCKINFO_REQUEST'
@@ -25,7 +27,7 @@ export const handleSearch = inputValue => {
 
 export const fetchStock = () => dispatch => {
     dispatch(fetchStockRequest)
-    fetch('/api/allStock', {
+    fetch(`${apiUrl}/allStock`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',

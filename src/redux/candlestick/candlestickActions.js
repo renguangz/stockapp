@@ -1,3 +1,5 @@
+const { apiUrl, headers } = require('../../components/common/api');
+
 export const fetchPriceRequest = () => {
     return {
         type: 'FETCH_PRICE_REQUEST'
@@ -20,8 +22,9 @@ export const fetchPriceError = error => {
 
 export const fetchPrice = stockid => dispatch => {
     dispatch(fetchPriceRequest)
-    fetch('/stockprice', {
+    fetch(`${apiUrl}/stockprice`, {
         method: 'POST',
+        headers: headers,
         body: JSON.stringify({
             'table_name': stockid
         })

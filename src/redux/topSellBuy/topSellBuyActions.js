@@ -1,3 +1,5 @@
+const { apiUrl, headers } = require('../../components/common/api');
+
 export const fetchSellBuyRequest = () => {
     return {
         type: 'FETCH_SELLBUY_REQUEST'
@@ -25,14 +27,16 @@ export const fetchSellBuy = stockid => {
     return async (dispatch) => {
         Promise.all(
             [
-                fetch('/topBuy', {
+                fetch(`${apiUrl}/topBuy`, {
                     method: 'POST',
+                    headers: headers,
                     body: JSON.stringify({
                         'table_name': stockid
                     })
                 }).then(res => res.json()),
-                fetch('/topSell', {
+                fetch(`${apiUrl}/topSell`, {
                     method: 'POST',
+                    headers: headers,
                     body: JSON.stringify({
                         'table_name': stockid
                     })

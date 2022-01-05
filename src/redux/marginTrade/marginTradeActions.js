@@ -1,3 +1,5 @@
+const { apiUrl, headers } = require('../../components/common/api');
+
 export const fetchMarginRequest = () => {
     return {
         type: 'FETCH_MARGIN_REQUEST'
@@ -20,8 +22,9 @@ export const fetchMarginError = error => {
 
 export const fetchMarginTrade = stockid => dispatch => {
     dispatch(fetchMarginRequest)
-    fetch('/marginTrade', {
+    fetch(`${apiUrl}/marginTrade`, {
         method: 'POST',
+        headers: headers,
         body: JSON.stringify({
             'table_name': stockid
         })

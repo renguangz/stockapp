@@ -1,3 +1,5 @@
+const { apiUrl, headers } = require('../../components/common/api');
+
 export const fetchListRequest = () => {
     return {
         type: 'FETCH_LIST_REQUEST'
@@ -35,7 +37,7 @@ const fetchListStockFail = error => {
 
 export const listStock = () => dispatch => {
     dispatch(fetchListRequest)
-    fetch('/add_pocket_stock', {
+    fetch(`${apiUrl}/add_pocket_stock`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -47,8 +49,9 @@ export const listStock = () => dispatch => {
 }
 
 export const addListStock = stockid => dispatch => {
-    fetch('/add_pocket_stock', {
+    fetch(`${apiUrl}/add_pocket_stock`, {
         method: 'POST',
+        headers: headers,
         body: JSON.stringify({
             stockid
         })

@@ -21,7 +21,7 @@ const StyledContainer = styled(Container)`
     height: 89vh;
     width: 90%;
     margin: auto;
-    @media screen and (max-width: 540px) {
+    @media screen and (max-width: 760px) {
         border: 1px solid yellow;
         position: absolute;
         left: 50%;
@@ -35,7 +35,7 @@ const ListCardContainer = styled.div`
     display: flex;
     justify-content: space-between;
     transform: translateY(36px);
-    @media screen and (max-width: 540px) {
+    @media screen and (max-width: 760px) {
         /* display: none; */
     }
 `;
@@ -67,7 +67,7 @@ const TableOrder = styled.div`
     justify-content: space-between;
     border-bottom: 2px solid grey;
     margin-bottom: -15px;
-    @media screen and (max-width: 540px) {
+    @media screen and (max-width: 760px) {
         /* display: none; */
     }
 `;
@@ -76,7 +76,7 @@ const TableSwitch = styled.div`
     /* border: 2px solid green; */
     height: 100%;
     display: flex;
-    @media screen and (max-width: 540px) {
+    @media screen and (max-width: 760px) {
         /* border: 1px solid red; */
     }
 `;
@@ -107,7 +107,7 @@ const AddStockButton = styled.button``;
 
 const TableContainer = styled.div`
     /* border: 1px solid greenyellow; */
-    @media screen and (max-width: 540px) {
+    @media screen and (max-width: 760px) {
         border: 1px solid yellow;
         /* overflow: scroll; */
         display: block;
@@ -124,7 +124,7 @@ const StyledTable = styled.table`
     border-collapse: collapse;
     font-size: ${props => props.fontSize}rem;
     overflow: hidden;
-    @media screen and (max-width: 540px) {
+    @media screen and (max-width: 760px) {
         /* display: none; */
         border: 1px solid white;
     }
@@ -154,13 +154,13 @@ const StyledBodyTr = styled.tr`
 const StyledTh = styled.th`
     color: white;
     /* width: ${props => props.width || '50'}px; */
-    @media screen and (max-width: 540px) {
+    @media screen and (max-width: 760px) {
         /* border: 1px solid red; */
     }
 `;
 
 const StickyStyledTh = styled(StyledTh)`
-    @media screen and (max-width: 540px) {
+    @media screen and (max-width: 760px) {
         border: 1px solid pink;
         position: sticky;
         /* position: absolute; */
@@ -176,7 +176,7 @@ const StyledTd = styled.td`
     text-align: ${props => props.textAlign || 'center'};
     /* border: 2px solid white; */
     white-space: nowrap;
-    @media screen and (max-width: 540px) {
+    @media screen and (max-width: 760px) {
         /* border: 1px solid blue; */
         /* width: 100px; */
         font-size: 16px;
@@ -185,7 +185,7 @@ const StyledTd = styled.td`
 `;
 
 const StickyStyledTd = styled(StyledTd)`
-    @media screen and (max-width: 540px) {
+    @media screen and (max-width: 760px) {
         border: 1px solid red;
         position: sticky;
         position: -webkit-sticky;

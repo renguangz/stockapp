@@ -22,7 +22,7 @@ const StyledContainer = styled.div`
     margin: auto;
     display: flex;
     justify-content: space-between;
-    @media screen and (max-width: 540px) {
+    @media screen and (max-width: 760px) {
         /* border: 1px solid white; */
         position: absolute;
         left: 50%;
@@ -35,7 +35,7 @@ const LeftContainer = styled.div`
     /* border: 1px solid red; */
     height: 100%;
     width: 30%;
-    @media screen and (max-width: 540px) {
+    @media screen and (max-width: 760px) {
         display: flex;
         width: 100%;
         height: 30%;
@@ -44,7 +44,7 @@ const LeftContainer = styled.div`
 
 const LeftTitleContainer = styled.div`
     margin-top: 28%;
-    @media screen and (max-width: 540px) {
+    @media screen and (max-width: 760px) {
         /* display: none; */
         /* border: 1px solid yellow; */
         position: absolute;
@@ -60,14 +60,14 @@ const LeftTitle = styled.h1`
     font-size: 4rem;
     font-weight: 700;
     text-align: left;
-    @media screen and (max-width: 540px) {
+    @media screen and (max-width: 760px) {
         font-size: 1.5rem;
     }
 `;
 
 const InfoNumContainer = styled.div`
     /* border: 1px solid white; */
-    @media screen and (max-width: 540px) {
+    @media screen and (max-width: 760px) {
         /* border: 1px solid green; */
         display: flex;
         width: 100%;
@@ -80,7 +80,7 @@ const InfoNumContainer = styled.div`
 
 const InfoContainer = styled.div`
     /* height: 10%; */
-    @media screen and (max-width: 540px) {
+    @media screen and (max-width: 760px) {
         /* border: 1px solid orange; */
         margin-right: 4px;
     }
@@ -90,13 +90,13 @@ const StockInfo = styled.h2`
     color: ${props => props.color};
     font-size: 3.4rem;
     text-align: left;
-    @media screen and (max-width: 540px) {
+    @media screen and (max-width: 760px) {
         font-size: 20px;
     }
 `;
 
 const NumContainer = styled.div`
-    @media screen and (max-width: 540px) {
+    @media screen and (max-width: 760px) {
         /* border: 1px solid red; */
         margin-left: 4px;
     }
@@ -106,7 +106,7 @@ const StockRise = styled.h3`
     color: ${props => props.color};
     font-size: 2.2rem;
     text-align: left;
-    @media screen and (max-width: 540px) {
+    @media screen and (max-width: 760px) {
         font-size: 20px;
     }
 `;
@@ -120,7 +120,7 @@ const BtnContainer = styled.div`
     justify-content: space-between;
     margin-top: 16%;
     /* padding: 8px 0; */
-    @media screen and (max-width: 540px) {
+    @media screen and (max-width: 760px) {
         /* display: none; */
         /* border: 1px solid orangered; */
         /* width: 72%; */
@@ -148,7 +148,7 @@ const FirstBtn = styled.div`
     &:hover {
         background-color: transparent;
     }
-    @media screen and (max-width: 540px) {
+    @media screen and (max-width: 760px) {
         /* border: 1px solid yellow; */
         margin: 8px;
     }
@@ -158,7 +158,7 @@ const BtnWord = styled.h2`
     color: white;
     font-size: 1.4rem;
     margin: auto 28px;
-    @media screen and (max-width: 540px) {
+    @media screen and (max-width: 760px) {
         /* display: none; */
         font-size: 12px;
     }
@@ -177,7 +177,7 @@ const ImgContainer = styled.div`
     height: 60%;
     width: 50%;
     margin: auto;
-    @media screen and (max-width: 540px) {
+    @media screen and (max-width: 760px) {
         /* border: 1px solid white; */
         width: 100%;
         height: 40%;
@@ -194,8 +194,8 @@ const CardContainer = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    @media screen and (max-width: 540px) {
-        border: 1px solid red;
+    @media screen and (max-width: 760px) {
+        /* border: 1px solid red; */
         width: 100%;
         height: 24%;
         display: flex;
@@ -227,7 +227,7 @@ const CardOutter = styled.div`
     &:hover {
         box-shadow: 0 0 15px #fffd;
     }
-    @media screen and (max-width: 540px) {
+    @media screen and (max-width: 760px) {
         /* height: 100%; */
         margin-top: 20px;
         margin-bottom: 16px;
@@ -238,7 +238,7 @@ const CardOutter = styled.div`
 const CardTitleContainer = styled.div`
     /* border: 1px solid pink; */
     padding: 0 auto;
-    @media screen and (max-width: 540px) {
+    @media screen and (max-width: 760px) {
         display: flex;
         flex-wrap: wrap;
         align-items: center;
@@ -249,7 +249,7 @@ const SmallChartContainer = styled.div`
     /* border: 1px solid white; */
     width: 48%;
     padding: 0;
-    @media screen and (max-width: 540px) {
+    @media screen and (max-width: 760px) {
         /* border: 1px solid green; */
         width: 104px;
         padding: 1px;
@@ -259,7 +259,7 @@ const SmallChartContainer = styled.div`
 const CardTitle = styled.h2`
     color: grey;
     text-align: left;
-    @media screen and (max-width: 540px) {
+    @media screen and (max-width: 760px) {
         font-size: 12px;
     }
 `;
@@ -269,7 +269,7 @@ const CardNum = styled.h2`
     text-align: left;
     /* display: flex; */
     flex-wrap: nowrap;
-    @media screen and (max-width: 540px) {
+    @media screen and (max-width: 760px) {
         /* font-size: 8px; */
     }
 `;
