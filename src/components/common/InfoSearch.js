@@ -3,9 +3,10 @@ import DefaultLayout from '../layouts/DefaultLayout';
 import styled from 'styled-components';
 import { SearchOutlined } from '@ant-design/icons';
 import { connect } from 'react-redux';
-import { clickSearch, fetchBasic, fetchIdName } from '../../redux';
+import { clickSearch, fetchIdName } from '../../redux';
 import * as Storage from '../helper/StorageHelper';
 import { Link } from 'react-router-dom';
+import stock_name from '../../data/stock_name.json';
 
 const SearchForm = styled.form`
     margin: 0 auto;
@@ -121,9 +122,13 @@ const SearchSpan = styled.span`
 `;
 
 const InfoSearch = ({ searchRedux, fetchIdName }) => {
-    useEffect(() => {
-        fetchIdName()
-    }, [])
+    const stock_searchlist = []
+    stock_name.forEach(item => {
+        stock_searchlist.push(item['有價證券代號及名稱'])
+    })
+    // useEffect(() => {
+    //     fetchIdName()
+    // }, [])
     const [search, setSearch] = useState('')
     const inputSearch = (input) => {
         setSearch(input.target.value)
@@ -145,7 +150,7 @@ const InfoSearch = ({ searchRedux, fetchIdName }) => {
 
     }
     const DisplayMatches = () => {
-        const matchArray = filtered(searchList, search)
+        const matchArray = filtered(stock_searchlist, search)
         if (search === '') {
             return null
         } else return (
