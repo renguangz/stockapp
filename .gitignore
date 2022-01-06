@@ -9,6 +9,7 @@ venv
 /coverage
 
 # production
+build
 
 # misc
 .DS_Store
@@ -21,3 +22,4 @@ __pycache__
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+node_modules
